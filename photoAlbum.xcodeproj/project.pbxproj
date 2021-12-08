@@ -14,6 +14,7 @@
 		91DC6740275FBF3700C44DDF /* photoAlbum.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 91DC673E275FBF3700C44DDF /* photoAlbum.xcdatamodeld */; };
 		91DC6742275FBF3900C44DDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91DC6741275FBF3900C44DDF /* Assets.xcassets */; };
 		91DC6745275FBF3900C44DDF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91DC6743275FBF3900C44DDF /* LaunchScreen.storyboard */; };
+		91DC674F2760B75100C44DDF /* galleryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC674E2760B75100C44DDF /* galleryVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		91DC6741275FBF3900C44DDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91DC6744275FBF3900C44DDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		91DC6746275FBF3900C44DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91DC674E2760B75100C44DDF /* galleryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = galleryVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				91DC6743275FBF3900C44DDF /* LaunchScreen.storyboard */,
 				91DC6746275FBF3900C44DDF /* Info.plist */,
 				91DC673E275FBF3700C44DDF /* photoAlbum.xcdatamodeld */,
+				91DC674E2760B75100C44DDF /* galleryVC.swift */,
 			);
 			path = photoAlbum;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91DC673A275FBF3700C44DDF /* ViewController.swift in Sources */,
+				91DC674F2760B75100C44DDF /* galleryVC.swift in Sources */,
 				91DC6736275FBF3700C44DDF /* AppDelegate.swift in Sources */,
 				91DC6740275FBF3700C44DDF /* photoAlbum.xcdatamodeld in Sources */,
 				91DC6738275FBF3700C44DDF /* SceneDelegate.swift in Sources */,
@@ -293,6 +297,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q5S735P3M2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = photoAlbum/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -320,6 +325,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q5S735P3M2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = photoAlbum/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
