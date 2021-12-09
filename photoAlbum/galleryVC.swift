@@ -9,7 +9,7 @@ import UIKit
 
 class galleryVC: UIViewController {
     
-    @IBOutlet weak var name: UILabel!
+
     
     
     @IBOutlet weak var galleryCollection: UICollectionView!
@@ -17,7 +17,7 @@ class galleryVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        title = "Gallery"
         // Do any additional setup after loading the view.
     }
     
