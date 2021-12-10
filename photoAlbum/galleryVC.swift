@@ -14,6 +14,9 @@ class galleryVC: UIViewController {
     
     @IBOutlet weak var galleryCollection: UICollectionView!
     
+    @IBAction func settingsButton(_ sender: Any) {
+        performSegue(withIdentifier: "toSettings", sender: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

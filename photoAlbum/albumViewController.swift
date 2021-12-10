@@ -4,10 +4,9 @@
 //
 //  Created by Ebere Anukem on 07/12/2021.
 //
-//TODO: customise navigation controller
 //TODO: work on 'Example' album and use that to build out album (database design will need to be considered) - peristent storage
-//TODO: Add image to the side of table view (for locked albums make it an image of a lock) otherwise use previw from their album
-//TODO: add delete, edit and modify functionality
+//TODO: Add image view to the side of table view (for locked albums make it an image of a lock) otherwise use previw from their album
+//TODO: add delete, edit and modify functionality -> perhaps hide functionality too
 
 import UIKit
 
@@ -16,10 +15,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     var albumNames = ["Example"] //can call this example or sample maybe
     
     
-    @IBOutlet weak var table: UITableView!
-    
-    
-    @IBAction func add(_ sender: Any) {
+    @IBAction func addButton(_ sender: Any) {
         //albumNames.insert("New", at: 0)
         //albumNames.append("New")
         
@@ -44,6 +40,12 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
     }
+    
+    
+    @IBOutlet weak var table: UITableView!
+    
+    
+
     
     
     
