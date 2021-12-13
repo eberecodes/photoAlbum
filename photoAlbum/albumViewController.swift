@@ -5,6 +5,8 @@
 //  Created by Ebere Anukem on 07/12/2021.
 //
 //TODO: work on 'Example' album and use that to build out album (database design will need to be considered) - persistent storage
+//TODO: persistent storage of images in album.
+//TODO: delete functionality for images in album
 //TODO: Add image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album
 //TODO: add edit functionality -> perhaps hide functionality too
 
@@ -39,10 +41,6 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         // 3. Grab the value from the text field, and print it when the user clicks OK.
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             let textField = alert!.textFields![0] // Force unwrapping because we know it exists.
-            /*print("Text field: \(textField.text ?? "new")")
-            self.albumNames.append(textField.text ?? "new")
-            self.table.reloadData()*/
-            
             
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -65,7 +63,6 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             
         }))
 
-        // 4. Present the alert.
         self.present(alert, animated: true, completion: nil)
     }
     

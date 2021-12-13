@@ -8,9 +8,57 @@
 import UIKit
 import CoreData
 
-class galleryVC: UIViewController {
+class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
+    //changed the size of cell to custom - 120 x 120
+    
+   // var pickImage = UIImagePickerController()
+    var photos = [UIImage]()
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return photos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath)
+    
+        
+        if let imageView = imageCell.viewWithTag(1000) as? UIImageView {
+               imageView.image = photos[indexPath.item]
+           }
+        
+        return imageCell
+    }
+    
     
     var selectedAlbum: Album? = nil
+    
+    
+    @IBAction func uploadButton(_ sender: Any) {
+        
+        
+        /*if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
+
+                    pickImage.delegate = self
+                    //pickImage.sourceType = .savedPhotosAlbum
+                    pickImage.allowsEditing = false
+
+                }*/
+        let picker = UIImagePickerController()
+            picker.allowsEditing = true
+            picker.delegate = self
+            present(picker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+
+            dismiss(animated: true)
+
+            photos.insert(image, at: 0)
+            galleryCollection.reloadData()
+       }
+    
     
     
     @IBOutlet weak var galleryCollection: UICollectionView!
