@@ -9,14 +9,48 @@ import UIKit
 import CoreData
 
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
-    //changed the size of cell to custom - 120 x 120
+
+    //TODO: Need to distinguish all the differnt albums from their individual galleries
+    
+    var firstLoad = true
     
    // var pickImage = UIImagePickerController()
-    var photos = [UIImage]()
+    var photosList = [UIImage]()
+    var photosData = [Data]()
+    
+    var imageArray = [Data]()
+    
+    func convertPhotosToData(photoList: [UIImage]) -> [Data] {
+      var photosDataList = [Data]()
+    
+      for photo in photoList{
+          if (photo.pngData() != nil){
+              photosDataList.append(photo.pngData()!)
+              print("not nil")
+          }
+          
+      }
+        
+      return photosDataList
+    }
+    
+    func convertDataToPhotos(imageDataArray: [Data]) -> [UIImage] {
+      var myImagesArray = [UIImage]()
+      print("test")
+
+      for data in imageDataArray{
+          if (UIImage(data: data) != nil) {
+             myImagesArray.append(UIImage(data: data)!)
+             print("not nil")
+         }
+      }
+      
+      return myImagesArray
+    }
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return photosList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -24,7 +58,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
         
         if let imageView = imageCell.viewWithTag(1000) as? UIImageView {
-               imageView.image = photos[indexPath.item]
+               imageView.image = photosList[indexPath.item]
            }
         
         return imageCell
@@ -35,7 +69,6 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     
     @IBAction func uploadButton(_ sender: Any) {
-        
         
         /*if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
 
@@ -55,7 +88,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
 
             dismiss(animated: true)
 
-            photos.insert(image, at: 0)
+            photosList.insert(image, at: 0)
             galleryCollection.reloadData()
        }
     
@@ -77,33 +110,78 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             //will need to add image eventually too
         }
         
+        if (firstLoad){
+            firstLoad = false
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
+            
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
+            
+            
+            do {
+                let result:[NSManagedObject] = try context.fetch(request) as! [NSManagedObject]
+              for r in result{
+                  if(r.value(forKey: "photoGallery") == nil){
+                      break
+                  }
+                  else{
+                      photosData.append(r.value(forKey: "photoGallery") as! Data)
+                  }
+              }
+            }  catch{
+                print("failed to fetch")
+            }
+            //var imageArray = [Data]()
+            
+            for imageData in photosData {
+                var dataArray = [Data]()
+                do {
+                  dataArray = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: imageData) as! [Data]
+                    imageArray.append(contentsOf: dataArray)
+                    
+                } catch {
+                  print("could not unarchive array: \(error)")
+                }
+            }
+            //should protect against issues
+            photosList = convertDataToPhotos(imageDataArray: imageArray)
+            
+            
+            
+            
+        }
+        
      
     }
     
-    /*
-save function
-     
-     @IBAction func save(_ sender: Any) {
+    @IBAction func save(_ sender: Any) {
+        let photosDataList = convertPhotosToData(photoList: photosList)
         
-     
-     
-     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-     let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
-     let entity = NSEntityDescription.entity(forEntityName: "Album", in: context)
-     let newAlbum = Album(entity: entity!, insertInto: context)
-     newAlbum.id = albumList.count as NSNumber
-     newAlbum.title = TitleTF.text
-     
-     do{
-         try context.save()
-         albumList.append(newAlbum)
-         //navigationController?.popViewController(animated: true) I use an alert
-     }
-     catch{
-         print("Error saving context")
-     }
-     }
-  
-    */
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
+        //let entity = NSEntityDescription.entity(forEntityName: "Album", in: context)
+        
+        
+        //let photo = NSManagedObject(entity: entity!, insertInto: context)
+        
+        
+        var photos: Data?
+        do {
+            photos = try NSKeyedArchiver.archivedData(withRootObject: photosDataList, requiringSecureCoding: true)
+        } catch {
+            print("error")
+        }
+        selectedAlbum?.photoGallery = photos
+        //photo.setValue(photos, forKeyPath: "photoGallery")
+
+        do {
+          try context.save()
+        } catch{
+           print("Error saving context")
+        }
+        
+        
+    }
+    
 
 }

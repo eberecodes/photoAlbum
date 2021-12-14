@@ -13,5 +13,6 @@ class Album: NSManagedObject{
     @NSManaged var id: NSNumber!
     @NSManaged var title: String!
     @NSManaged var deletedDate: Date? //was changed from just date
+    @NSManaged var photoGallery: Data?
     
 }

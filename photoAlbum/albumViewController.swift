@@ -5,7 +5,7 @@
 //  Created by Ebere Anukem on 07/12/2021.
 //
 //TODO: work on 'Example' album and use that to build out album (database design will need to be considered) - persistent storage
-//TODO: persistent storage of images in album.
+//TODO: persistent storage of images in album*.
 //TODO: delete functionality for images in album
 //TODO: Add image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album
 //TODO: add edit functionality -> perhaps hide functionality too
@@ -25,7 +25,6 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     
     @IBAction func addButton(_ sender: Any) {
-        //albumNames.insert("New", at: 0)
         //albumNames.append("New")
         
         //1. Create the alert controller.
@@ -175,7 +174,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -201,6 +200,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                 print("failed to fetch")
             }
         }
+        
     }
 
 
