@@ -4,11 +4,10 @@
 //
 //  Created by Ebere Anukem on 07/12/2021.
 //
-//TODO: work on 'Example' album and use that to build out album (database design will need to be considered) - persistent storage
-//TODO: persistent storage of images in album*.
 //TODO: delete functionality for images in album
-//TODO: Add image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album
+//TODO: consider - adding image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album
 //TODO: add edit functionality -> perhaps hide functionality too
+//TODO: Album settings page
 
 import UIKit
 

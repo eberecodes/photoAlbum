@@ -10,7 +10,6 @@ import CoreData
 
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
 
-    //TODO: Need to distinguish all the differnt albums from their individual galleries
     
     var firstLoad = true
     
@@ -116,7 +115,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
             
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
-            
+            let albumName = selectedAlbum?.title
+            request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))
             
             do {
                 let result:[NSManagedObject] = try context.fetch(request) as! [NSManagedObject]
