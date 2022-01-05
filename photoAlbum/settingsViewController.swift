@@ -9,6 +9,9 @@ import UIKit
 
 class settingsViewController: UIViewController {
 
+    //consider if I need to change switch settings
+    @IBOutlet weak var lockSwitch: UISwitch!
+    @IBOutlet weak var descriptionLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Album Settings"
