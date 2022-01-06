@@ -94,7 +94,14 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         albumCell.textLabel?.text = thisAlbum.title
         
+        tableView.layer.cornerRadius = 7
+        //albumCell.layer.masksToBounds = true
+        albumCell.backgroundColor = UIColor.clear
+        
         albumCell.accessoryType = .disclosureIndicator
+        
+        tableView.backgroundColor = UIColor.gray
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         
         return albumCell
     }
