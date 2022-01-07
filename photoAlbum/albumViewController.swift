@@ -6,8 +6,8 @@
 //
 //TODO: delete functionality for images in album
 //TODO: consider - adding image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album
-//TODO: add edit functionality -> perhaps hide functionality too
-//TODO: Album settings page
+//TODO: Album settings page, including editing name
+//TODO: slight issue with search bar, you can delete an album when in search mode
 
 import UIKit
 
@@ -15,12 +15,14 @@ import CoreData
 
 var albumList = [Album]()
 
-class albumViewController: UIViewController, UITableViewDataSource, UITableViewDelegate{
+class albumViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
    
+    @IBOutlet weak var searchBar: UISearchBar!
     var firstLoad = true //rename
     
     var albumNames = ["Example"] //can call this example or sample maybe
     
+    var filteredAlbums: [Album]!
     
     
     @IBAction func addButton(_ sender: Any) {
@@ -51,13 +53,13 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             do{
                 try context.save()
                 albumList.append(newAlbum)
+                self.filteredAlbums = albumList
                 self.table.reloadData()
                 //navigationController?.popViewController(animated: true) I use an alert
             }
             catch{
                 print("Error saving context")
             }
-            
             
         }))
 
@@ -80,7 +82,10 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         //return albumNames.count
-        return albumList.count
+        //return albumList.count
+        
+        
+        return filteredAlbums.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,18 +95,18 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let thisAlbum: Album!
         
-        thisAlbum = albumList[indexPath.row]
+        //thisAlbum = albumList[indexPath.row]
+        thisAlbum = filteredAlbums[indexPath.row]
         
         albumCell.textLabel?.text = thisAlbum.title
         
-        tableView.layer.cornerRadius = 7
         //albumCell.layer.masksToBounds = true
         albumCell.backgroundColor = UIColor.clear
-        
         albumCell.accessoryType = .disclosureIndicator
         
-        tableView.backgroundColor = UIColor.gray
+        tableView.backgroundColor = UIColor.systemGray3
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        tableView.layer.cornerRadius = 7
         
         return albumCell
     }
@@ -111,6 +116,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         if editingStyle == .delete {
             
             let deleteConfirmation = UIAlertController(title: "Remove Album", message: "Are you sure you want to delete the album \"\(albumList[indexPath.row].title!)\"?", preferredStyle: .actionSheet)
+            /*let deleteConfirmation = UIAlertController(title: "Remove Album", message: "Are you sure you want to delete the album \"\(filteredAlbums[indexPath.row].title!)\"?", preferredStyle: .actionSheet)*/
             
             let deleteAction = UIAlertAction(title: "Delete", style: .default, handler: { (action: UIAlertAction) -> Void in
                 
@@ -136,6 +142,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                     }
                     
                     albumList.remove(at: indexPath.row)
+                    self.filteredAlbums = albumList
                     self.table.deleteRows(at: [indexPath], with: .fade)
                     self.table.reloadData()
                     
@@ -171,7 +178,8 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             let albumDetail = segue.destination as? galleryVC
             
             let selectedAlbum : Album!
-            selectedAlbum = albumList[indexPath.row]
+            //selectedAlbum = albumList[indexPath.row]
+            selectedAlbum = filteredAlbums[indexPath.row]
             albumDetail!.selectedAlbum = selectedAlbum
             
             
@@ -179,11 +187,30 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             
         }
     }
-    
-   
+    //MARK: Search bar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredAlbums = []
+        if(searchText == ""){
+            filteredAlbums = albumList
+            searchBar.resignFirstResponder()
+        }
+        else{
+            for album in albumList{
+                if(album.title.uppercased().contains(searchText.uppercased())){
+                    filteredAlbums.append(album)
+                }
+            }
+        }
+        
+        self.table.reloadData()
+    }
+    /*func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder() // hides the keyboard.
+    }*/
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self
         title = "Albums"
         // Do any additional setup after loading the view.
         
@@ -206,7 +233,8 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                 print("failed to fetch")
             }
         }
-        
+        filteredAlbums = albumList
+        self.table.keyboardDismissMode = .onDrag
     }
 
 
