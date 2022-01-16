@@ -7,7 +7,7 @@
 //TODO: delete functionality for images in album
 //TODO: consider - adding image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album
 //TODO: Album settings page, including editing name
-//TODO: slight issue with search bar, you can delete an album when in search mode
+//TODO: slight issue with search bar, you can't delete an album when in search mode
 
 import UIKit
 
@@ -72,6 +72,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
 
     
+    @IBOutlet weak var imageView: UIImageView!
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -101,12 +102,14 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         albumCell.textLabel?.text = thisAlbum.title
         
         //albumCell.layer.masksToBounds = true
-        albumCell.backgroundColor = UIColor.clear
+        albumCell.backgroundColor = UIColor.systemGray3
         albumCell.accessoryType = .disclosureIndicator
         
-        tableView.backgroundColor = UIColor.systemGray3
+        tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         tableView.layer.cornerRadius = 7
+        
+        //imageView.image =
         
         return albumCell
     }
