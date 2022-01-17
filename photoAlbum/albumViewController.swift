@@ -5,9 +5,10 @@
 //  Created by Ebere Anukem on 07/12/2021.
 //
 //TODO: delete functionality for images in album
-//TODO: consider - adding image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album
+//TODO: consider - adding image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album - PARTIALLY DONE
 //TODO: Album settings page, including editing name
 //TODO: slight issue with search bar, you can't delete an album when in search mode
+//TODO: Consider a more efficient way to load gallery preview
 
 import UIKit
 
@@ -70,9 +71,6 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var table: UITableView!
     
     
-
-    
-    @IBOutlet weak var imageView: UIImageView!
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -92,7 +90,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
-        let albumCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let albumCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         
         let thisAlbum: Album!
         
@@ -101,15 +99,55 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         albumCell.textLabel?.text = thisAlbum.title
         
-        //albumCell.layer.masksToBounds = true
-        albumCell.backgroundColor = UIColor.systemGray3
+        albumCell.layer.masksToBounds = true
+        albumCell.backgroundColor = UIColor.systemGray4
         albumCell.accessoryType = .disclosureIndicator
+        albumCell.layer.cornerRadius = 7
         
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        tableView.layer.cornerRadius = 7
+        //tableView.layer.cornerRadius = 7
         
-        //imageView.image =
+        //MARK: Add gallery preview
+        var preview = [Data]()
+        let previewData = thisAlbum.photoGallery
+        var pictureData = [Data]()
+        if (previewData != nil){
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
+            let albumName = thisAlbum.title
+            request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))
+            
+            do {
+                let result:[NSManagedObject] = try context.fetch(request) as! [NSManagedObject]
+                
+                for r in result{
+                  if(r.value(forKey: "photoGallery") == nil){
+                      break
+                  }
+                  else{
+                      preview.append(r.value(forKey: "photoGallery") as! Data)
+                      break
+                  }
+              }
+            }  catch{
+                print("failed to fetch")
+            }
+           
+            //Unarchive first element of array
+            var dataArray = [Data]()
+            do {
+                dataArray = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: preview[0]) as! [Data]
+                pictureData.append(contentsOf: dataArray)
+                let image = UIImage(data: pictureData[0])
+                albumCell.imagePreview.image = image
+                    
+            } catch {
+                print("could not unarchive array: \(error)")
+            }
+                
+        }
         
         return albumCell
     }
@@ -153,7 +191,6 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                 catch{
                     print("failed to fetch")
                 }
-                
                 
             })
             
@@ -213,9 +250,11 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        table.delegate = self
+        table.dataSource = self
         searchBar.delegate = self
         title = "Albums"
-        // Do any additional setup after loading the view.
+      
         
         if (firstLoad){
             firstLoad = false
@@ -238,6 +277,12 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
         filteredAlbums = albumList
         self.table.keyboardDismissMode = .onDrag
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        self.table.reloadData()
     }
 
 
