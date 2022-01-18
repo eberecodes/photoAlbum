@@ -102,7 +102,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         albumCell.layer.masksToBounds = true
         albumCell.backgroundColor = UIColor.systemGray4
         albumCell.accessoryType = .disclosureIndicator
-        albumCell.layer.cornerRadius = 7
+        //albumCell.layer.cornerRadius = 7
         
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
