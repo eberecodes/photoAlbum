@@ -19,6 +19,9 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     var imageArray = [Data]()
     
+    
+    var selectedAlbum: Album? = nil
+    
     func convertPhotosToData(photoList: [UIImage]) -> [Data] {
       var photosDataList = [Data]()
     
@@ -64,7 +67,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     }
     
     
-    var selectedAlbum: Album? = nil
+   
     
     
     @IBAction func uploadButton(_ sender: Any) {
@@ -120,7 +123,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             
             do {
                 let result:[NSManagedObject] = try context.fetch(request) as! [NSManagedObject]
-              for r in result{
+                for r in result{
                   if(r.value(forKey: "photoGallery") == nil){
                       break
                   }
@@ -181,6 +184,14 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         }
         
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "toSettings"){
+            let galleryDetail = segue.destination as? settingsViewController
+            galleryDetail!.selectedAlbum = selectedAlbum
+            
+        }
     }
     
 

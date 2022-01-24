@@ -12,7 +12,7 @@ import CoreData
 class Album: NSManagedObject{
     @NSManaged var id: NSNumber!
     @NSManaged var title: String!
-    @NSManaged var deletedDate: Date? //was changed from just date
+    @NSManaged var deletedDate: Date? //I can remove this
     @NSManaged var photoGallery: Data?
-    
+    @NSManaged var lockStatus: String!
 }

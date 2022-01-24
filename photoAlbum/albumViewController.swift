@@ -5,10 +5,13 @@
 //  Created by Ebere Anukem on 07/12/2021.
 //
 //TODO: delete functionality for images in album
-//TODO: consider - adding image view to the side of table view (for locked albums make it an image of a lock) otherwise use preview from their album - PARTIALLY DONE
+//TODO: A locked or unlocked image to side of albums
 //TODO: Album settings page, including editing name
 //TODO: slight issue with search bar, you can't delete an album when in search mode
 //TODO: Consider a more efficient way to load gallery preview
+//TODO: don't allow empty field for album name
+//TODO: Add a close button for the password alert
+//TODO: Implement change password functionality
 
 import UIKit
 
@@ -17,17 +20,16 @@ import CoreData
 var albumList = [Album]()
 
 class albumViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
-   
+
+    
     @IBOutlet weak var searchBar: UISearchBar!
     var firstLoad = true //rename
     
-    var albumNames = ["Example"] //can call this example or sample maybe
     
     var filteredAlbums: [Album]!
     
     
     @IBAction func addButton(_ sender: Any) {
-        //albumNames.append("New")
         
         //1. Create the alert controller.
         let alert = UIAlertController(title: "New Album", message: "Enter album name", preferredStyle: .alert)
@@ -50,13 +52,14 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             let newAlbum = Album(entity: entity!, insertInto: context)
             newAlbum.id = albumList.count as NSNumber
             newAlbum.title = textField.text
+            newAlbum.lockStatus = "Unlocked"
             
             do{
                 try context.save()
                 albumList.append(newAlbum)
                 self.filteredAlbums = albumList
                 self.table.reloadData()
-                //navigationController?.popViewController(animated: true) I use an alert
+               
             }
             catch{
                 print("Error saving context")
@@ -75,14 +78,42 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("tapped")
-        performSegue(withIdentifier: "toGallery", sender: nil)
+        let currAlbum = filteredAlbums[indexPath.row]
+        
+        //Scenarion 1: The album is locked
+        if(currAlbum.lockStatus=="Locked"){
+            let passwordAlert = UIAlertController(title: "Enter password", message: "unlock \(currAlbum.title!) album", preferredStyle: .alert)
+            
+            //text field - for password entry
+            passwordAlert.addTextField { (textField) in
+                textField.text = ""
+                textField.isSecureTextEntry = true
+            }
+            
+            passwordAlert.addAction(UIAlertAction(title: "Enter", style: .default, handler: { [weak passwordAlert] (_) in
+                let textField = passwordAlert!.textFields![0]
+                
+                let retrievedPass: String? = KeychainWrapper.standard.string(forKey: "albumPassword")
+                if(textField.text == retrievedPass){
+                    self.performSegue(withIdentifier: "toGallery", sender: nil)
+                }
+                else{
+                    textField.placeholder="Password Incorrect, retry..."
+                }
+                
+            }))
+            //TODO: Should I add a cancel or close the alert
+            self.present(passwordAlert, animated: true, completion: nil)
+        }
+        //Scenario 2: the album is unlocked
+        else{
+            performSegue(withIdentifier: "toGallery", sender: nil)
+        }
+        
+        //performSegue(withIdentifier: "toGallery", sender: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        //return albumNames.count
-        //return albumList.count
-        
         
         return filteredAlbums.count
     }
@@ -109,7 +140,8 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         //tableView.layer.cornerRadius = 7
         
         //MARK: Add gallery preview
-        var preview = [Data]()
+        //TODO: Replace this with image of locked or unlocked icon
+        /*var preview = [Data]()
         let previewData = thisAlbum.photoGallery
         var pictureData = [Data]()
         if (previewData != nil){
@@ -147,7 +179,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                 print("could not unarchive array: \(error)")
             }
                 
-        }
+        }*/
         
         return albumCell
     }
@@ -283,6 +315,9 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewWillAppear(animated)
 
         self.table.reloadData()
+    }
+    
+    @IBAction func unwindToFirstView( _ seg: UIStoryboardSegue) {
     }
 
 

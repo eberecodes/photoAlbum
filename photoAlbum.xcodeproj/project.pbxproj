@@ -10,6 +10,9 @@
 		91DA405427636BE000C5428E /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA405327636BE000C5428E /* settingsViewController.swift */; };
 		91DA405A2764C79E00C5428E /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40592764C79E00C5428E /* Album.swift */; };
 		91DA4085279564C000C5428E /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA4084279564C000C5428E /* TableViewCell.swift */; };
+		91DA40B4279F090500C5428E /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40B3279F090500C5428E /* PasswordViewController.swift */; };
+		91DA40B6279F313500C5428E /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40B5279F313400C5428E /* KeychainWrapper.swift */; };
+		91DA40B8279F325E00C5428E /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40B7279F325E00C5428E /* KeychainItemAccessibility.swift */; };
 		91DC6736275FBF3700C44DDF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC6735275FBF3700C44DDF /* AppDelegate.swift */; };
 		91DC6738275FBF3700C44DDF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC6737275FBF3700C44DDF /* SceneDelegate.swift */; };
 		91DC673A275FBF3700C44DDF /* albumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC6739275FBF3700C44DDF /* albumViewController.swift */; };
@@ -24,6 +27,9 @@
 		91DA405327636BE000C5428E /* settingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsViewController.swift; sourceTree = "<group>"; };
 		91DA40592764C79E00C5428E /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		91DA4084279564C000C5428E /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		91DA40B3279F090500C5428E /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
+		91DA40B5279F313400C5428E /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		91DA40B7279F325E00C5428E /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		91DC6732275FBF3700C44DDF /* photoAlbum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoAlbum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91DC6735275FBF3700C44DDF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91DC6737275FBF3700C44DDF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +73,8 @@
 			isa = PBXGroup;
 			children = (
 				91DC6735275FBF3700C44DDF /* AppDelegate.swift */,
+				91DA40B5279F313400C5428E /* KeychainWrapper.swift */,
+				91DA40B7279F325E00C5428E /* KeychainItemAccessibility.swift */,
 				91DC6737275FBF3700C44DDF /* SceneDelegate.swift */,
 				91DC6739275FBF3700C44DDF /* albumViewController.swift */,
 				91DC673B275FBF3700C44DDF /* Main.storyboard */,
@@ -78,6 +86,7 @@
 				91DA405327636BE000C5428E /* settingsViewController.swift */,
 				91DA40592764C79E00C5428E /* Album.swift */,
 				91DA4084279564C000C5428E /* TableViewCell.swift */,
+				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
 			);
 			path = photoAlbum;
 			sourceTree = "<group>";
@@ -161,6 +170,9 @@
 				91DA405A2764C79E00C5428E /* Album.swift in Sources */,
 				91DC6738275FBF3700C44DDF /* SceneDelegate.swift in Sources */,
 				91DA405427636BE000C5428E /* settingsViewController.swift in Sources */,
+				91DA40B4279F090500C5428E /* PasswordViewController.swift in Sources */,
+				91DA40B6279F313500C5428E /* KeychainWrapper.swift in Sources */,
+				91DA40B8279F325E00C5428E /* KeychainItemAccessibility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
