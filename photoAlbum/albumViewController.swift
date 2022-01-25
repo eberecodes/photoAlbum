@@ -4,12 +4,10 @@
 //
 //  Created by Ebere Anukem on 07/12/2021.
 //
-//TODO: delete functionality for images in album
-//TODO: A locked or unlocked image to side of albums
+//TODO: Delete functionality for images in album
 //TODO: Album settings page, including editing name
 //TODO: slight issue with search bar, you can't delete an album when in search mode
-//TODO: Consider a more efficient way to load gallery preview
-//TODO: don't allow empty field for album name
+//TODO: Don't allow empty field for album name
 //TODO: Add a close button for the password alert
 //TODO: Implement change password functionality
 
@@ -31,20 +29,18 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @IBAction func addButton(_ sender: Any) {
         
-        //1. Create the alert controller.
+        //Create the alert controller for new album creation
         let alert = UIAlertController(title: "New Album", message: "Enter album name", preferredStyle: .alert)
 
-        //2. Add the text field. You can configure it however you need.
         alert.addTextField { (textField) in
             textField.text = ""
             //potentially restrict so no empty field can be entered
         }
         
         
-        // 3. Grab the value from the text field, and print it when the user clicks OK.
+    
         alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
-            let textField = alert!.textFields![0] // Force unwrapping because we know it exists.
-            
+            let textField = alert!.textFields![0]
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
@@ -82,7 +78,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         //Scenarion 1: The album is locked
         if(currAlbum.lockStatus=="Locked"){
-            let passwordAlert = UIAlertController(title: "Enter password", message: "unlock \(currAlbum.title!) album", preferredStyle: .alert)
+            let passwordAlert = UIAlertController(title: "View '\(currAlbum.title!)' Album", message: "To view locked albums enter your password", preferredStyle: .alert)
             
             //text field - for password entry
             passwordAlert.addTextField { (textField) in
@@ -139,47 +135,14 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         //tableView.layer.cornerRadius = 7
         
-        //MARK: Add gallery preview
-        //TODO: Replace this with image of locked or unlocked icon
-        /*var preview = [Data]()
-        let previewData = thisAlbum.photoGallery
-        var pictureData = [Data]()
-        if (previewData != nil){
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
-            let albumName = thisAlbum.title
-            request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))
-            
-            do {
-                let result:[NSManagedObject] = try context.fetch(request) as! [NSManagedObject]
-                
-                for r in result{
-                  if(r.value(forKey: "photoGallery") == nil){
-                      break
-                  }
-                  else{
-                      preview.append(r.value(forKey: "photoGallery") as! Data)
-                      break
-                  }
-              }
-            }  catch{
-                print("failed to fetch")
-            }
-           
-            //Unarchive first element of array
-            var dataArray = [Data]()
-            do {
-                dataArray = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: preview[0]) as! [Data]
-                pictureData.append(contentsOf: dataArray)
-                let image = UIImage(data: pictureData[0])
-                albumCell.imagePreview.image = image
-                    
-            } catch {
-                print("could not unarchive array: \(error)")
-            }
-                
-        }*/
+        //MARK: Displays album lock status
+        if (thisAlbum.lockStatus == "Unlocked"){
+            albumCell.imagePreview.image = UIImage(named: "Unlock")
+        }
+        else{
+            albumCell.imagePreview.image = UIImage(named: "Lock")
+        }
+       
         
         return albumCell
     }
