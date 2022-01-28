@@ -7,8 +7,6 @@
 //TODO: Delete functionality for images in album
 //TODO: Album settings page, including editing name
 //TODO: slight issue with search bar, you can't delete an album when in search mode
-//TODO: Don't allow empty field for album name
-//TODO: Add a close button for the password alert
 //TODO: Implement change password functionality
 
 import UIKit
@@ -18,7 +16,8 @@ import CoreData
 var albumList = [Album]()
 
 class albumViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
-
+    
+    private var saveAction: UIAlertAction!
     
     @IBOutlet weak var searchBar: UISearchBar!
     var firstLoad = true //rename
@@ -33,13 +32,17 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         let alert = UIAlertController(title: "New Album", message: "Enter album name", preferredStyle: .alert)
 
         alert.addTextField { (textField) in
+            textField.placeholder = "Album name"
             textField.text = ""
-            //potentially restrict so no empty field can be entered
+            textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged) //motnior changes to text field
         }
         
-        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            print("Close alert")
+        }))
     
-        alert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
+        
+        saveAction = UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
             let textField = alert!.textFields![0]
             
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -49,19 +52,21 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             newAlbum.id = albumList.count as NSNumber
             newAlbum.title = textField.text
             newAlbum.lockStatus = "Unlocked"
-            
+                
             do{
                 try context.save()
                 albumList.append(newAlbum)
                 self.filteredAlbums = albumList
                 self.table.reloadData()
-               
+                   
             }
             catch{
                 print("Error saving context")
             }
             
-        }))
+        })
+        saveAction.isEnabled = false
+        alert.addAction(saveAction)
 
         self.present(alert, animated: true, completion: nil)
     }
@@ -76,7 +81,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         print("tapped")
         let currAlbum = filteredAlbums[indexPath.row]
         
-        //Scenarion 1: The album is locked
+        //Scenario 1: The album is locked
         if(currAlbum.lockStatus=="Locked"){
             let passwordAlert = UIAlertController(title: "View '\(currAlbum.title!)' Album", message: "To view locked albums enter your password", preferredStyle: .alert)
             
@@ -94,11 +99,17 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.performSegue(withIdentifier: "toGallery", sender: nil)
                 }
                 else{
-                    textField.placeholder="Password Incorrect, retry..."
+                    passwordAlert?.message = "The password you entered was incorrect. Please try again..."
+                    passwordAlert?.textFields![0].text = "" //clear the text field
+                    self.present(passwordAlert!, animated: true, completion: nil)
                 }
                 
             }))
-            //TODO: Should I add a cancel or close the alert
+            
+            passwordAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                print("Close alert")
+          }))
+            
             self.present(passwordAlert, animated: true, completion: nil)
         }
         //Scenario 2: the album is unlocked
@@ -222,6 +233,13 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             
         }
     }
+    
+    @objc private func textFieldDidChange(_ field: UITextField) {
+        if field.text != ""{
+            saveAction.isEnabled = true
+        }
+    }
+    
     //MARK: Search bar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         filteredAlbums = []

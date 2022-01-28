@@ -118,9 +118,10 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
             
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
-            let albumName = selectedAlbum?.title
-            request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))
             
+            //accessing through unique ID
+            let albumID = selectedAlbum?.id
+            request.predicate = NSPredicate(format: "%@ IN id", albumID!)
             do {
                 let result:[NSManagedObject] = try context.fetch(request) as! [NSManagedObject]
                 for r in result{

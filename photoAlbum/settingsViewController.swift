@@ -21,14 +21,19 @@ class settingsViewController: UIViewController {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
-        let albumName = selectedAlbum?.title
+        //let albumName = selectedAlbum?.title
+        
+        //accessing through unique ID
+        let albumID = selectedAlbum?.id
+
         
         //going from unlocked to locked
         //check if a password has been set up from user defaults
         if(selectedAlbum?.lockStatus == "Unlocked"){
             //simply update coreData
             if(userDefaults.bool(forKey: "PasswordSetup")){
-                request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))
+                /*request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))*/
+                request.predicate = NSPredicate(format: "%@ IN id", albumID!)
                 
                 do {
                     let result:[NSManagedObject] = try context.fetch(request) as! [NSManagedObject]
@@ -61,7 +66,8 @@ class settingsViewController: UIViewController {
             
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
             let albumName = selectedAlbum?.title*/
-            request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))
+            /*request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))*/
+            request.predicate = NSPredicate(format: "%@ IN id", albumID!)
             
             do {
                 let result:[NSManagedObject] = try context.fetch(request) as! [NSManagedObject]
