@@ -9,7 +9,36 @@ import UIKit
 import CoreData
 
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
+    
+    //TODO: Add delete functionality for collection view
+    
 
+    @IBOutlet weak var buttonClicked: UIBarButtonItem!
+    
+    @IBAction func selectCancelButton(_ sender: UIButton) {
+        print("Save button clicked")
+        let buttonTitle = buttonClicked.title!
+        print(buttonTitle)
+        if buttonTitle == "Select" {
+            self.buttonClicked.title = "Cancel"
+            sender.setTitle("Cancel", for: .normal)
+        }
+        else{
+            self.buttonClicked.title = "Select"
+           // buttonClicked.setTitle("Title of your button", for: .normal)
+            sender.setTitle("Select", for: .normal)
+        }
+        
+       // buttonClicked.
+        //change button if reclicked
+        //let item = self.navigationItem.rightBarButtonItem!
+            //let button = item.customView as! UIButton
+            //item.setTitle("Cancel", for: .normal)
+        //item.title = "Cancel"
+        //self.buttonClicked.title = "Cancel"
+        //button.setTitle("Cancel", for: .normal)
+        
+    }
     
     var firstLoad = true
     
@@ -51,6 +80,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     }
     
     
+    //MARK: Collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photosList.count
     }
@@ -66,8 +96,11 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         return imageCell
     }
     
-    
-   
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //collectionView.deselectItem(at: indexPath, animated: true)
+        
+        print("collection view cell tapped")
+    }
     
     
     @IBAction func uploadButton(_ sender: Any) {
@@ -98,12 +131,14 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     @IBOutlet weak var galleryCollection: UICollectionView!
     
+    
     @IBAction func settingsButton(_ sender: Any) {
         performSegue(withIdentifier: "toSettings", sender: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.buttonClicked.title = "Select"
         title = "Gallery"
         //title = albumList[indexPath]
         // Do any additional setup after loading the view.
@@ -195,5 +230,9 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         }
     }
     
+    
+
+    
+  
 
 }
