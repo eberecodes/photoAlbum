@@ -12,7 +12,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     //TODO: Add delete functionality for collection view
     
-
+    @IBOutlet weak var trashButton: UIButton!
+    
     @IBOutlet weak var buttonClicked: UIBarButtonItem!
     
     @IBAction func selectCancelButton(_ sender: UIButton) {
@@ -22,11 +23,13 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         if buttonTitle == "Select" {
             self.buttonClicked.title = "Cancel"
             sender.setTitle("Cancel", for: .normal)
+            galleryCollection.allowsMultipleSelection = true
         }
         else{
             self.buttonClicked.title = "Select"
            // buttonClicked.setTitle("Title of your button", for: .normal)
             sender.setTitle("Select", for: .normal)
+            galleryCollection.allowsMultipleSelection = false
         }
         
        // buttonClicked.
@@ -93,6 +96,9 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
                imageView.image = photosList[indexPath.item]
            }
         
+        
+
+        
         return imageCell
     }
     
@@ -116,6 +122,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             picker.allowsEditing = true
             picker.delegate = self
             present(picker, animated: true)
+        
+        checkForNoPhotos()
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -186,11 +194,10 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             photosList = convertDataToPhotos(imageDataArray: imageArray)
             
             
-            
-            
         }
+        checkForNoPhotos()
+       
         
-     
     }
     
     @IBAction func save(_ sender: Any) {
@@ -219,6 +226,29 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
            print("Error saving context")
         }
         
+        
+    }
+    
+    func checkForNoPhotos(){
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        label.center = self.view.center
+        label.center.x = self.view.center.x
+        label.center.y = self.view.center.y
+        
+        label.textAlignment = .center
+        label.text = "no photos"
+        if photosList.isEmpty
+        {
+            self.view.addSubview(label)
+            //label.tag = 7
+        }
+        else{
+            self.view.removeFromSuperview()
+            //label.isHidden = true
+            //self.view.remove
+            
+        }
         
     }
     

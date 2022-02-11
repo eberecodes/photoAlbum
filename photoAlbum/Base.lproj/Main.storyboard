@@ -142,11 +142,18 @@
                                     <action selector="save:" destination="yfn-Fq-ogh" eventType="touchUpInside" id="6vw-ce-Iqa"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TT9-ju-jTX">
+                                <rect key="frame" x="187" y="821" width="43" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ku5-rF-bq4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="dCN-D5-otl">
+                        <nil key="title"/>
                         <rightBarButtonItems>
                             <barButtonItem title="Item" id="6Nn-ku-haZ">
                                 <imageReference key="image" image="gear.circle" catalog="system" symbolScale="large"/>
@@ -169,6 +176,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="buttonClicked" destination="fLh-X9-9z8" id="GvU-tU-1FN"/>
+                        <outlet property="galleryCollection" destination="jjT-4T-8g0" id="X7e-Ml-Prx"/>
+                        <outlet property="trashButton" destination="TT9-ju-jTX" id="NJx-zW-gQb"/>
                         <segue destination="SLJ-A2-aa7" kind="show" identifier="toSettings" id="hLB-p3-z2I"/>
                     </connections>
                 </viewController>
@@ -307,6 +316,7 @@
     <resources>
         <image name="gear.circle" catalog="system" width="128" height="121"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
