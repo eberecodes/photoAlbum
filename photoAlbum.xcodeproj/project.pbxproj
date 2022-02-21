@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		916D038F27C40E9C0076F585 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */; };
 		91DA405427636BE000C5428E /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA405327636BE000C5428E /* settingsViewController.swift */; };
 		91DA405A2764C79E00C5428E /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40592764C79E00C5428E /* Album.swift */; };
 		91DA4085279564C000C5428E /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA4084279564C000C5428E /* TableViewCell.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		91DA405327636BE000C5428E /* settingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsViewController.swift; sourceTree = "<group>"; };
 		91DA40592764C79E00C5428E /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		91DA4084279564C000C5428E /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				91DA40592764C79E00C5428E /* Album.swift */,
 				91DA4084279564C000C5428E /* TableViewCell.swift */,
 				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
+				916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */,
 			);
 			path = photoAlbum;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				91DA405A2764C79E00C5428E /* Album.swift in Sources */,
 				91DC6738275FBF3700C44DDF /* SceneDelegate.swift in Sources */,
 				91DA405427636BE000C5428E /* settingsViewController.swift in Sources */,
+				916D038F27C40E9C0076F585 /* GalleryCollectionViewCell.swift in Sources */,
 				91DA40B4279F090500C5428E /* PasswordViewController.swift in Sources */,
 				91DA40B6279F313500C5428E /* KeychainWrapper.swift in Sources */,
 				91DA40B8279F325E00C5428E /* KeychainItemAccessibility.swift in Sources */,

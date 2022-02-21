@@ -10,11 +10,52 @@ import CoreData
 
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
-    //TODO: Add delete functionality for collection view
+    //TODO: debug delete functionality - check if it works on my phone
+    //TODO: Check if black screen still appearing wiht image picker
+    //TODO: Check if 'no photos' is still appearing when images are there
+    //TODO: Disable slect/cancel button when gallery is empty (hidden)
+    //TODO: Debug the chekfornophotos function
+    
+    var buttonStatus = "Select"
     
     @IBOutlet weak var trashButton: UIButton!
     
     @IBOutlet weak var buttonClicked: UIBarButtonItem!
+    
+    
+    
+    @IBAction func deleteButton(_ sender: Any) {
+        
+        let deleteConfirmation = UIAlertController(title: "Delete Image", message: "Are you sure you want to delete this image from the gallery?", preferredStyle: .actionSheet)
+       
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .default, handler: { (action: UIAlertAction) -> Void in
+            
+            if let selectedCells = self.galleryCollection.indexPathsForSelectedItems {
+                  let items = selectedCells.map { $0.item }.sorted().reversed()
+                  
+                  for item in items {
+                      self.photosList.remove(at: item)
+                  }
+                  
+                self.galleryCollection.deleteItems(at: selectedCells)
+                self.trashButton.isEnabled = false
+                }
+            self.updateCoreData()
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {  (action: UIAlertAction) -> Void in
+            print("Cancel image deletion")
+        }
+
+        deleteConfirmation.addAction(deleteAction)
+        deleteConfirmation.addAction(cancelAction)
+
+        present(deleteConfirmation, animated: true, completion: nil)
+        checkForNoPhotos()
+    }
+    
+    
     
     @IBAction func selectCancelButton(_ sender: UIButton) {
         print("Save button clicked")
@@ -22,25 +63,32 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         print(buttonTitle)
         if buttonTitle == "Select" {
             self.buttonClicked.title = "Cancel"
+            buttonStatus = "Cancel"
             sender.setTitle("Cancel", for: .normal)
             galleryCollection.allowsMultipleSelection = true
         }
         else{
             self.buttonClicked.title = "Select"
-           // buttonClicked.setTitle("Title of your button", for: .normal)
+            buttonStatus = "Select"
+           
+            //Clear checks when select mode cancelled
+            removeChecks()
+           
             sender.setTitle("Select", for: .normal)
             galleryCollection.allowsMultipleSelection = false
         }
         
-       // buttonClicked.
-        //change button if reclicked
-        //let item = self.navigationItem.rightBarButtonItem!
-            //let button = item.customView as! UIButton
-            //item.setTitle("Cancel", for: .normal)
-        //item.title = "Cancel"
-        //self.buttonClicked.title = "Cancel"
-        //button.setTitle("Cancel", for: .normal)
+       
         
+    }
+    func removeChecks(){
+        let indexPaths = galleryCollection.indexPathsForVisibleItems
+        for indexPath in indexPaths {
+            let cell = galleryCollection.cellForItem(at: indexPath) as! GalleryCollectionViewCell
+            cell.checkLabel.isHidden = true
+            galleryCollection.deselectItem(at: indexPath, animated: true) 
+        }
+        trashButton.isEnabled = false
     }
     
     var firstLoad = true
@@ -89,25 +137,58 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath)
+        //let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath)
+        
+        let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! GalleryCollectionViewCell
     
+       
+        imageCell.galleryImage.image = photosList[indexPath.item]
         
-        if let imageView = imageCell.viewWithTag(1000) as? UIImageView {
-               imageView.image = photosList[indexPath.item]
-           }
+        //if let imageView = imageCell.viewWithTag(1000) as? UIImageView {
+        //       imageView.image = photosList[indexPath.item]
+        //   }
         
-        
-
         
         return imageCell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         //collectionView.deselectItem(at: indexPath, animated: true)
-        
+        //TODO: Check buttonStatus variable 
         print("collection view cell tapped")
+        let cell = galleryCollection.cellForItem(at: indexPath) as! GalleryCollectionViewCell
+       
+        
+        if buttonStatus == "Select" {
+                trashButton.isEnabled = false
+                cell.checkLabel.isHidden = true
+                cell.isInSelectMode = false
+                print("issue")
+            } else {
+                trashButton.isEnabled = true
+                if cell.checkLabel.text != "✓"{
+                    cell.checkLabel.text = "✓"
+                    cell.checkLabel.isHighlighted = true
+                }
+               // cell.checkLabel.text = "✓"
+               // cell.checkLabel.isHighlighted = true
+                cell.isInSelectMode = true
+                print("issue 2")
+            }
+        
+    
     }
     
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let selectedImages = collectionView.indexPathsForSelectedItems, selectedImages.count == 0 {
+               trashButton.isEnabled = false
+           }
+        let cell = galleryCollection.cellForItem(at: indexPath) as! GalleryCollectionViewCell
+        cell.checkLabel.text = ""
+    }
+    
+    
+
     
     @IBAction func uploadButton(_ sender: Any) {
         
@@ -201,6 +282,11 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     }
     
     @IBAction func save(_ sender: Any) {
+        updateCoreData()
+    }
+    
+    func updateCoreData(){
+        
         let photosDataList = convertPhotosToData(photoList: photosList)
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -209,7 +295,6 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         
         
         //let photo = NSManagedObject(entity: entity!, insertInto: context)
-        
         
         var photos: Data?
         do {
@@ -237,18 +322,26 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         label.center.y = self.view.center.y
         
         label.textAlignment = .center
-        label.text = "no photos"
+        //label.text = "no photos"
         if photosList.isEmpty
         {
+            print("empty")
+            label.text = "no photos"
             self.view.addSubview(label)
+            buttonClicked.isEnabled = false
             //label.tag = 7
         }
         else{
+            print("not empty")
+            label.text = ""
+            self.view.addSubview(label)
             self.view.removeFromSuperview()
+            buttonClicked.isEnabled = true
             //label.isHidden = true
             //self.view.remove
             
         }
+        galleryCollection.reloadData()
         
     }
     
