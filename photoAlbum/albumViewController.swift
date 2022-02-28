@@ -135,16 +135,26 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         //thisAlbum = albumList[indexPath.row]
         thisAlbum = filteredAlbums[indexPath.row]
         
-        albumCell.textLabel?.text = thisAlbum.title
+        albumCell.textLabel?.text = "    "+thisAlbum.title
         
-        albumCell.layer.masksToBounds = true
+        //albumCell.layer.masksToBounds = true
         albumCell.backgroundColor = UIColor.systemGray4
         albumCell.accessoryType = .disclosureIndicator
-        //albumCell.layer.cornerRadius = 7
+        //albumCell.layer.cornerRadius = 9
+        if indexPath.row == 0{
+            albumCell.layer.cornerRadius = 9
+            albumCell.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        }
+        if indexPath.row == ((filteredAlbums.count)-1){
+            albumCell.layer.cornerRadius = 9
+            albumCell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        }
         
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         //tableView.layer.cornerRadius = 7
+        //tableView.layer.masksToBounds = true
+        
         
         //MARK: Displays album lock status
         if (thisAlbum.lockStatus == "Unlocked"){

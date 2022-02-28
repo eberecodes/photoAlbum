@@ -10,11 +10,10 @@ import CoreData
 
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
-    //TODO: debug delete functionality - check if it works on my phone
-    //TODO: Check if black screen still appearing wiht image picker
-    //TODO: Check if 'no photos' is still appearing when images are there
-    //TODO: Disable slect/cancel button when gallery is empty (hidden)
-    //TODO: Debug the chekfornophotos function
+    //TODO: Get rid of save changes button - this shoul happe automatically
+    //TODO: Figure out how to get delte confirmation alert working, may have to change how I am deleting
+    //TODO: Improve UI
+    //TODO: Create Launch screen
     
     var buttonStatus = "Select"
     
@@ -26,7 +25,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     @IBAction func deleteButton(_ sender: Any) {
         
-        let deleteConfirmation = UIAlertController(title: "Delete Image", message: "Are you sure you want to delete this image from the gallery?", preferredStyle: .actionSheet)
+       /* let deleteConfirmation = UIAlertController(title: "Delete Image", message: "Are you sure you want to delete this image from the gallery?", preferredStyle: .actionSheet)
        
         
         let deleteAction = UIAlertAction(title: "Delete", style: .default, handler: { (action: UIAlertAction) -> Void in
@@ -40,6 +39,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
                   
                 self.galleryCollection.deleteItems(at: selectedCells)
                 self.trashButton.isEnabled = false
+                print("deleted")
                 }
             self.updateCoreData()
         })
@@ -51,7 +51,21 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         deleteConfirmation.addAction(deleteAction)
         deleteConfirmation.addAction(cancelAction)
 
-        present(deleteConfirmation, animated: true, completion: nil)
+        present(deleteConfirmation, animated: true, completion: nil)*/
+        
+        if let selectedCells = galleryCollection.indexPathsForSelectedItems {
+              let items = selectedCells.map { $0.item }.sorted().reversed()
+              
+              for item in items {
+                  photosList.remove(at: item)
+              }
+              
+            galleryCollection.deleteItems(at: selectedCells)
+            trashButton.isEnabled = false
+            }
+
+        updateCoreData()
+        
         checkForNoPhotos()
     }
     
@@ -102,6 +116,9 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     var selectedAlbum: Album? = nil
     
+    //MARK: defining label
+    var label: UILabel!
+    
     func convertPhotosToData(photoList: [UIImage]) -> [Data] {
       var photosDataList = [Data]()
     
@@ -133,6 +150,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     //MARK: Collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        checkForNoPhotos()
         return photosList.count
     }
     
@@ -147,7 +165,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         //if let imageView = imageCell.viewWithTag(1000) as? UIImageView {
         //       imageView.image = photosList[indexPath.item]
         //   }
-        
+
         
         return imageCell
     }
@@ -204,7 +222,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             picker.delegate = self
             present(picker, animated: true)
         
-        checkForNoPhotos()
+
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -214,6 +232,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
 
             photosList.insert(image, at: 0)
             galleryCollection.reloadData()
+            //checkForNoPhotos()
        }
     
     
@@ -229,11 +248,10 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         super.viewDidLoad()
         self.buttonClicked.title = "Select"
         title = "Gallery"
-        //title = albumList[indexPath]
-        // Do any additional setup after loading the view.
+ 
         if (selectedAlbum != nil){
             title = selectedAlbum?.title
-            //will need to add image eventually too
+            
         }
         
         if (firstLoad){
@@ -276,9 +294,28 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             
             
         }
+        
+        
+        label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        label.center = self.view.center
+        label.center.x = self.view.center.x
+        label.center.y = self.view.center.y
+        
+        label.textAlignment = .center
+        
+        label.text = "no photos"
+        self.view.addSubview(label)
+        
         checkForNoPhotos()
        
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+       
+        
+        checkForNoPhotos()
+        print("view did appear")
     }
     
     @IBAction func save(_ sender: Any) {
@@ -316,26 +353,32 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     func checkForNoPhotos(){
         
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+       /* let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
         label.center = self.view.center
         label.center.x = self.view.center.x
         label.center.y = self.view.center.y
         
         label.textAlignment = .center
+        
+        label.text = "no photos"
+        self.view.addSubview(label)*/
+        
         //label.text = "no photos"
         if photosList.isEmpty
         {
             print("empty")
-            label.text = "no photos"
-            self.view.addSubview(label)
+            /*label.text = "no photos"
+            self.view.addSubview(label)*/
+            label.isHidden = false
             buttonClicked.isEnabled = false
             //label.tag = 7
         }
         else{
             print("not empty")
-            label.text = ""
-            self.view.addSubview(label)
-            self.view.removeFromSuperview()
+            //label.text = ""
+            //self.view.addSubview(label)
+            //self.view.removeFromSuperview()
+            label.isHidden = true
             buttonClicked.isEnabled = true
             //label.isHidden = true
             //self.view.remove
@@ -345,6 +388,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         
     }
     
+    //MARK: Preparing for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "toSettings"){
             let galleryDetail = segue.destination as? settingsViewController
