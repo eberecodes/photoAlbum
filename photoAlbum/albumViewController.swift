@@ -25,7 +25,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var filteredAlbums: [Album]!
     
-    
+    //MARK: Add album button
     @IBAction func addButton(_ sender: Any) {
         
         //Create the alert controller for new album creation
@@ -75,8 +75,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet weak var table: UITableView!
     
     
-    
-    
+    //MARK: Table view set up
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("tapped")
         let currAlbum = filteredAlbums[indexPath.row]
@@ -141,10 +140,14 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         albumCell.backgroundColor = UIColor.systemGray4
         albumCell.accessoryType = .disclosureIndicator
         //albumCell.layer.cornerRadius = 9
+        
+        //The first album in the table will have rounded top corners
         if indexPath.row == 0{
             albumCell.layer.cornerRadius = 9
             albumCell.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
+        
+        // The last album in the table will have rounded bottom corners
         if indexPath.row == ((filteredAlbums.count)-1){
             albumCell.layer.cornerRadius = 9
             albumCell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -223,10 +226,9 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             
         }
         
-        
     }
     
-    
+    //MARK: Prepare for segue to new screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "toGallery"){
             let indexPath = table.indexPathForSelectedRow!
@@ -267,9 +269,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         self.table.reloadData()
     }
-    /*func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder() // hides the keyboard.
-    }*/
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()

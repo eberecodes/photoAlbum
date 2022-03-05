@@ -10,10 +10,10 @@ import CoreData
 
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
-    //TODO: Get rid of save changes button - this shoul happe automatically
     //TODO: Figure out how to get delte confirmation alert working, may have to change how I am deleting
     //TODO: Improve UI
     //TODO: Create Launch screen
+    //TODO: Upload photo button would look better as an option in ... drop down
     
     var buttonStatus = "Select"
     
@@ -21,6 +21,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     @IBOutlet weak var buttonClicked: UIBarButtonItem!
     
+    @IBOutlet weak var photoCountLabel: UILabel!
     
     
     @IBAction func deleteButton(_ sender: Any) {
@@ -232,6 +233,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
 
             photosList.insert(image, at: 0)
             galleryCollection.reloadData()
+            updateCoreData()
             //checkForNoPhotos()
        }
     
@@ -318,9 +320,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         print("view did appear")
     }
     
-    @IBAction func save(_ sender: Any) {
-        updateCoreData()
-    }
+
     
     func updateCoreData(){
         
@@ -329,7 +329,6 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
         //let entity = NSEntityDescription.entity(forEntityName: "Album", in: context)
-        
         
         //let photo = NSManagedObject(entity: entity!, insertInto: context)
         
@@ -353,16 +352,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     func checkForNoPhotos(){
         
-       /* let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-        label.center = self.view.center
-        label.center.x = self.view.center.x
-        label.center.y = self.view.center.y
-        
-        label.textAlignment = .center
-        
-        label.text = "no photos"
-        self.view.addSubview(label)*/
-        
+        let photoCount = photosList.count
         //label.text = "no photos"
         if photosList.isEmpty
         {
@@ -372,6 +362,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             label.isHidden = false
             buttonClicked.isEnabled = false
             //label.tag = 7
+            photoCountLabel.isHidden = true
         }
         else{
             print("not empty")
@@ -380,6 +371,13 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             //self.view.removeFromSuperview()
             label.isHidden = true
             buttonClicked.isEnabled = true
+            if photoCount>1 {
+                photoCountLabel.text = "\(photoCount) Photos"
+            }
+            else{
+                photoCountLabel.text = "\(photoCount) Photo"
+            }
+            photoCountLabel.isHidden = false
             //label.isHidden = true
             //self.view.remove
             

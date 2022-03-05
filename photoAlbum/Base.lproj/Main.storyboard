@@ -92,11 +92,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jjT-4T-8g0">
-                                <rect key="frame" x="20" y="179" width="374" height="634"/>
+                                <rect key="frame" x="20" y="179" width="374" height="603"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="c9R-v2-qEj">
-                                    <size key="itemSize" width="118" height="115"/>
+                                    <size key="itemSize" width="173" height="173"/>
                                     <size key="estimatedItemSize" width="110" height="110"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -104,26 +104,35 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="fgO-bY-EXD" customClass="GalleryCollectionViewCell" customModule="photoAlbum" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="10" width="118" height="115"/>
+                                        <rect key="frame" x="0.0" y="10" width="173" height="173"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="JEb-Li-nuv">
-                                            <rect key="frame" x="0.0" y="0.0" width="118" height="115"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="173" height="173"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hZt-Wf-QI8">
-                                                    <rect key="frame" x="-20" y="0.0" width="158" height="115"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1000" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hZt-Wf-QI8">
+                                                    <rect key="frame" x="0.0" y="0.0" width="173" height="173"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="173" id="HyV-E0-5aD"/>
+                                                        <constraint firstAttribute="width" constant="173" id="cp2-jy-IFg"/>
+                                                    </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YPe-eR-Jn5">
-                                                    <rect key="frame" x="72" y="69" width="38" height="38"/>
+                                                    <rect key="frame" x="127" y="127" width="38" height="38"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hZt-Wf-QI8" firstAttribute="leading" secondItem="JEb-Li-nuv" secondAttribute="leading" id="1QE-Xb-aWH"/>
+                                                <constraint firstAttribute="trailing" secondItem="hZt-Wf-QI8" secondAttribute="trailing" id="ALO-LP-gHH"/>
+                                                <constraint firstAttribute="bottom" secondItem="hZt-Wf-QI8" secondAttribute="bottom" id="gg2-bR-3IF"/>
+                                                <constraint firstItem="hZt-Wf-QI8" firstAttribute="top" secondItem="JEb-Li-nuv" secondAttribute="top" id="lyM-Mg-1tU"/>
+                                            </constraints>
                                         </collectionViewCellContentView>
-                                        <size key="customSize" width="118" height="115"/>
+                                        <size key="customSize" width="173" height="173"/>
                                         <connections>
                                             <outlet property="checkLabel" destination="YPe-eR-Jn5" id="029-4J-jhr"/>
                                             <outlet property="galleryImage" destination="hZt-Wf-QI8" id="naa-p3-dHd"/>
@@ -144,15 +153,6 @@
                                     <action selector="uploadButton:" destination="yfn-Fq-ogh" eventType="touchUpInside" id="WDh-Pg-sBH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gh8-A7-7Dm">
-                                <rect key="frame" x="0.0" y="140" width="153" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Save Changes"/>
-                                <connections>
-                                    <action selector="save:" destination="yfn-Fq-ogh" eventType="touchUpInside" id="6vw-ce-Iqa"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TT9-ju-jTX">
                                 <rect key="frame" x="187" y="821" width="43" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -162,6 +162,13 @@
                                     <action selector="deleteButton:" destination="yfn-Fq-ogh" eventType="touchUpInside" id="4b1-83-TQE"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1 Photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Irs-L4-0kI">
+                                <rect key="frame" x="156" y="790" width="104" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ku5-rF-bq4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -191,6 +198,7 @@
                     <connections>
                         <outlet property="buttonClicked" destination="fLh-X9-9z8" id="GvU-tU-1FN"/>
                         <outlet property="galleryCollection" destination="jjT-4T-8g0" id="X7e-Ml-Prx"/>
+                        <outlet property="photoCountLabel" destination="Irs-L4-0kI" id="2Rr-UY-Eow"/>
                         <outlet property="trashButton" destination="TT9-ju-jTX" id="NJx-zW-gQb"/>
                         <segue destination="SLJ-A2-aa7" kind="show" identifier="toSettings" id="hLB-p3-z2I"/>
                     </connections>

@@ -51,6 +51,7 @@ class settingsViewController: UIViewController {
                 catch {
                     print("Failed to save: \(error)")
                 }
+                self.navigationController?.popToRootViewController(animated: true)
             }
             else{
                 self.performSegue(withIdentifier: "toPassword", sender: nil)
@@ -58,7 +59,7 @@ class settingsViewController: UIViewController {
             
         }
         
-        //locked to unlocked
+        //Locked to unlocked
         //update coredata
         else{
             /*let appDelegate = UIApplication.shared.delegate as! AppDelegate
