@@ -8,13 +8,6 @@
 import UIKit
 import CoreData
 
-//TODO: rename and comment
-/*struct SettingsModel{
-    let title: String
-    let icon: UIImage?
-    let handler: (() -> Void)
-    
-}*/
 
 class settingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let userDefaults = UserDefaults.standard
@@ -117,20 +110,10 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         
-        //ADDED...
-        /*createModels()
-        
-        view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.frame = view.bounds*/
         
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
-        sectionTitles = ["", "General"]
-        sectionRows = [1, 3]
-        rowTitles = ["Lock Album", "Change Password", "Submit Feedback", "Help"]
-        imageNames = ["lock", "hand.raised", "message", "questionmark.circle"]
+        
         
         settingDetails = [("", [" Lock Album"], ["lock"]), ("General", [" Change Password", " Submit Feedback", " Help"], ["hand.raised", "message", "questionmark.circle"])]
     }
@@ -143,21 +126,9 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    //Programmatically creating table view
-   /* var cellModels = [SettingsModel]()
-    
-    private let tableView:UITableView = {
-        let settingsTable = UITableView(frame: .zero, style: .grouped)
-        settingsTable.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell")
-        return settingsTable
-    }()*/
-    
-    //TODO: I should make this a tuple
+
     var settingDetails = [(String , [String], [String])]()
-    var sectionTitles = [String]()
-    var sectionRows = [Int]()
-    var rowTitles = [String]()
-    var imageNames = [String]()
+
  
   
     func numberOfSections(in tableView: UITableView) -> Int {
