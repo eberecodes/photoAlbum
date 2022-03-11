@@ -249,6 +249,50 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="p4o-o1-QJg">
+                                <rect key="frame" x="30" y="270" width="343" height="243"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsCell" id="2i3-1u-MBe" customClass="SettingsTableViewCell" customModule="photoAlbum" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="343" height="44.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2i3-1u-MBe" id="2DO-KX-Y5r">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="44.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Pbh-HG-3oh">
+                                                    <rect key="frame" x="0.0" y="10" width="24" height="25"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="24" id="xGZ-t0-gV6"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2u-GJ-sun">
+                                                    <rect key="frame" x="283" y="6" width="51" height="31.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="31" id="vUH-EB-Q64"/>
+                                                        <constraint firstAttribute="width" constant="49" id="xy3-lu-Gzh"/>
+                                                    </constraints>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="g2u-GJ-sun" secondAttribute="bottom" constant="7" id="19Q-0v-19h"/>
+                                                <constraint firstItem="Pbh-HG-3oh" firstAttribute="top" secondItem="2DO-KX-Y5r" secondAttribute="top" constant="10" id="JVH-QO-eay"/>
+                                                <constraint firstAttribute="trailing" secondItem="g2u-GJ-sun" secondAttribute="trailing" constant="11" id="Mr0-WU-Sqw"/>
+                                                <constraint firstAttribute="bottom" secondItem="Pbh-HG-3oh" secondAttribute="bottom" constant="9.5" id="PQ0-Bb-pva"/>
+                                                <constraint firstItem="g2u-GJ-sun" firstAttribute="leading" secondItem="Pbh-HG-3oh" secondAttribute="trailing" constant="259" id="UBk-SB-7HZ"/>
+                                                <constraint firstItem="g2u-GJ-sun" firstAttribute="top" secondItem="2DO-KX-Y5r" secondAttribute="top" constant="6" id="b5A-De-whG"/>
+                                                <constraint firstItem="g2u-GJ-sun" firstAttribute="leading" secondItem="Pbh-HG-3oh" secondAttribute="trailing" constant="259" id="ngL-se-9R6"/>
+                                                <constraint firstItem="Pbh-HG-3oh" firstAttribute="leading" secondItem="2DO-KX-Y5r" secondAttribute="leading" id="unU-i3-D9K"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="settingImageView" destination="Pbh-HG-3oh" id="iiy-1J-588"/>
+                                            <outlet property="switchLock" destination="g2u-GJ-sun" id="3yp-SO-ImA"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="OFs-m0-FiE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -257,12 +301,13 @@
                     <connections>
                         <outlet property="descriptionLabel" destination="Xac-mb-Kg6" id="hdi-iE-QGo"/>
                         <outlet property="lockSwitch" destination="1QO-Se-kPS" id="UEM-hq-iw2"/>
+                        <outlet property="settingsTableView" destination="p4o-o1-QJg" id="ifj-AH-bq2"/>
                         <segue destination="cfu-J9-ZsV" kind="show" identifier="toPassword" id="E1c-sX-RxQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e2z-Fj-iaD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2639" y="62"/>
+            <point key="canvasLocation" x="2637.68115942029" y="61.607142857142854"/>
         </scene>
         <!--Password View Controller-->
         <scene sceneID="OeK-3Q-WR7">

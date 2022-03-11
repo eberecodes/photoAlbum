@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		916D038F27C40E9C0076F585 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */; };
+		91AE16B527DBF1F70049F2D9 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */; };
 		91DA405427636BE000C5428E /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA405327636BE000C5428E /* settingsViewController.swift */; };
 		91DA405A2764C79E00C5428E /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40592764C79E00C5428E /* Album.swift */; };
 		91DA4085279564C000C5428E /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA4084279564C000C5428E /* TableViewCell.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
+		91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		91DA405327636BE000C5428E /* settingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsViewController.swift; sourceTree = "<group>"; };
 		91DA40592764C79E00C5428E /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
 		91DA4084279564C000C5428E /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				91DA4084279564C000C5428E /* TableViewCell.swift */,
 				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
 				916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */,
+				91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */,
 			);
 			path = photoAlbum;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				91DC674F2760B75100C44DDF /* galleryVC.swift in Sources */,
 				91DC6736275FBF3700C44DDF /* AppDelegate.swift in Sources */,
 				91DC6740275FBF3700C44DDF /* photoAlbum.xcdatamodeld in Sources */,
+				91AE16B527DBF1F70049F2D9 /* SettingsTableViewCell.swift in Sources */,
 				91DA405A2764C79E00C5428E /* Album.swift in Sources */,
 				91DC6738275FBF3700C44DDF /* SceneDelegate.swift in Sources */,
 				91DA405427636BE000C5428E /* settingsViewController.swift in Sources */,

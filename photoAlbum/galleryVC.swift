@@ -13,7 +13,6 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     //TODO: Figure out how to get delte confirmation alert working, may have to change how I am deleting
     //TODO: Improve UI
     //TODO: Create Launch screen
-    //TODO: Upload photo button would look better as an option in ... drop down
     
     var buttonStatus = "Select"
     
@@ -316,14 +315,20 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             self.present(picker, animated: true)
         })
         
-        let settingsAction = UIAction(title: "Settings", handler: { (action: UIAction)
+        let settingsAction = UIAction(title: "Album Settings", handler: { (action: UIAction)
             -> Void in
             
             self.performSegue(withIdentifier: "toSettings", sender: nil)
         })
         
+        //update album name
+        let nameAction = UIAction(title: "Change Album Name", handler: { (action: UIAction)
+            -> Void in
+            
+            //Todocreate alert update album name in textfield
+        })
         
-        let menuItem = UIMenu(title: "", options: .displayInline, children: [addAction, settingsAction])
+        let menuItem = UIMenu(title: "", options: .displayInline, children: [addAction, settingsAction, nameAction])
         
         moreButton.menu = menuItem
     }

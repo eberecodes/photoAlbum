@@ -8,7 +8,15 @@
 import UIKit
 import CoreData
 
-class settingsViewController: UIViewController {
+//TODO: rename and comment
+/*struct SettingsModel{
+    let title: String
+    let icon: UIImage?
+    let handler: (() -> Void)
+    
+}*/
+
+class settingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let userDefaults = UserDefaults.standard
     
     //consider if I need to change switch settings
@@ -16,6 +24,9 @@ class settingsViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     
     var selectedAlbum: Album? = nil
+    
+    
+    @IBOutlet weak var settingsTableView: UITableView!
     
     @IBAction func switchOn(_ sender: Any) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -105,7 +116,23 @@ class settingsViewController: UIViewController {
             lockSwitch.setOn(true, animated: true)
         }
         
-       
+        
+        //ADDED...
+        /*createModels()
+        
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.frame = view.bounds*/
+        
+        settingsTableView.delegate = self
+        settingsTableView.dataSource = self
+        sectionTitles = ["", "General"]
+        sectionRows = [1, 3]
+        rowTitles = ["Lock Album", "Change Password", "Submit Feedback", "Help"]
+        imageNames = ["lock", "hand.raised", "message", "questionmark.circle"]
+        
+        settingDetails = [("", [" Lock Album"], ["lock"]), ("General", [" Change Password", " Submit Feedback", " Help"], ["hand.raised", "message", "questionmark.circle"])]
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -115,5 +142,58 @@ class settingsViewController: UIViewController {
             
         }
     }
-
+    
+    //Programmatically creating table view
+   /* var cellModels = [SettingsModel]()
+    
+    private let tableView:UITableView = {
+        let settingsTable = UITableView(frame: .zero, style: .grouped)
+        settingsTable.register(UITableViewCell.self, forCellReuseIdentifier: "settingsCell")
+        return settingsTable
+    }()*/
+    
+    //TODO: I should make this a tuple
+    var settingDetails = [(String , [String], [String])]()
+    var sectionTitles = [String]()
+    var sectionRows = [Int]()
+    var rowTitles = [String]()
+    var imageNames = [String]()
+ 
+  
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return settingDetails.count
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return settingDetails[section].0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return settingDetails[section].1.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //perform action dependin on which row was clicked
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let settingsCell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! SettingsTableViewCell
+       
+        //settingsCell.textLabel?.text = rowTitles[indexPath.row]
+        settingsCell.textLabel?.text = settingDetails[indexPath.section].1[indexPath.row]
+        //cell.textLabel?.text = aWorks[indexPath.section].1[indexPath.row].title
+        settingsCell.backgroundColor = UIColor.systemGray4
+        //settingsCell.detailTextLabel?.text =
+        
+        tableView.layer.cornerRadius = 7
+        tableView.layer.masksToBounds = true
+        
+        if(indexPath.section > 0){ //doesn't get added to lock
+            //Added a disclosure indicator, to signify more detail to be found once clicked
+            settingsCell.accessoryType = .disclosureIndicator
+            settingsCell.switchLock.isHidden = true
+        }
+        settingsCell.settingImageView.image = UIImage(systemName: settingDetails[indexPath.section].2[indexPath.row])
+        
+        return settingsCell
+    }
+  
 }
