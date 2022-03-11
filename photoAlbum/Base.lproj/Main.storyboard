@@ -6,6 +6,7 @@
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -62,7 +63,7 @@
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="ydd-LY-z3H">
@@ -92,7 +93,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jjT-4T-8g0">
-                                <rect key="frame" x="20" y="179" width="374" height="603"/>
+                                <rect key="frame" x="20" y="146" width="374" height="636"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="c9R-v2-qEj">
@@ -144,15 +145,6 @@
                                     <outlet property="delegate" destination="yfn-Fq-ogh" id="Qoc-Ag-hsB"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EkD-gi-WxF">
-                                <rect key="frame" x="269" y="140" width="145" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Upload Photo"/>
-                                <connections>
-                                    <action selector="uploadButton:" destination="yfn-Fq-ogh" eventType="touchUpInside" id="WDh-Pg-sBH"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TT9-ju-jTX">
                                 <rect key="frame" x="187" y="821" width="43" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -176,18 +168,37 @@
                     <navigationItem key="navigationItem" id="dCN-D5-otl">
                         <nil key="title"/>
                         <rightBarButtonItems>
-                            <barButtonItem title="Item" id="6Nn-ku-haZ">
-                                <imageReference key="image" image="gear.circle" catalog="system" symbolScale="large"/>
-                                <connections>
-                                    <action selector="settingsButton:" destination="yfn-Fq-ogh" id="T8v-Bt-yoW"/>
-                                </connections>
+                            <barButtonItem style="plain" id="si0-1k-VbS">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="F7Z-i6-7kW">
+                                    <rect key="frame" x="371" y="10" width="23" height="24"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                    <menu key="menu" id="01L-mh-hHV">
+                                        <children>
+                                            <command title="Add Photos" id="gI7-3X-VgC"/>
+                                            <command title="Settings" id="7gx-QH-M9Y"/>
+                                        </children>
+                                    </menu>
+                                    <state key="normal">
+                                        <imageReference key="image" image="ellipsis" catalog="system" symbolScale="large" renderingMode="hierarchical">
+                                            <hierarchicalColors>
+                                                <color white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color systemColor="tertiaryLabelColor"/>
+                                                <color systemColor="systemYellowColor"/>
+                                            </hierarchicalColors>
+                                        </imageReference>
+                                    </state>
+                                </button>
                             </barButtonItem>
                             <barButtonItem style="plain" id="fLh-X9-9z8">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="KEm-KR-7y3">
-                                    <rect key="frame" x="258" y="5" width="92" height="34.5"/>
+                                    <rect key="frame" x="271" y="5" width="92" height="34.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="gray" title="Select"/>
+                                    <buttonConfiguration key="configuration" style="gray" title="Select" cornerStyle="capsule">
+                                        <color key="baseForegroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="baseBackgroundColor" systemColor="systemYellowColor"/>
+                                    </buttonConfiguration>
                                     <connections>
                                         <action selector="selectCancelButton:" destination="yfn-Fq-ogh" eventType="touchUpInside" id="Ywb-J7-GwJ"/>
                                     </connections>
@@ -198,6 +209,7 @@
                     <connections>
                         <outlet property="buttonClicked" destination="fLh-X9-9z8" id="GvU-tU-1FN"/>
                         <outlet property="galleryCollection" destination="jjT-4T-8g0" id="X7e-Ml-Prx"/>
+                        <outlet property="moreButton" destination="F7Z-i6-7kW" id="BRg-oh-nEN"/>
                         <outlet property="photoCountLabel" destination="Irs-L4-0kI" id="2Rr-UY-Eow"/>
                         <outlet property="trashButton" destination="TT9-ju-jTX" id="NJx-zW-gQb"/>
                         <segue destination="SLJ-A2-aa7" kind="show" identifier="toSettings" id="hLB-p3-z2I"/>
@@ -336,7 +348,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gear.circle" catalog="system" width="128" height="121"/>
+        <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="trash" catalog="system" width="121" height="128"/>
         <systemColor name="systemBackgroundColor">
@@ -344,6 +356,15 @@
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiarySystemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

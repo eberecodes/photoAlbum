@@ -134,7 +134,16 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         //thisAlbum = albumList[indexPath.row]
         thisAlbum = filteredAlbums[indexPath.row]
         
+        //Customising the text in the cell
         albumCell.textLabel?.text = "    "+thisAlbum.title
+        //albumCell.textLabel?.font = .systemFont(ofSize: 20)
+        //albumCell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        albumCell.textLabel?.font = UIFont.init(name: "Helvetica", size:20)
+        albumCell.textLabel?.textColor = UIColor.darkGray
+        //albumCell.textLabel?.font = UIFont.init(name: "Headline", size:20)
+
+        
+        //albumCell.textLabel.font=[UIFont fontWithName:@"Arial Rounded MT Bold" size:15.0];
         
         //albumCell.layer.masksToBounds = true
         albumCell.backgroundColor = UIColor.systemGray4

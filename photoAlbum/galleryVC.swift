@@ -96,6 +96,12 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
        
         
     }
+    
+    
+    
+    @IBOutlet weak var moreButton: UIButton!
+    
+    
     func removeChecks(){
         let indexPaths = galleryCollection.indexPathsForVisibleItems
         for indexPath in indexPaths {
@@ -207,24 +213,6 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     }
     
     
-
-    
-    @IBAction func uploadButton(_ sender: Any) {
-        
-        /*if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum){
-
-                    pickImage.delegate = self
-                    //pickImage.sourceType = .savedPhotosAlbum
-                    pickImage.allowsEditing = false
-
-                }*/
-        let picker = UIImagePickerController()
-            picker.allowsEditing = true
-            picker.delegate = self
-            present(picker, animated: true)
-        
-
-    }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
@@ -241,10 +229,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     @IBOutlet weak var galleryCollection: UICollectionView!
     
-    
-    @IBAction func settingsButton(_ sender: Any) {
-        performSegue(withIdentifier: "toSettings", sender: nil)
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -309,7 +294,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         self.view.addSubview(label)
         
         checkForNoPhotos()
-       
+        
+        setUpMenu()
         
     }
     
@@ -320,6 +306,27 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         print("view did appear")
     }
     
+    func setUpMenu(){
+        let addAction = UIAction(title: "Upload Photos", handler: { (action: UIAction)
+            -> Void in
+            
+            let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.delegate = self
+            self.present(picker, animated: true)
+        })
+        
+        let settingsAction = UIAction(title: "Settings", handler: { (action: UIAction)
+            -> Void in
+            
+            self.performSegue(withIdentifier: "toSettings", sender: nil)
+        })
+        
+        
+        let menuItem = UIMenu(title: "", options: .displayInline, children: [addAction, settingsAction])
+        
+        moreButton.menu = menuItem
+    }
 
     
     func updateCoreData(){
