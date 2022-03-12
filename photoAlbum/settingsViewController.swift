@@ -151,10 +151,12 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         //settingsCell.textLabel?.text = rowTitles[indexPath.row]
         settingsCell.textLabel?.text = settingDetails[indexPath.section].1[indexPath.row]
         //cell.textLabel?.text = aWorks[indexPath.section].1[indexPath.row].title
-        settingsCell.backgroundColor = UIColor.systemGray4
+        settingsCell.backgroundColor = UIColor.white
+        //settingsCell.layer.cornerRadius = 7
         //settingsCell.detailTextLabel?.text =
         
         tableView.layer.cornerRadius = 7
+        tableView.backgroundColor = UIColor.clear
         tableView.layer.masksToBounds = true
         
         if(indexPath.section > 0){ //doesn't get added to lock
