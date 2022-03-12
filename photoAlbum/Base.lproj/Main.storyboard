@@ -211,6 +211,7 @@
                         <outlet property="galleryCollection" destination="jjT-4T-8g0" id="X7e-Ml-Prx"/>
                         <outlet property="moreButton" destination="F7Z-i6-7kW" id="BRg-oh-nEN"/>
                         <outlet property="photoCountLabel" destination="Irs-L4-0kI" id="2Rr-UY-Eow"/>
+                        <outlet property="selectButton" destination="KEm-KR-7y3" id="zBq-dd-Fnf"/>
                         <outlet property="trashButton" destination="TT9-ju-jTX" id="NJx-zW-gQb"/>
                         <segue destination="SLJ-A2-aa7" kind="show" identifier="toSettings" id="hLB-p3-z2I"/>
                     </connections>

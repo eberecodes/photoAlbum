@@ -10,10 +10,8 @@ import CoreData
 
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
-    //TODO: Figure out how to get delte confirmation alert working, may have to change how I am deleting
     //TODO: Improve UI
     //TODO: Create Launch screen
- 
     
     var buttonStatus = "Select"
     
@@ -23,26 +21,17 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     
     @IBOutlet weak var photoCountLabel: UILabel!
     
+    @IBOutlet weak var selectButton: UIButton!
     
     @IBAction func deleteButton(_ sender: Any) {
         
-       /* let deleteConfirmation = UIAlertController(title: "Delete Image", message: "Are you sure you want to delete this image from the gallery?", preferredStyle: .actionSheet)
+        
+        let deleteConfirmation = UIAlertController(title: "Delete Image", message: "Are you sure you want to delete this image from the gallery?", preferredStyle: .actionSheet)
        
         
         let deleteAction = UIAlertAction(title: "Delete", style: .default, handler: { (action: UIAlertAction) -> Void in
-            
-            if let selectedCells = self.galleryCollection.indexPathsForSelectedItems {
-                  let items = selectedCells.map { $0.item }.sorted().reversed()
-                  
-                  for item in items {
-                      self.photosList.remove(at: item)
-                  }
-                  
-                self.galleryCollection.deleteItems(at: selectedCells)
-                self.trashButton.isEnabled = false
-                print("deleted")
-                }
-            self.updateCoreData()
+            self.delete()
+           
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) {  (action: UIAlertAction) -> Void in
@@ -52,8 +41,25 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         deleteConfirmation.addAction(deleteAction)
         deleteConfirmation.addAction(cancelAction)
 
-        present(deleteConfirmation, animated: true, completion: nil)*/
+        present(deleteConfirmation, animated: true, completion: nil)
         
+      
+        /*if let selectedCells = galleryCollection.indexPathsForSelectedItems {
+              let items = selectedCells.map { $0.item }.sorted().reversed()
+              
+              for item in items {
+                  photosList.remove(at: item)
+              }
+              
+            galleryCollection.deleteItems(at: selectedCells)
+            trashButton.isEnabled = false
+            }
+
+        updateCoreData()*/
+        
+    }
+    
+    func delete(){
         if let selectedCells = galleryCollection.indexPathsForSelectedItems {
               let items = selectedCells.map { $0.item }.sorted().reversed()
               
@@ -66,10 +72,10 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             }
 
         updateCoreData()
-        
         checkForNoPhotos()
+        //Change out of select mode
+        selectCancelButton(selectButton)
     }
-    
     
     
     @IBAction func selectCancelButton(_ sender: UIButton) {
@@ -304,7 +310,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         
         
         checkForNoPhotos()
-        //setUpMenu()
+
     }
   
     
