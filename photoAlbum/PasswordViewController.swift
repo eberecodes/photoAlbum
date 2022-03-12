@@ -16,8 +16,11 @@ class PasswordViewController: UIViewController {
     
     var selectedAlbum: Album? = nil
     
+    @IBOutlet weak var requirementsTextView: UITextView!
+    
     @IBAction func doneButton(_ sender: Any) {
-        if passwordField.text == confirmField.text{
+        if (passwordField.text == confirmField.text) && requirementsCheck() {
+            
             //MARK: Saving lockStatus to CoreData
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
@@ -66,10 +69,35 @@ class PasswordViewController: UIViewController {
         }
         else{
             //TODO: an alert - prompting then to re-enter
-            print("password don't match")
+            print("Password doesn't meet requirements")
+            
+            let requirementsAlert = UIAlertController(title: "Weak Password", message: "The password you entered doesn't meet requirements, try again...", preferredStyle: .alert)
+            
+            requirementsAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                print("OK")
+            }))
+            
+            present(requirementsAlert, animated: true, completion: nil)
+            
+            //Reset textfields
+            passwordField.text = ""
+            confirmField.text = ""
         }
     }
     
+    //Function to check if strong password requirements have been met.
+    func requirementsCheck() -> Bool {
+        
+        //Using Regex to check it contains numbers, lower case, upper case, special characters and at least 8 chars
+        let strongPassword = NSPredicate(format: "SELF MATCHES %@ ", "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[$@$#!%*?&]).{8,}$")
+        
+        //returns a bool
+        let strong = strongPassword.evaluate(with: passwordField.text)
+        
+    
+        
+        return strong
+    }
     
     @IBOutlet weak var passwordLabel: UILabel!
     
@@ -85,7 +113,7 @@ class PasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Create Password"
-        // Do any additional setup after loading the view.
+        
     }
     
 

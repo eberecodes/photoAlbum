@@ -138,7 +138,8 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         albumCell.textLabel?.text = "    "+thisAlbum.title
         //albumCell.textLabel?.font = .systemFont(ofSize: 20)
         //albumCell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        albumCell.textLabel?.font = UIFont.init(name: "Helvetica", size:20)
+        //Helvetica is the other font i tried
+        albumCell.textLabel?.font = UIFont.init(name: "Arial Rounded MT Bold", size:20)
         albumCell.textLabel?.textColor = UIColor.darkGray
         //albumCell.textLabel?.font = UIFont.init(name: "Headline", size:20)
 
@@ -146,7 +147,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         //albumCell.textLabel.font=[UIFont fontWithName:@"Arial Rounded MT Bold" size:15.0];
         
         //albumCell.layer.masksToBounds = true
-        albumCell.backgroundColor = UIColor.systemGray4
+        albumCell.backgroundColor = UIColor.white
         albumCell.accessoryType = .disclosureIndicator
         //albumCell.layer.cornerRadius = 9
         

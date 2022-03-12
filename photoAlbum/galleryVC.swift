@@ -175,6 +175,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
        
         imageCell.galleryImage.image = photosList[indexPath.item]
         
+        //collectionView.backgroundColor = UIColor.clear
         //if let imageView = imageCell.viewWithTag(1000) as? UIImageView {
         //       imageView.image = photosList[indexPath.item]
         //   }
@@ -241,7 +242,9 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         super.viewDidLoad()
         self.buttonClicked.title = "Select"
         title = "Gallery"
- 
+        
+        galleryCollection.backgroundColor = UIColor.clear
+        
         if (selectedAlbum != nil){
             title = selectedAlbum?.title
             
@@ -297,6 +300,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         label.textAlignment = .center
         
         label.text = "no photos"
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         self.view.addSubview(label)
         
         checkForNoPhotos()

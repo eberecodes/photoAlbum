@@ -8,35 +8,33 @@
 import UIKit
 import CoreData
 
+//TODO: Help page
+//TODO: Feedback page
 
 class settingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+   
     let userDefaults = UserDefaults.standard
-    
-    //consider if I need to change switch settings
-    @IBOutlet weak var lockSwitch: UISwitch!
-    @IBOutlet weak var descriptionLabel: UILabel!
     
     var selectedAlbum: Album? = nil
     
-    
     @IBOutlet weak var settingsTableView: UITableView!
     
-    @IBAction func switchOn(_ sender: Any) {
+    
+    @IBAction func switchChanged(_ sender: Any) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
-        //let albumName = selectedAlbum?.title
         
-        //accessing through unique ID
+        //Accessing through unique ID
         let albumID = selectedAlbum?.id
 
-        
-        //going from unlocked to locked
-        //check if a password has been set up from user defaults
+        //Going from unlocked to locked
         if(selectedAlbum?.lockStatus == "Unlocked"){
-            //simply update coreData
+            
+            //Check if a password has been set up from user defaults
             if(userDefaults.bool(forKey: "PasswordSetup")){
-                /*request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))*/
+                
+                //Update coreData
                 request.predicate = NSPredicate(format: "%@ IN id", albumID!)
                 
                 do {
@@ -58,20 +56,15 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
                 self.navigationController?.popToRootViewController(animated: true)
             }
             else{
+                //Set up password
                 self.performSegue(withIdentifier: "toPassword", sender: nil)
             }
             
         }
         
         //Locked to unlocked
-        //update coredata
         else{
-            /*let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
-            
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
-            let albumName = selectedAlbum?.title*/
-            /*request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))*/
+            //Update coredata
             request.predicate = NSPredicate(format: "%@ IN id", albumID!)
             
             do {
@@ -90,25 +83,19 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
             catch {
                 print("Failed to save: \(error)")
             }
+            
+            self.navigationController?.popToRootViewController(animated: true)
         }
         
         
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Album Settings"
         
         //debugging
         print(selectedAlbum?.lockStatus ?? "issue")
-        
-        //set the switch based on lock status
-        if(selectedAlbum?.lockStatus == "Unlocked"){
-            lockSwitch.setOn(false, animated: true)
-        }
-        else{
-            lockSwitch.setOn(true, animated: true)
-        }
-        
         
         
         settingsTableView.delegate = self
@@ -129,7 +116,7 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     var settingDetails = [(String , [String], [String])]()
 
- 
+    //MARK: Table view
   
     func numberOfSections(in tableView: UITableView) -> Int {
         return settingDetails.count
@@ -144,6 +131,50 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //perform action dependin on which row was clicked
+        if (indexPath.section > 0){
+            //Change password
+            if (indexPath.row == 0){
+                //Create alert confirming their original password
+                let passwordChangeAlert = UIAlertController(title: "Confirm Password", message: "Enter your original password", preferredStyle: .alert)
+                
+                //text field - for password entry
+                passwordChangeAlert.addTextField { (textField) in
+                    textField.text = ""
+                    textField.isSecureTextEntry = true
+                }
+                
+                passwordChangeAlert.addAction(UIAlertAction(title: "Enter", style: .default, handler: { [weak passwordChangeAlert] (_) in
+                    let textField = passwordChangeAlert!.textFields![0]
+                    
+                    let retrievedPass: String? = KeychainWrapper.standard.string(forKey: "albumPassword")
+                    if(textField.text == retrievedPass){
+                        self.performSegue(withIdentifier: "toPassword", sender: nil)
+                    }
+                    else {
+                        passwordChangeAlert?.message = "The password you entered was incorrect. Please try again..."
+                        passwordChangeAlert?.textFields![0].text = "" //clear the text field
+                        self.present(passwordChangeAlert!, animated: true, completion: nil)
+                    }
+                    
+                }))
+                
+                passwordChangeAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                    print("Close alert")
+                }))
+                
+                self.present(passwordChangeAlert, animated: true, completion: nil)
+            }
+            
+            //Feedback page
+            else if (indexPath.row == 1){
+                
+            }
+            
+            //Help page
+            else {
+                
+            }
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let settingsCell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! SettingsTableViewCell
@@ -152,17 +183,28 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingsCell.textLabel?.text = settingDetails[indexPath.section].1[indexPath.row]
         //cell.textLabel?.text = aWorks[indexPath.section].1[indexPath.row].title
         settingsCell.backgroundColor = UIColor.white
-        //settingsCell.layer.cornerRadius = 7
-        //settingsCell.detailTextLabel?.text =
+        settingsCell.layer.cornerRadius = 7
         
         tableView.layer.cornerRadius = 7
         tableView.backgroundColor = UIColor.clear
         tableView.layer.masksToBounds = true
+        //tableView.alwaysBounceVertical = false
+        
+        //Stops table view from moving around
+        tableView.isScrollEnabled = false
         
         if(indexPath.section > 0){ //doesn't get added to lock
             //Added a disclosure indicator, to signify more detail to be found once clicked
             settingsCell.accessoryType = .disclosureIndicator
             settingsCell.switchLock.isHidden = true
+        }
+        else{
+            if(selectedAlbum?.lockStatus == "Unlocked"){
+                settingsCell.switchLock.setOn(false, animated: true)
+            }
+            else{
+                settingsCell.switchLock.setOn(true, animated: true)
+            }
         }
         settingsCell.settingImageView.image = UIImage(systemName: settingDetails[indexPath.section].2[indexPath.row])
         
