@@ -13,6 +13,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     //TODO: Figure out how to get delte confirmation alert working, may have to change how I am deleting
     //TODO: Improve UI
     //TODO: Create Launch screen
+ 
     
     var buttonStatus = "Select"
     
@@ -299,11 +300,13 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     }
     
     override func viewDidAppear(_ animated: Bool) {
-       
+        print("view did appear")
+        
         
         checkForNoPhotos()
-        print("view did appear")
+        //setUpMenu()
     }
+  
     
     func setUpMenu(){
         let addAction = UIAction(title: "Upload Photos", handler: { (action: UIAction)
@@ -321,14 +324,49 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             self.performSegue(withIdentifier: "toSettings", sender: nil)
         })
         
-        //update album name
+        //Update album name
         let nameAction = UIAction(title: "Change Album Name", handler: { (action: UIAction)
             -> Void in
             
-            //Todocreate alert update album name in textfield
+            //Alert prompting user to change password in text field
+            let changeAlert = UIAlertController(title: "Change Album Name", message: "Update the name of your album", preferredStyle: .alert)
+            
+            changeAlert.addTextField { (textField) in
+                textField.text = ""
+                textField.placeholder = "New album name"
+            }
+            
+            changeAlert.addAction(UIAlertAction(title: "Save", style: .default, handler: { [weak changeAlert] (_) in
+                let textField = changeAlert!.textFields![0]
+                
+                //Save changes to core data
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
+                
+                //Changing to title to the text entered from textfield
+                self.selectedAlbum?.title = textField.text
+                
+                do {
+                    try context.save()
+                }
+                
+                catch {
+                    print("Error saving context")
+                }
+                
+                //Update Navigation Bar title too
+                self.title = textField.text
+            }))
+            
+            
+            changeAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                print("Close alert")
+          }))
+            
+            self.present(changeAlert, animated: true, completion: nil)
         })
         
-        let menuItem = UIMenu(title: "", options: .displayInline, children: [addAction, settingsAction, nameAction])
+        let menuItem = UIMenu(title: "", options: .displayInline, children: [addAction, nameAction, settingsAction])
         
         moreButton.menu = menuItem
     }
@@ -341,7 +379,6 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
         //let entity = NSEntityDescription.entity(forEntityName: "Album", in: context)
-        
         //let photo = NSManagedObject(entity: entity!, insertInto: context)
         
         var photos: Data?
@@ -355,32 +392,30 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
 
         do {
           try context.save()
-        } catch{
+        } catch {
            print("Error saving context")
         }
         
         
     }
     
+    //Checks if there are no photos and alters labels based on this
     func checkForNoPhotos(){
         
         let photoCount = photosList.count
-        //label.text = "no photos"
+ 
         if photosList.isEmpty
         {
             print("empty")
-            /*label.text = "no photos"
-            self.view.addSubview(label)*/
+
             label.isHidden = false
             buttonClicked.isEnabled = false
-            //label.tag = 7
+
             photoCountLabel.isHidden = true
         }
         else{
             print("not empty")
-            //label.text = ""
-            //self.view.addSubview(label)
-            //self.view.removeFromSuperview()
+            
             label.isHidden = true
             buttonClicked.isEnabled = true
             if photoCount>1 {

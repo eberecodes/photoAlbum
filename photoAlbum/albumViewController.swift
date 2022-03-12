@@ -34,7 +34,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         alert.addTextField { (textField) in
             textField.placeholder = "Album name"
             textField.text = ""
-            textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged) //motnior changes to text field
+            textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged) //monitor changes to text field
         }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -97,7 +97,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                 if(textField.text == retrievedPass){
                     self.performSegue(withIdentifier: "toGallery", sender: nil)
                 }
-                else{
+                else {
                     passwordAlert?.message = "The password you entered was incorrect. Please try again..."
                     passwordAlert?.textFields![0].text = "" //clear the text field
                     self.present(passwordAlert!, animated: true, completion: nil)
@@ -107,7 +107,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             passwordAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
                 print("Close alert")
-          }))
+            }))
             
             self.present(passwordAlert, animated: true, completion: nil)
         }
