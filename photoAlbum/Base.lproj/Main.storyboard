@@ -82,6 +82,7 @@
                         <outlet property="searchBar" destination="wD1-DJ-PJR" id="2L2-om-fb5"/>
                         <outlet property="table" destination="vsE-CQ-KV3" id="cHr-C5-PnK"/>
                         <segue destination="yfn-Fq-ogh" kind="show" identifier="toGallery" id="CV2-NP-c50"/>
+                        <segue destination="zqg-z9-Qzf" kind="show" identifier="toGestureCheck" id="yO8-Ry-3GP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -605,9 +606,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="7OZ-Il-bFV" id="Dpg-4Q-G0i"/>
+                        <segue destination="MR0-tH-Wl7" kind="unwind" identifier="gestureUnwind" unwindAction="unwindFromGestureAuthentication:" id="qhh-Fh-0pM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OAP-5e-sUh" sceneMemberID="firstResponder"/>
+                <exit id="MR0-tH-Wl7" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="5857" y="71"/>
         </scene>
@@ -641,6 +644,9 @@
             <point key="canvasLocation" x="5009" y="71"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="yO8-Ry-3GP"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="plus" catalog="system" width="128" height="113"/>

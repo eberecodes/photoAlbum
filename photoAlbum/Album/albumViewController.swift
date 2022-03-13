@@ -17,11 +17,25 @@ var albumList = [Album]()
 
 class albumViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
     
+    //persistent storage
+    let userDefaults = UserDefaults.standard
+    
     private var saveAction: UIAlertAction!
+    
+    //Stores the currently selected index
+    var selectedIndex: IndexPath = []
     
     @IBOutlet weak var searchBar: UISearchBar!
     var firstLoad = true //rename
     
+    var authenticated = false
+   /* var authenticated:Bool = false {
+        didSet{
+            if (authenticated) {
+                self.performSegue(withIdentifier: "toGallery", sender: nil)
+            }
+        }
+    }*/
     
     var filteredAlbums: [Album]!
     
@@ -78,6 +92,8 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: Table view set up
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("tapped")
+        selectedIndex = indexPath
+        
         let currAlbum = filteredAlbums[indexPath.row]
         
         //Scenario 1: The album is locked
@@ -106,15 +122,24 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             }))
             
             //TODO: check if gesture authentication has been set up
-            passwordAlert.addAction(UIAlertAction(title: "Use Gesture Authentication", style: .destructive, handler: { (action: UIAlertAction!) in
+            let gestureAction = UIAlertAction(title: "Use Gesture Authentication", style: .destructive, handler: { (action: UIAlertAction!) in
                 
+                //Only if gesture setup is complete - check userdefaults (otherwise disable)
                 print("go to gesture authentication")
+                self.performSegue(withIdentifier: "toGestureCheck", sender: nil)
                 
-            }))
+            })
+            passwordAlert.addAction(gestureAction)
             
             passwordAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
                 print("Close alert")
             }))
+            
+            if(userDefaults.bool(forKey: "gestureSetup")){
+                gestureAction.isEnabled = true
+            } else{
+                gestureAction.isEnabled = false
+            }
             
             self.present(passwordAlert, animated: true, completion: nil)
         }
@@ -239,7 +264,6 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             present(deleteConfirmation, animated: true, completion: nil)
             
             
-            
         }
         
     }
@@ -247,17 +271,20 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     //MARK: Prepare for segue to new screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "toGallery"){
-            let indexPath = table.indexPathForSelectedRow!
+            //let indexPath = table.indexPathForSelectedRow!
             
             let albumDetail = segue.destination as? galleryVC
             
             let selectedAlbum : Album!
             //selectedAlbum = albumList[indexPath.row]
-            selectedAlbum = filteredAlbums[indexPath.row]
+            //selectedAlbum = filteredAlbums[indexPath.row]
+            
+            selectedAlbum = filteredAlbums[selectedIndex.row]
             albumDetail!.selectedAlbum = selectedAlbum
             
             
-            table.deselectRow(at: indexPath, animated: true)
+            //table.deselectRow(at: indexPath, animated: true)
+            table.deselectRow(at: selectedIndex, animated: true)
             
         }
     }
@@ -322,11 +349,28 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewWillAppear(animated)
 
         self.table.reloadData()
+        
+        //Perform segue to gallery - authentication validated
+        if (authenticated) {
+            self.performSegue(withIdentifier: "toGallery", sender: nil)
+            //reset value of authenticated
+            authenticated = false
+        }
+        
     }
     
     @IBAction func unwindToFirstView( _ seg: UIStoryboardSegue) {
     }
 
+    //MARK: Authentication confirmed
+    @IBAction func unwindFromGestureAuthentication(_ sender: UIStoryboardSegue){
+        if (sender.source is CameraViewController) {
+            if let gestureVC = sender.source as? CameraViewController {
+                authenticated = gestureVC.authenticated
+   
+            }
+        }
+    }
 
 }
 

@@ -97,7 +97,6 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         //debugging
         print(selectedAlbum?.lockStatus ?? "issue")
         
-        
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
         

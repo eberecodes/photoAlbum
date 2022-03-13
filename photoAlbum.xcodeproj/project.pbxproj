@@ -73,6 +73,8 @@
 			isa = PBXGroup;
 			children = (
 				91D6988027DE6985000E219A /* GestureClassifier.mlmodel */,
+				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
+				91D6988427DE7907000E219A /* gestureSwitchTableViewCell.swift */,
 				91D6987E27DE68B2000E219A /* previewView.swift */,
 				91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */,
 				91D6987A27DE6825000E219A /* CountdownViewController.swift */,
@@ -88,6 +90,20 @@
 				91DA40B7279F325E00C5428E /* KeychainItemAccessibility.swift */,
 			);
 			path = Keychain;
+			sourceTree = "<group>";
+		};
+		91D6988627DEB73D000E219A /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				91DC6739275FBF3700C44DDF /* albumViewController.swift */,
+				91DC674E2760B75100C44DDF /* galleryVC.swift */,
+				91DA40592764C79E00C5428E /* Album.swift */,
+				91DA4084279564C000C5428E /* TableViewCell.swift */,
+				916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */,
+				91DA405327636BE000C5428E /* settingsViewController.swift */,
+				91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */,
+			);
+			path = Album;
 			sourceTree = "<group>";
 		};
 		91DC6729275FBF3700C44DDF = {
@@ -112,21 +128,13 @@
 				91DC6735275FBF3700C44DDF /* AppDelegate.swift */,
 				91D6988327DE7315000E219A /* Keychain */,
 				91DC6737275FBF3700C44DDF /* SceneDelegate.swift */,
-				91DC6739275FBF3700C44DDF /* albumViewController.swift */,
 				91DC673B275FBF3700C44DDF /* Main.storyboard */,
 				91DC6741275FBF3900C44DDF /* Assets.xcassets */,
 				91DC6743275FBF3900C44DDF /* LaunchScreen.storyboard */,
 				91DC6746275FBF3900C44DDF /* Info.plist */,
 				91DC673E275FBF3700C44DDF /* photoAlbum.xcdatamodeld */,
-				91DC674E2760B75100C44DDF /* galleryVC.swift */,
-				91DA405327636BE000C5428E /* settingsViewController.swift */,
-				91DA40592764C79E00C5428E /* Album.swift */,
-				91DA4084279564C000C5428E /* TableViewCell.swift */,
-				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
-				916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */,
-				91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */,
+				91D6988627DEB73D000E219A /* Album */,
 				91D6988227DE72E1000E219A /* Gesture Authentication */,
-				91D6988427DE7907000E219A /* gestureSwitchTableViewCell.swift */,
 			);
 			path = photoAlbum;
 			sourceTree = "<group>";

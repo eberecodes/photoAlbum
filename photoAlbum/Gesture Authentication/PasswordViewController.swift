@@ -20,15 +20,15 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var table: UITableView!
     
-   // @IBOutlet weak var useGestureSwitch: UISwitch! - create table view cell
+
     
+    //TOCO: in order to use gesture password - traditional password must be set up + add this in
     @IBAction func gestureSwitch(_ sender: Any) {
-        //TODO: Segue
-        //performSegue(withIdentifier: "toAuthenticationSetup", sender: nil)
-        
+ 
         //Check if a gesture password has been set up
         if(userDefaults.bool(forKey: "gestureSetup")){
             //Then switch can be changed and use gesture authentication can be added to unlock alert
+            print("Switch can be changed")
 
         }
         //If gesture password hasn't been set up user is taken to Authentication Setup screen

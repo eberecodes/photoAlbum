@@ -104,6 +104,17 @@ class AuthenticationSetupViewController: UIViewController {
         else {
             //Perform segue to next screen
             if (passwordEntered == passwordEntered2){
+                
+                //Save gesture password securely
+                let gesturesSaved:Bool = KeychainWrapper.standard.set(passwordEntered, forKey: "gesturePassword")
+                
+                if(gesturesSaved){
+                    print("Password has been succesfully saved")
+                }
+                else{
+                    print("Issue saving password")
+                }
+                
                 self.performSegue(withIdentifier: "toCountdown", sender: nil)
             }
             

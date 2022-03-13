@@ -28,11 +28,14 @@ enum poses:String{
 //TODO: Complete machine learning model
 //TODO: Improve performance of ml model in app
 
+//replace password with gesture saved
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     let userDefaults = UserDefaults.standard
     
     @IBOutlet weak var backButton: UINavigationItem!
+    
+    var authenticated = false
     
     let bufferSize = 3
     var poseBuffer = [poses]()
@@ -98,6 +101,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         
         //Hide original back button so we can customise it
         backButton.hidesBackButton = true
+        
+        let retrievedGestures: String? = KeychainWrapper.standard.string(forKey: "gesturePassword")
+        
+        password = retrievedGestures
+        //set value of password so it can be compared, to that is stored 
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -385,7 +394,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         passwordEntered = passwordEntered+pose.rawValue
 
         print(passwordEntered)
-        print(password!)
+        //print(password!)
         
         
         if (password == passwordEntered) {
@@ -393,6 +402,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print("stop running camera session")
          
             closeCameraView()
+            
+            //Save gesture password securely, once user has been able to succesfully perform gesture password
+           
         }
         //When the password they entered is triple the length of the original password, automatically timeout
         if ((passwordEntered.count) == (password!.count)*3){
@@ -414,7 +426,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 let imageView = UIImageView(frame: CGRect(x: 10, y: 50, width: 250, height: 230))
                 
                 //Unclock image added to alert
-                imageView.image = UIImage(named: "Unlock")
+                imageView.image = UIImage(named: "lock.open.fill")
                 authenticatedAlert.view.addSubview(imageView)
                 let height = NSLayoutConstraint(item: authenticatedAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 320)
                 let width = NSLayoutConstraint(item: authenticatedAlert.view!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
@@ -424,16 +436,21 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 authenticatedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                     print("Ok clicked")
                     //TODO: Segue to relevant screen - Album page - TEST THIS
-                    let viewControllers: [UIViewController] = self.navigationController!.viewControllers
+                    /*let viewControllers: [UIViewController] = self.navigationController!.viewControllers
                     for vc in viewControllers {
                         if vc.isKind(of:galleryVC.self)
                         {
                             self.navigationController!.popToViewController(vc, animated: true)
                             break
                        }
-                    }
+                    }*/
+                    self.authenticated = true
+                    self.performSegue(withIdentifier: "gestureUnwind", sender: self)
+                    //what if i pop to root view and then to specific gallery screen
+                    //self.navigationController!.popToRootViewController(animated: true)
                 }))
                 self.present(authenticatedAlert, animated: true, completion: nil)
+                
                 //Update user defaults - gesture password has been set up
                 self.userDefaults.set(true, forKey: "gestureSetup")
             }
@@ -520,6 +537,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
       
     }
 
-   
+    //MARK: Prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let status = authenticated
+        authenticated = status
+    }
 }
 
