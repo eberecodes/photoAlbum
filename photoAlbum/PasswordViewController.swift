@@ -10,13 +10,36 @@ import CoreData
 
 //TODO: will need to ensure something is always put into password fields
 //TODO: Create general requirements for password
-class PasswordViewController: UIViewController {
+class PasswordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+   
     
     let userDefaults = UserDefaults.standard
     
     var selectedAlbum: Album? = nil
     
+    
+    @IBOutlet weak var table: UITableView!
+    
+   // @IBOutlet weak var useGestureSwitch: UISwitch! - create table view cell
+    
+    @IBAction func gestureSwitch(_ sender: Any) {
+        //TODO: Segue
+        //performSegue(withIdentifier: "toAuthenticationSetup", sender: nil)
+        
+        //Check if a gesture password has been set up
+        if(userDefaults.bool(forKey: "gestureSetup")){
+            //Then switch can be changed and use gesture authentication can be added to unlock alert
+
+        }
+        //If gesture password hasn't been set up user is taken to Authentication Setup screen
+        else{
+            performSegue(withIdentifier: "toAuthenticationSetup", sender: nil)
+        }
+    }
+    
     @IBOutlet weak var requirementsTextView: UITextView!
+    
+    @IBOutlet weak var identificationTextView: UITextView!
     
     @IBAction func doneButton(_ sender: Any) {
         if (passwordField.text == confirmField.text) && requirementsCheck() {
@@ -27,8 +50,6 @@ class PasswordViewController: UIViewController {
             
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
             
-            /*let albumName = selectedAlbum?.title
-            request.predicate = NSPredicate(format: "title == %@", NSString.init(string: albumName!))*/
             
             //accessing through unique ID
             let albumID = selectedAlbum?.id
@@ -94,11 +115,11 @@ class PasswordViewController: UIViewController {
         //returns a bool
         let strong = strongPassword.evaluate(with: passwordField.text)
         
-    
         
         return strong
     }
     
+    //outlets connecting UI to code
     @IBOutlet weak var passwordLabel: UILabel!
     
     @IBOutlet weak var confirmLabel: UILabel!
@@ -109,14 +130,40 @@ class PasswordViewController: UIViewController {
    
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Create Password"
         
+        table.delegate = self
+        table.dataSource = self
+        
+      
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        table.reloadData()
     }
     
-
+    //MARK: Table view
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let selectionCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell", for: indexPath) as! gestureSwitchTableViewCell
+        
+        selectionCell.textLabel?.text = "Use Gesture Authentication"
+        selectionCell.layer.cornerRadius = 7
+        
+        //Once gesture password has been set up, they always have the ability to use it
+        if(userDefaults.bool(forKey: "gestureSetup")){
+            selectionCell.useGestureSwitch.setOn(true, animated: true)
+        }
+        else{
+            selectionCell.useGestureSwitch.setOn(false, animated: true)
+        }
+        tableView.backgroundColor = .clear
+        return selectionCell
+    }
    
 
 }

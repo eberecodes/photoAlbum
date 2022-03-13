@@ -19,7 +19,7 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet weak var settingsTableView: UITableView!
     
-    
+    ///User has clicked the lock switch, update core data accoridingly
     @IBAction func switchChanged(_ sender: Any) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
@@ -117,10 +117,10 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
     var settingDetails = [(String , [String], [String])]()
 
     //MARK: Table view
-  
     func numberOfSections(in tableView: UITableView) -> Int {
         return settingDetails.count
     }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return settingDetails[section].0
     }
@@ -129,8 +129,8 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         return settingDetails[section].1.count
     }
     
+    ///Perform action depending on which row was clicked
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //perform action dependin on which row was clicked
         if (indexPath.section > 0){
             //Change password
             if (indexPath.row == 0){
@@ -176,29 +176,31 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let settingsCell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! SettingsTableViewCell
        
-        //settingsCell.textLabel?.text = rowTitles[indexPath.row]
         settingsCell.textLabel?.text = settingDetails[indexPath.section].1[indexPath.row]
-        //cell.textLabel?.text = aWorks[indexPath.section].1[indexPath.row].title
-        settingsCell.backgroundColor = UIColor.white
+
+        //UI changes
+        settingsCell.backgroundColor = UIColor.systemGray
         settingsCell.layer.cornerRadius = 7
         
         tableView.layer.cornerRadius = 7
         tableView.backgroundColor = UIColor.clear
         tableView.layer.masksToBounds = true
-        //tableView.alwaysBounceVertical = false
         
         //Stops table view from moving around
         tableView.isScrollEnabled = false
         
-        if(indexPath.section > 0){ //doesn't get added to lock
+        //These changes do get made to the colum for locking album
+        if(indexPath.section > 0){
             //Added a disclosure indicator, to signify more detail to be found once clicked
             settingsCell.accessoryType = .disclosureIndicator
             settingsCell.switchLock.isHidden = true
         }
         else{
+            //Determines switch status, from core data lock status value
             if(selectedAlbum?.lockStatus == "Unlocked"){
                 settingsCell.switchLock.setOn(false, animated: true)
             }
@@ -206,6 +208,8 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
                 settingsCell.switchLock.setOn(true, animated: true)
             }
         }
+        
+        //Adde image to side of row
         settingsCell.settingImageView.image = UIImage(systemName: settingDetails[indexPath.section].2[indexPath.row])
         
         return settingsCell

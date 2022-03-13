@@ -105,6 +105,13 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                 
             }))
             
+            //TODO: check if gesture authentication has been set up
+            passwordAlert.addAction(UIAlertAction(title: "Use Gesture Authentication", style: .destructive, handler: { (action: UIAlertAction!) in
+                
+                print("go to gesture authentication")
+                
+            }))
+            
             passwordAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
                 print("Close alert")
             }))
@@ -116,7 +123,6 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             performSegue(withIdentifier: "toGallery", sender: nil)
         }
         
-        //performSegue(withIdentifier: "toGallery", sender: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -135,11 +141,11 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         thisAlbum = filteredAlbums[indexPath.row]
         
         //Customising the text in the cell
-        albumCell.textLabel?.text = "    "+thisAlbum.title
+        albumCell.textLabel?.text = "  "+thisAlbum.title
         //albumCell.textLabel?.font = .systemFont(ofSize: 20)
         //albumCell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         //Helvetica is the other font i tried
-        albumCell.textLabel?.font = UIFont.init(name: "Arial Rounded MT Bold", size:20)
+        albumCell.textLabel?.font = UIFont.init(name: "NotoSansOriya", size:23)
         albumCell.textLabel?.textColor = UIColor.darkGray
         //albumCell.textLabel?.font = UIFont.init(name: "Headline", size:20)
 

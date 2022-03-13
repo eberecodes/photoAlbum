@@ -19,39 +19,5 @@ class SettingsTableViewCell: UITableViewCell {
     
     @IBOutlet weak var settingImageView: UIImageView!
     
-    /*private let iconImage:UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private let settingsLabel: UILabel = {
-        let settingsLabel = UILabel()
-        settingsLabel.numberOfLines = 1
-        return settingsLabel
-    }()
-    
-    //constructor method
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: "SettingsTableViewCell")
-        contentView.addSubview(iconImage)
-        contentView.addSubview(settingsLabel)
-        contentView.clipsToBounds = true
-        accessoryType = .disclosureIndicator
-    }
-    
-    required init?(coder: NSCoder){
-        fatalError()
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        //reset everything
-        iconImage.image = nil
-        settingsLabel.text = nil
-    }*/
+
 }

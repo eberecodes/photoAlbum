@@ -300,6 +300,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         label.textAlignment = .center
         
         label.text = "no photos"
+        label.textColor = .systemGray
         label.font = UIFont.boldSystemFont(ofSize: 20)
         self.view.addSubview(label)
         
