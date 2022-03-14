@@ -182,12 +182,12 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingsCell.textLabel?.text = settingDetails[indexPath.section].1[indexPath.row]
 
         //UI changes
-        settingsCell.backgroundColor = UIColor.systemGray
-        settingsCell.layer.cornerRadius = 7
+        settingsCell.backgroundColor = UIColor.clear
+        //settingsCell.layer.cornerRadius = 7
         
-        tableView.layer.cornerRadius = 7
+        //tableView.layer.cornerRadius = 7
         tableView.backgroundColor = UIColor.clear
-        tableView.layer.masksToBounds = true
+        //tableView.layer.masksToBounds = true
         
         //Stops table view from moving around
         tableView.isScrollEnabled = false
@@ -210,6 +210,8 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         //Adde image to side of row
         settingsCell.settingImageView.image = UIImage(systemName: settingDetails[indexPath.section].2[indexPath.row])
+        settingsCell.settingImageView.tintColor = .systemYellow
+        settingsCell.separatorInset = .zero
         
         return settingsCell
     }

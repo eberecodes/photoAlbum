@@ -205,10 +205,14 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         //MARK: Displays album lock status
         if (thisAlbum.lockStatus == "Unlocked"){
-            albumCell.imagePreview.image = UIImage(named: "Unlock")
+            //albumCell.imagePreview.image = UIImage(named: "Unlock")
+            albumCell.imagePreview.image = UIImage(systemName: "lock.open")
+            albumCell.imagePreview.tintColor = .systemYellow
         }
         else{
-            albumCell.imagePreview.image = UIImage(named: "Lock")
+            //albumCell.imagePreview.image = UIImage(named: "Lock")
+            albumCell.imagePreview.image = UIImage(systemName: "lock")
+            albumCell.imagePreview.tintColor = .systemYellow
         }
        
         
@@ -306,6 +310,12 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         table.dataSource = self
   
         //UI
+        navigationController?.navigationBar.barTintColor = UIColor.systemYellow
+       // navigationController?.navigationItem.leftBarButtonItem
+        let buttonAppearance = UIBarButtonItemAppearance()
+        buttonAppearance.normal.titleTextAttributes = [.foregroundColor:UIColor.systemGray2]
+        navigationController?.navigationItem.standardAppearance?.buttonAppearance = buttonAppearance
+        //navigationItem.standardAppearance?.buttonAppearance = buttonAppearance
         //self.table.separatorStyle = UITableViewCell.SeparatorStyle.none
         //self.table.separatorColor = UIColor.systemYellow
         //self.table.tableHeaderView = UIView()

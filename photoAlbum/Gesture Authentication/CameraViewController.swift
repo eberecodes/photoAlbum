@@ -107,11 +107,27 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         password = retrievedGestures
         //set value of password so it can be compared, to that is stored 
         
+       
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         prepareCamera()
+        
+        //UI - Get navigation bar to blend with current background
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.backgroundColor = .black
+        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        //UI - return navigation bar to standard appearance
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.backgroundColor = .systemYellow
+        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -425,9 +441,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 let authenticatedAlert = UIAlertController(title: "AUTHENTICATED", message: nil, preferredStyle: .alert)
                 let imageView = UIImageView(frame: CGRect(x: 10, y: 50, width: 250, height: 230))
                 
-                //Unclock image added to alert
-                imageView.image = UIImage(named: "lock.open.fill")
+                //Unlock image added to alert
+                imageView.image = UIImage(systemName: "lock.open")
+                imageView.tintColor = .systemYellow
                 authenticatedAlert.view.addSubview(imageView)
+                
                 let height = NSLayoutConstraint(item: authenticatedAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 320)
                 let width = NSLayoutConstraint(item: authenticatedAlert.view!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
                 authenticatedAlert.view.addConstraint(height)
@@ -435,15 +453,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 
                 authenticatedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
                     print("Ok clicked")
-                    //TODO: Segue to relevant screen - Album page - TEST THIS
-                    /*let viewControllers: [UIViewController] = self.navigationController!.viewControllers
-                    for vc in viewControllers {
-                        if vc.isKind(of:galleryVC.self)
-                        {
-                            self.navigationController!.popToViewController(vc, animated: true)
-                            break
-                       }
-                    }*/
+                   
                     self.authenticated = true
                     self.performSegue(withIdentifier: "gestureUnwind", sender: self)
                     //what if i pop to root view and then to specific gallery screen

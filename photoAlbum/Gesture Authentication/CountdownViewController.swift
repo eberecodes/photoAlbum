@@ -18,7 +18,6 @@ class CountdownViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //Countdown start from 5
         //currSeconds = 5
         
@@ -27,18 +26,30 @@ class CountdownViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        startCountdown()
+        //startCountdown()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //Countdown start from 5
-        currSeconds = 5
+        //Countdown start from 5 (reduce lag by setting to 6)
+        currSeconds = 6
+        startCountdown()
         
-        //startCountdown()
+        //UI - Get navigation bar to blend with current background
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.backgroundColor = .black
+        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        //UI - return navigation bar to standard appearance for next view controller
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.backgroundColor = .systemYellow
+        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
+    }
   
     func startCountdown(){
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: (#selector(CountdownViewController.updateCountdown)), userInfo: nil, repeats: true)
