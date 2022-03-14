@@ -166,7 +166,7 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
             
             //Feedback page
             else if (indexPath.row == 1){
-                
+                performSegue(withIdentifier: "toFeedback", sender: nil)
             }
             
             //Help page

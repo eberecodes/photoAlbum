@@ -295,11 +295,50 @@
                     <connections>
                         <outlet property="settingsTableView" destination="p4o-o1-QJg" id="ifj-AH-bq2"/>
                         <segue destination="cfu-J9-ZsV" kind="show" identifier="toPassword" id="E1c-sX-RxQ"/>
+                        <segue destination="9wk-l4-a9h" kind="show" identifier="toFeedback" id="0C3-yC-4Hz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e2z-Fj-iaD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2637.68115942029" y="61.607142857142854"/>
+            <point key="canvasLocation" x="2649" y="71"/>
+        </scene>
+        <!--Feedback View Controller-->
+        <scene sceneID="JD9-f1-dev">
+            <objects>
+                <viewController id="9wk-l4-a9h" customClass="FeedbackViewController" customModule="photoAlbum" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gdb-y4-99n">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NIW-Ye-9pF">
+                                <rect key="frame" x="49" y="190" width="322" height="178"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C8E-Of-6tF">
+                                <rect key="frame" x="160" y="433" width="101" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" systemColor="labelColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Submit"/>
+                                <connections>
+                                    <action selector="submitButton:" destination="9wk-l4-a9h" eventType="touchUpInside" id="Zl5-C2-ujl"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LhZ-tN-qXe"/>
+                        <color key="backgroundColor" systemColor="systemGray6Color"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="93z-Rj-vmF"/>
+                    <connections>
+                        <outlet property="feedbackMessage" destination="NIW-Ye-9pF" id="qzo-ed-Q7v"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3EI-dV-66B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2730.434782608696" y="754.6875"/>
         </scene>
         <!--Password View Controller-->
         <scene sceneID="OeK-3Q-WR7">
@@ -651,6 +690,9 @@
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="trash" catalog="system" width="121" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
