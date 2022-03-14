@@ -32,6 +32,20 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     var filteredAlbums: [Album]!
     
+    @IBAction func editButon(_ sender: UIBarButtonItem) {
+        //Alternate between not editting and editing
+        self.table.isEditing = !(self.table.isEditing)
+        
+        //Button title changes if in edit mode
+        if (self.table.isEditing) {
+            sender.title = "Done"
+        }
+        else {
+            sender.title = "Edit"
+        }
+        
+    }
+    
     //MARK: Add album button
     @IBAction func addButton(_ sender: Any) {
         

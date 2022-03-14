@@ -62,6 +62,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="ydd-LY-z3H">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" style="plain" id="maz-TZ-Y4w">
+                            <connections>
+                                <action selector="editButon:" destination="BYZ-38-t0r" id="MZH-ww-AnI"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="8ai-l8-hE5">
                             <color key="tintColor" systemColor="systemBackgroundColor"/>
                             <connections>
