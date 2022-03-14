@@ -15,9 +15,9 @@ import CoreData
 
 var albumList = [Album]()
 
-class albumViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate{
+class albumViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchResultsUpdating{
     
-    //persistent storage
+    //Persistent storage
     let userDefaults = UserDefaults.standard
     
     private var saveAction: UIAlertAction!
@@ -25,17 +25,10 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     //Stores the currently selected index
     var selectedIndex: IndexPath = []
     
-    @IBOutlet weak var searchBar: UISearchBar!
+    
     var firstLoad = true //rename
     
     var authenticated = false
-   /* var authenticated:Bool = false {
-        didSet{
-            if (authenticated) {
-                self.performSegue(withIdentifier: "toGallery", sender: nil)
-            }
-        }
-    }*/
     
     var filteredAlbums: [Album]!
     
@@ -79,6 +72,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             
         })
+        //Disable save action whilst there is nothing entered
         saveAction.isEnabled = false
         alert.addAction(saveAction)
 
@@ -157,6 +151,8 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        //UI - hiding the first separator line
+        tableView.tableHeaderView = UIView()
         
         let albumCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
         
@@ -166,11 +162,11 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         thisAlbum = filteredAlbums[indexPath.row]
         
         //Customising the text in the cell
-        albumCell.textLabel?.text = "  "+thisAlbum.title
+        albumCell.textLabel?.text = "   "+thisAlbum.title
         //albumCell.textLabel?.font = .systemFont(ofSize: 20)
         //albumCell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         //Helvetica is the other font i tried
-        albumCell.textLabel?.font = UIFont.init(name: "NotoSansOriya", size:23)
+        //albumCell.textLabel?.font = UIFont.init(name: "NotoSansOriya", size:23)
         albumCell.textLabel?.textColor = UIColor.darkGray
         //albumCell.textLabel?.font = UIFont.init(name: "Headline", size:20)
 
@@ -178,12 +174,19 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         //albumCell.textLabel.font=[UIFont fontWithName:@"Arial Rounded MT Bold" size:15.0];
         
         //albumCell.layer.masksToBounds = true
-        albumCell.backgroundColor = UIColor.white
+        albumCell.backgroundColor = UIColor.clear
         albumCell.accessoryType = .disclosureIndicator
         //albumCell.layer.cornerRadius = 9
         
+        /*if indexPath.row == ((albumList.count)-1) {
+            albumCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
+            //albumCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        }*/
+        //albumCell.separatorInset
+        //albumCell.separatorInset = .zero
+        //albumCell.sep
         //The first album in the table will have rounded top corners
-        if indexPath.row == 0{
+        /*if indexPath.row == 0{
             albumCell.layer.cornerRadius = 9
             albumCell.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
@@ -192,7 +195,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         if indexPath.row == ((filteredAlbums.count)-1){
             albumCell.layer.cornerRadius = 9
             albumCell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        }
+        }*/
         
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
@@ -238,7 +241,6 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                             context.delete(album)
                             try context.save()
                             
-                            
                         }
                     }
                     
@@ -282,45 +284,36 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             selectedAlbum = filteredAlbums[selectedIndex.row]
             albumDetail!.selectedAlbum = selectedAlbum
             
-            
             //table.deselectRow(at: indexPath, animated: true)
             table.deselectRow(at: selectedIndex, animated: true)
             
         }
     }
     
+    //Will only save new album is a name is given
     @objc private func textFieldDidChange(_ field: UITextField) {
         if field.text != ""{
             saveAction.isEnabled = true
         }
     }
     
-    //MARK: Search bar
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredAlbums = []
-        if(searchText == ""){
-            filteredAlbums = albumList
-            searchBar.resignFirstResponder()
-        }
-        else{
-            for album in albumList{
-                if(album.title.uppercased().contains(searchText.uppercased())){
-                    filteredAlbums.append(album)
-                }
-            }
-        }
-        
-        self.table.reloadData()
-    }
-  
+    //Programmatically create search controller
+    let searchController = UISearchController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         table.delegate = self
         table.dataSource = self
-        searchBar.delegate = self
+  
+        //UI
+        //self.table.separatorStyle = UITableViewCell.SeparatorStyle.none
+        //self.table.separatorColor = UIColor.systemYellow
+        //self.table.tableHeaderView = UIView()
+        
         title = "Albums"
-      
+        
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
         
         if (firstLoad){
             firstLoad = false
@@ -345,9 +338,33 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.table.keyboardDismissMode = .onDrag
     }
     
+    
+    //MARK: Search controller
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else{
+            return
+        }
+        
+        filteredAlbums = []
+        if(searchText == ""){
+            filteredAlbums = albumList
+
+        }
+        else{
+            for album in albumList{
+                if(album.title.uppercased().contains(searchText.uppercased())){
+                    filteredAlbums.append(album)
+                }
+            }
+        }
+        
+        //reload table data so its filtered
+        self.table.reloadData()
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         self.table.reloadData()
         
         //Perform segue to gallery - authentication validated

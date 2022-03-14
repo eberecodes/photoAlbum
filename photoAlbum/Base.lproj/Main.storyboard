@@ -56,15 +56,6 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="dsh-Ou-D7O"/>
                                 </connections>
                             </tableView>
-                            <searchBar contentMode="redraw" searchBarStyle="minimal" text="" placeholder="Search Albums" showsCancelButton="YES" id="wD1-DJ-PJR">
-                                <rect key="frame" x="10" y="146" width="394" height="51"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <scopeButtonTitles>
-                                    <string>Title</string>
-                                    <string>Title</string>
-                                </scopeButtonTitles>
-                            </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -79,7 +70,6 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="searchBar" destination="wD1-DJ-PJR" id="2L2-om-fb5"/>
                         <outlet property="table" destination="vsE-CQ-KV3" id="cHr-C5-PnK"/>
                         <segue destination="yfn-Fq-ogh" kind="show" identifier="toGallery" id="CV2-NP-c50"/>
                         <segue destination="zqg-z9-Qzf" kind="show" identifier="toGestureCheck" id="yO8-Ry-3GP"/>
