@@ -23,14 +23,15 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var saveAction: UIAlertAction!
     
     //Stores the currently selected index
-    var selectedIndex: IndexPath = []
+    private var selectedIndex: IndexPath = []
     
     
-    var firstLoad = true //rename
+    private var firstLoad = true //rename
     
+    //test if I can make this private
     var authenticated = false
     
-    var filteredAlbums: [Album]!
+    private var filteredAlbums: [Album]!
     
     @IBAction func editButon(_ sender: UIBarButtonItem) {
         //Alternate between not editting and editing
