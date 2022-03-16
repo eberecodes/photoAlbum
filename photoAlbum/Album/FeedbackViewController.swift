@@ -9,7 +9,7 @@ import AVFoundation
 
 class FeedbackViewController: UIViewController, MFMailComposeViewControllerDelegate {
 
-    //outlet for the feedback message text field
+    //Outlet for the feedback message text field
     @IBOutlet weak var feedbackMessage: UITextField!
     
     //Makes it scrollable
@@ -39,7 +39,7 @@ class FeedbackViewController: UIViewController, MFMailComposeViewControllerDeleg
         
     }
     
-    //result of mail being sent
+    //Result of mail being sent
     private func mailComposeController(controller: MFMailComposeViewController,
                                didFinishWithResult result: MFMailComposeResult, error: NSError?) {
      

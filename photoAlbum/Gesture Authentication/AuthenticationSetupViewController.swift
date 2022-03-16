@@ -10,9 +10,9 @@ import UIKit
 class AuthenticationSetupViewController: UIViewController {
     //TODO: Consider how I can remove navigation controller
     
-    var passwordEntered:String!
-    var passwordEntered2:String!
-    var enteredCount:Int!
+    private var passwordEntered:String!
+    private var passwordEntered2:String!
+    private var enteredCount:Int!
     
     //OLD
     @IBOutlet weak var setupDescription: UITextView!
@@ -62,9 +62,6 @@ class AuthenticationSetupViewController: UIViewController {
     @IBAction func callButton(_ sender: Any) {
         passwordEntered = passwordEntered+"🤙"
     }
-    
-    
-    //OLD
     
     
     
@@ -145,7 +142,7 @@ class AuthenticationSetupViewController: UIViewController {
         passwordEntered2 = ""
         enteredCount = 0
     }
-    //Trying view did appear
+ 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -155,14 +152,14 @@ class AuthenticationSetupViewController: UIViewController {
     }
     
     //This is for testing purposes, the password would really be stored securely
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "toCountdown"){
-            let settingsDetail = segue.destination as? CountdownViewController
+            /*let settingsDetail = segue.destination as? CountdownViewController
             //settingsDetail!.password = entryField.text!
-            settingsDetail!.password = passwordEntered
+            //settingsDetail!.password = passwordEntered*/
             
         }
-    }
+    }*/
     
 
 

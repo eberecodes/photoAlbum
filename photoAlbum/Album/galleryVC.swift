@@ -11,7 +11,7 @@ import CoreData
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
     //Stores the status of the button (select or cancel mode)
-    var buttonStatus = "Select"
+    private var buttonStatus = "Select"
     
     //Outlets from storyboard (UI)
     @IBOutlet weak var trashButton: UIButton!
@@ -108,19 +108,19 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     }
     
     //variable that allows you to only load data from core data when it's the first time the view has been loaded
-    var firstLoad = true
+    private var firstLoad = true
     
     //Array of all the images
-    var photosList = [UIImage]()
+    private var photosList = [UIImage]()
     
     //The photoList as Data format
-    var photosData = [Data]()
-    var imageArray = [Data]()
+    private var photosData = [Data]()
+    private var imageArray = [Data]()
     
     //The current album which has been selected from albumViewController
     var selectedAlbum: Album? = nil
     
-    var label: UILabel!
+    private var label: UILabel!
     
     ///Function converts the photos from UIImage to Data so they can be stored in coredata
     func convertPhotosToData(photoList: [UIImage]) -> [Data] {

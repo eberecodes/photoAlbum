@@ -11,10 +11,10 @@ class CountdownViewController: UIViewController {
 
     @IBOutlet weak var countdownLabel: UILabel!
     
-    var password: String? = nil //for testing with segue
+    //var password: String? = nil //for testing with segue
     
-    var currSeconds = 5
-    var timer = Timer()
+    private var currSeconds = 5
+    private var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,12 +67,12 @@ class CountdownViewController: UIViewController {
     }
    
     //This is for testing purposes, the password would really be stored securely
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "toPasswordPerform"){
-            let settingsDetail = segue.destination as? CameraViewController
-            settingsDetail!.password = password
+            //let settingsDetail = segue.destination as? CameraViewController
+            //settingsDetail!.password = password
             
         }
-    }
+    }*/
 
 }

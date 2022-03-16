@@ -187,35 +187,13 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
 
         
         //albumCell.textLabel.font=[UIFont fontWithName:@"Arial Rounded MT Bold" size:15.0];
-        
-        //albumCell.layer.masksToBounds = true
         albumCell.backgroundColor = UIColor.clear
         albumCell.accessoryType = .disclosureIndicator
-        //albumCell.layer.cornerRadius = 9
-        
-        /*if indexPath.row == ((albumList.count)-1) {
-            albumCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: UIScreen.main.bounds.width)
-            //albumCell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-        }*/
-        //albumCell.separatorInset
-        //albumCell.separatorInset = .zero
-        //albumCell.sep
-        //The first album in the table will have rounded top corners
-        /*if indexPath.row == 0{
-            albumCell.layer.cornerRadius = 9
-            albumCell.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        }
-        
-        // The last album in the table will have rounded bottom corners
-        if indexPath.row == ((filteredAlbums.count)-1){
-            albumCell.layer.cornerRadius = 9
-            albumCell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        }*/
+     
         
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        //tableView.layer.cornerRadius = 7
-        //tableView.layer.masksToBounds = true
+    
         
         
         //MARK: Displays album lock status
@@ -239,11 +217,9 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         if editingStyle == .delete {
             
             let deleteConfirmation = UIAlertController(title: "Remove Album", message: "Are you sure you want to delete the album \"\(albumList[indexPath.row].title!)\"?", preferredStyle: .actionSheet)
-            /*let deleteConfirmation = UIAlertController(title: "Remove Album", message: "Are you sure you want to delete the album \"\(filteredAlbums[indexPath.row].title!)\"?", preferredStyle: .actionSheet)*/
             
             let deleteAction = UIAlertAction(title: "Delete", style: .default, handler: { (action: UIAlertAction) -> Void in
                 
-            
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
                 
@@ -291,19 +267,18 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     //MARK: Prepare for segue to new screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //Checks which view controller it is being changed to
         if(segue.identifier == "toGallery"){
-            //let indexPath = table.indexPathForSelectedRow!
             
             let albumDetail = segue.destination as? galleryVC
             
+            //Define type for selected album
             let selectedAlbum : Album!
-            //selectedAlbum = albumList[indexPath.row]
-            //selectedAlbum = filteredAlbums[indexPath.row]
             
             selectedAlbum = filteredAlbums[selectedIndex.row]
             albumDetail!.selectedAlbum = selectedAlbum
             
-            //table.deselectRow(at: indexPath, animated: true)
             table.deselectRow(at: selectedIndex, animated: true)
             
         }
@@ -321,33 +296,27 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //Title of the navigation controller
+        title = "Albums"
+        
         table.delegate = self
         table.dataSource = self
   
-        //UI
-        navigationController?.navigationBar.barTintColor = UIColor.systemYellow
-       // navigationController?.navigationItem.leftBarButtonItem
-        let buttonAppearance = UIBarButtonItemAppearance()
-        buttonAppearance.normal.titleTextAttributes = [.foregroundColor:UIColor.systemGray2]
-        navigationController?.navigationItem.standardAppearance?.buttonAppearance = buttonAppearance
-        //navigationItem.standardAppearance?.buttonAppearance = buttonAppearance
-        //self.table.separatorStyle = UITableViewCell.SeparatorStyle.none
-        //self.table.separatorColor = UIColor.systemYellow
-        //self.table.tableHeaderView = UIView()
-        
-        title = "Albums"
-        
+        //Assign search controller in navigation item to the one I programmatically initialised
         navigationItem.searchController = searchController
         searchController.searchResultsUpdater = self
         
-        if (firstLoad){
+        //Checks whether this the first time the view is being loaded
+        if (firstLoad) {
             firstLoad = false
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
             
+            //Make request for album
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Album")
             
-            do{
+            do {
                 let results:NSArray = try context.fetch(request) as NSArray
                 for r in results{
                     let album = r as! Album
@@ -355,10 +324,11 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                     albumList.append(album)
                 }
             }
-            catch{
-                print("failed to fetch")
+            catch {
+                print("Failed to fetch album from core data")
             }
         }
+        //Copy the albums from album list to filteredAlbum to initialise it
         filteredAlbums = albumList
         self.table.keyboardDismissMode = .onDrag
     }
@@ -366,17 +336,22 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     //MARK: Search controller
     func updateSearchResults(for searchController: UISearchController) {
+        //checks for text in serach bar
         guard let searchText = searchController.searchBar.text else{
             return
         }
         
+        //empty the filtered albums array, in case empty search text
         filteredAlbums = []
-        if(searchText == ""){
+        if (searchText == "") {
             filteredAlbums = albumList
 
         }
-        else{
+        
+        else {
+            //Loop through album array which contains the full list of albums
             for album in albumList{
+                //Checks to see if any of the album title have ovverlapping contains text from the search
                 if(album.title.uppercased().contains(searchText.uppercased())){
                     filteredAlbums.append(album)
                 }
@@ -387,7 +362,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         self.table.reloadData()
     }
     
-    
+    ///The view is going to appear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.table.reloadData()

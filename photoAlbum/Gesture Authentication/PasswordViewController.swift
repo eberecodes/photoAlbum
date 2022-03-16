@@ -22,7 +22,6 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
     
 
     
-    //TOCO: in order to use gesture password - traditional password must be set up + add this in
     @IBAction func gestureSwitch(_ sender: Any) {
  
         //Check if a gesture password has been set up
@@ -89,7 +88,6 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
             print("password created")
         }
         else{
-            //TODO: an alert - prompting then to re-enter
             print("Password doesn't meet requirements")
             
             let requirementsAlert = UIAlertController(title: "Weak Password", message: "The password you entered doesn't meet requirements, try again...", preferredStyle: .alert)

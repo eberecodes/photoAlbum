@@ -38,7 +38,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var authenticated = false
     
     let bufferSize = 3
-    var poseBuffer = [poses]()
+    private var poseBuffer = [poses]()
     
     //A computed property
     var currentPose:poses = .background{
@@ -69,11 +69,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     //Store whether or not password must be incorrect based on input
     private var incorrectLimit = false
     
-    //TODO: Store this password persistently + securely
-    var password: String? = nil //for testing with segue
+
+    private var password: String? = nil
     
     //Password that has been eneterd so far
-    var passwordEntered: String = ""
+    private var passwordEntered: String = ""
    
     //Setting up camera properties
     let cameraSession = AVCaptureSession()

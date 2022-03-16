@@ -107,6 +107,7 @@
 				91DA405327636BE000C5428E /* settingsViewController.swift */,
 				91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */,
 				91D6988727DF539E000E219A /* FeedbackViewController.swift */,
+				91D6988927E23244000E219A /* HelpViewController.swift */,
 			);
 			path = Album;
 			sourceTree = "<group>";
@@ -140,7 +141,6 @@
 				91DC673E275FBF3700C44DDF /* photoAlbum.xcdatamodeld */,
 				91D6988627DEB73D000E219A /* Album */,
 				91D6988227DE72E1000E219A /* Gesture Authentication */,
-				91D6988927E23244000E219A /* HelpViewController.swift */,
 			);
 			path = photoAlbum;
 			sourceTree = "<group>";

@@ -100,11 +100,12 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingsTableView.delegate = self
         settingsTableView.dataSource = self
         
-        
+        //Table view content
         settingDetails = [("", [" Lock Album"], ["lock"]), ("General", [" Change Password", " Submit Feedback", " Help"], ["hand.raised", "message", "questionmark.circle"])]
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        //Check which view controller it will change to
         if(segue.identifier == "toPassword"){
             let settingsDetail = segue.destination as? PasswordViewController
             settingsDetail!.selectedAlbum = selectedAlbum
