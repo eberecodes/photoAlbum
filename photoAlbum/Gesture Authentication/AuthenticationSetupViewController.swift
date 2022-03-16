@@ -8,16 +8,16 @@
 import UIKit
 
 class AuthenticationSetupViewController: UIViewController {
-    //TODO: Consider how I can remove navigation controller
-    
+ 
+    //Variables storing the password that was entered
     private var passwordEntered:String!
     private var passwordEntered2:String!
     private var enteredCount:Int!
     
-    //OLD
+
     @IBOutlet weak var setupDescription: UITextView!
     
-    //NEW
+
     
     
     @IBAction func thumbButton(_ sender: Any) {
