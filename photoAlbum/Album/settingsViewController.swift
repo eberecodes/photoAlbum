@@ -171,7 +171,7 @@ class settingsViewController: UIViewController, UITableViewDelegate, UITableView
             
             //Help page
             else {
-                
+                performSegue(withIdentifier: "toHelp", sender: nil)
             }
         }
     }

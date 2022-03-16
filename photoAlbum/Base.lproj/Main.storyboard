@@ -295,6 +295,7 @@
                         <outlet property="settingsTableView" destination="p4o-o1-QJg" id="ifj-AH-bq2"/>
                         <segue destination="cfu-J9-ZsV" kind="show" identifier="toPassword" id="E1c-sX-RxQ"/>
                         <segue destination="9wk-l4-a9h" kind="show" identifier="toFeedback" id="0C3-yC-4Hz"/>
+                        <segue destination="lJ6-qS-01Z" kind="show" identifier="toHelp" id="aI1-uq-j3F"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e2z-Fj-iaD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -329,11 +330,23 @@
                                     <action selector="submitButton:" destination="9wk-l4-a9h" eventType="touchUpInside" id="Zl5-C2-ujl"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6FJ-Un-cST">
+                                <rect key="frame" x="49" y="190" width="322" height="178"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="LhZ-tN-qXe"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
                         <constraints>
+                            <constraint firstItem="C8E-Of-6tF" firstAttribute="top" secondItem="6FJ-Un-cST" secondAttribute="bottom" constant="65" id="7tc-dc-sWm"/>
+                            <constraint firstItem="6FJ-Un-cST" firstAttribute="leading" secondItem="LhZ-tN-qXe" secondAttribute="leading" constant="49" id="8CH-bp-IbP"/>
+                            <constraint firstItem="6FJ-Un-cST" firstAttribute="top" secondItem="LhZ-tN-qXe" secondAttribute="top" constant="50" id="8aD-MI-Jx3"/>
                             <constraint firstItem="LhZ-tN-qXe" firstAttribute="bottom" secondItem="C8E-Of-6tF" secondAttribute="bottom" constant="349" id="ATC-rV-5aI"/>
+                            <constraint firstItem="LhZ-tN-qXe" firstAttribute="trailing" secondItem="6FJ-Un-cST" secondAttribute="trailing" constant="43" id="Nt9-Ol-NAW"/>
                             <constraint firstItem="LhZ-tN-qXe" firstAttribute="trailing" secondItem="C8E-Of-6tF" secondAttribute="trailing" constant="164" id="ceW-OA-r24"/>
                             <constraint firstItem="C8E-Of-6tF" firstAttribute="top" secondItem="NIW-Ye-9pF" secondAttribute="bottom" constant="65" id="n5t-bf-Uyx"/>
                             <constraint firstItem="NIW-Ye-9pF" firstAttribute="top" secondItem="LhZ-tN-qXe" secondAttribute="top" constant="50" id="nKl-5B-WA9"/>
@@ -346,11 +359,60 @@
                     <navigationItem key="navigationItem" id="93z-Rj-vmF"/>
                     <connections>
                         <outlet property="feedbackMessage" destination="NIW-Ye-9pF" id="qzo-ed-Q7v"/>
+                        <outlet property="feedbackTextView" destination="6FJ-Un-cST" id="e1I-cY-8F2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3EI-dV-66B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2730.434782608696" y="754.6875"/>
+            <point key="canvasLocation" x="2647.826086956522" y="813.61607142857144"/>
+        </scene>
+        <!--Help View Controller-->
+        <scene sceneID="ooa-NK-x7q">
+            <objects>
+                <viewController id="lJ6-qS-01Z" customClass="HelpViewController" customModule="photoAlbum" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WyW-Ia-4ea">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qen-XO-2he">
+                                <rect key="frame" x="20" y="314" width="374" height="94"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">This app was designed and built by Danielle Anukem at the University of Liverpool.                                                                                                                                                                  </string>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="For help and support with any queries regarding the 'Captured' app contact sgdanuke@liverpool.ac.uk       " textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6X6-ny-MLa">
+                                <rect key="frame" x="20" y="225" width="374" height="92"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="cnQ-6V-kOk"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="cnQ-6V-kOk" firstAttribute="bottom" secondItem="qen-XO-2he" secondAttribute="bottom" constant="405" id="3Ln-Qv-fsf"/>
+                            <constraint firstItem="6X6-ny-MLa" firstAttribute="top" secondItem="cnQ-6V-kOk" secondAttribute="top" constant="85" id="J0u-fA-xBG"/>
+                            <constraint firstItem="qen-XO-2he" firstAttribute="leading" secondItem="cnQ-6V-kOk" secondAttribute="leading" constant="20" id="Wjq-04-xor"/>
+                            <constraint firstItem="qen-XO-2he" firstAttribute="top" secondItem="cnQ-6V-kOk" secondAttribute="top" constant="174" id="Yk8-lF-Poy"/>
+                            <constraint firstItem="cnQ-6V-kOk" firstAttribute="bottom" secondItem="6X6-ny-MLa" secondAttribute="bottom" constant="496" id="h2V-v6-0RY"/>
+                            <constraint firstItem="cnQ-6V-kOk" firstAttribute="trailing" secondItem="6X6-ny-MLa" secondAttribute="trailing" constant="20" id="kpP-dv-Vhg"/>
+                            <constraint firstItem="6X6-ny-MLa" firstAttribute="leading" secondItem="cnQ-6V-kOk" secondAttribute="leading" constant="20" id="mHV-HW-YzH"/>
+                            <constraint firstItem="cnQ-6V-kOk" firstAttribute="trailing" secondItem="qen-XO-2he" secondAttribute="trailing" constant="20" id="yTR-Jo-iPf"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Iw3-We-li2"/>
+                    <connections>
+                        <outlet property="byText" destination="qen-XO-2he" id="KH5-iE-0Zy"/>
+                        <outlet property="helpText" destination="6X6-ny-MLa" id="gIi-W3-bHs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iss-4i-LOt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3392.753623188406" y="813.61607142857144"/>
         </scene>
         <!--Password View Controller-->
         <scene sceneID="OeK-3Q-WR7">
@@ -762,6 +824,9 @@
     <resources>
         <image name="ellipsis" catalog="system" width="128" height="37"/>
         <image name="trash" catalog="system" width="121" height="128"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
