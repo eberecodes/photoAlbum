@@ -24,7 +24,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var selectedIndex: IndexPath = []
     
     
-    private var firstLoad = true //rename
+    private var loadedCount = 0
     
     //test if I can make this private
     var authenticated = false
@@ -306,8 +306,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         searchController.searchResultsUpdater = self
         
         //Checks whether this the first time the view is being loaded
-        if (firstLoad) {
-            firstLoad = false
+        if (loadedCount == 0) {
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
             
@@ -323,9 +322,11 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
             }
             catch {
-                print("Failed to fetch album from core data")
+                print("Failed to fetch albums from core data")
             }
         }
+        loadedCount += 1
+        
         //Copy the albums from album list to filteredAlbum to initialise it
         filteredAlbums = albumList
         self.table.keyboardDismissMode = .onDrag
