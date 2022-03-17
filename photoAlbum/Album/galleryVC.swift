@@ -8,16 +8,21 @@
 import UIKit
 import CoreData
 
+import Vision
+
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
     //Stores the status of the button (select or cancel mode)
     private var buttonStatus = "Select"
     
+    //So the gallery can be filtered
+    var filteredPhotosList:[UIImage]!
+    
     //Outlets from storyboard (UI)
     @IBOutlet weak var trashButton: UIButton!
     @IBOutlet weak var buttonClicked: UIBarButtonItem!
     @IBOutlet weak var photoCountLabel: UILabel!
-    @IBOutlet weak var selectButton: UIButton!
+    @IBOutlet weak var selectButton: UIButton! //check if I need this
     
     
     ///Delete button action function, confirms whether user wants to delete images and performs actions based on this
@@ -53,7 +58,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
               for item in items {
                   photosList.remove(at: item)
               }
-              
+            filteredPhotosList = photosList  //update list
+            
             galleryCollection.deleteItems(at: selectedCells)
             trashButton.isEnabled = false
             }
@@ -155,7 +161,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     //MARK: Collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         checkForNoPhotos()
-        return photosList.count
+        //return photosList.count
+        return filteredPhotosList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -163,8 +170,10 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         let imageCell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! GalleryCollectionViewCell
     
         //Update image cell with retrieved image from photoList (core data)
-        imageCell.galleryImage.image = photosList[indexPath.item]
+        //imageCell.galleryImage.image = photosList[indexPath.item]
         
+        //Update image cell with retrieved image from filteredPhotoList (core data)
+        imageCell.galleryImage.image = filteredPhotosList[indexPath.item]
         
         return imageCell
     }
@@ -214,6 +223,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             dismiss(animated: true)
 
             photosList.insert(image, at: 0)
+            self.filteredPhotosList = photosList //added in
+            
             galleryCollection.reloadData()
             updateCoreData()
 
@@ -274,6 +285,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             }
             photosList = convertDataToPhotos(imageDataArray: imageArray)
             
+            //copy contents of photo list to filtered photo list
+            filteredPhotosList = photosList
         }
         
         
@@ -362,9 +375,63 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             self.present(changeAlert, animated: true, completion: nil)
         })
         
-        let menuItem = UIMenu(title: "", options: .displayInline, children: [addAction, nameAction, settingsAction])
+        //MARK: FILTER FACE COMPONENT
+        let facesAction = UIAction(title: "Filter Faces", handler: { (action: UIAction)
+            -> Void in
+            
+            //TODO: figure out what should go in here
+            self.filteredPhotosList = [] //empty list //MARK: ADDED
+            for photo in self.photosList{
+                let faces = self.detectFace(image: photo)
+                
+                if(faces){
+                    self.filteredPhotosList.append(photo)
+                }
+            }
+            
+            self.galleryCollection.reloadData()
+            
+            
+        })
+        
+        let menuItem = UIMenu(title: "", options: .displayInline, children: [addAction, nameAction, facesAction, settingsAction])
         
         moreButton.menu = menuItem
+    }
+    
+    //MARK: Detect face request
+    //Making it lazy var reduces the processing time, because used just-in-time
+    lazy var faceRequest = VNDetectFaceRectanglesRequest(completionHandler: self.faceDetected) //request face detection
+  
+    ///Try to detect a face in an image and returns a boolean
+    func detectFace(image: UIImage) -> Bool {
+        let handler = VNImageRequestHandler(
+          cgImage: image.cgImage!,
+          options: [:])
+        
+        do {
+            try handler.perform([self.faceRequest])
+        } catch {
+            print(error)
+        }
+        
+        //Checks for when no faces have been detected
+        if (faceRequest.results!.count == 0){
+            return false
+        }
+        //Checks for when a face has been detected
+        else {
+            return true
+        }
+    }
+      
+    ///Completion handler function for the face detection request
+    func faceDetected(request: VNRequest, error: Error?){
+        guard let results = request.results as? [VNFaceObservation] else {
+              return
+            }
+        //debugging
+        print(results)
     }
 
     
@@ -397,9 +464,10 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     //Checks if there are no photos and alters labels based on this
     func checkForNoPhotos(){
         
-        let photoCount = photosList.count
- 
-        if photosList.isEmpty
+        //let photoCount = photosList.count
+        let photoCount = filteredPhotosList.count
+       
+        if filteredPhotosList.isEmpty
         {
             print("empty")
 
