@@ -4,8 +4,6 @@
 //
 //  Created by Ebere Anukem on 07/12/2021.
 //
-//TODO: Delete functionality for images in album
-//TODO: Album settings page, including editing name
 //TODO: slight issue with search bar, you can't delete an album when in search mode
 //TODO: Implement change password functionality
 
