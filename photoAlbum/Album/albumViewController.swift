@@ -24,7 +24,12 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     private var selectedIndex: IndexPath = []
     
     
+    //Counts how many times the view has been loaded
     private var loadedCount = 0
+    
+    private var noAlbumsLabel: UILabel!
+    private var createButton: UIButton!
+    //let createButton = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
     
     //test if I can make this private
     var authenticated = false
@@ -78,6 +83,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                 albumList.append(newAlbum)
                 self.filteredAlbums = albumList
                 self.table.reloadData()
+                self.checkForNoAlbums()
                    
             }
             catch{
@@ -176,22 +182,17 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         //Customising the text in the cell
         albumCell.textLabel?.text = "   "+thisAlbum.title
-        //albumCell.textLabel?.font = .systemFont(ofSize: 20)
-        //albumCell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        //Helvetica is the other font i tried
-        //albumCell.textLabel?.font = UIFont.init(name: "NotoSansOriya", size:23)
-        albumCell.textLabel?.textColor = UIColor.darkGray
-        //albumCell.textLabel?.font = UIFont.init(name: "Headline", size:20)
 
-        
-        //albumCell.textLabel.font=[UIFont fontWithName:@"Arial Rounded MT Bold" size:15.0];
+        albumCell.textLabel?.textColor = UIColor.darkGray
+ 
+
         albumCell.backgroundColor = UIColor.clear
         albumCell.accessoryType = .disclosureIndicator
      
         
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-    
+                
         
         
         //MARK: Displays album lock status
@@ -205,7 +206,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             albumCell.imagePreview.image = UIImage(systemName: "lock")
             albumCell.imagePreview.tintColor = .systemYellow
         }
-       
+        
         
         return albumCell
     }
@@ -241,6 +242,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
                     self.filteredAlbums = albumList
                     self.table.deleteRows(at: [indexPath], with: .fade)
                     self.table.reloadData()
+                    self.checkForNoAlbums()
                     
                 }
                 catch{
@@ -295,6 +297,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         //Title of the navigation controller
         title = "Albums"
         
@@ -328,10 +331,60 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         loadedCount += 1
         
         //Copy the albums from album list to filteredAlbum to initialise it
+       
         filteredAlbums = albumList
+    
         self.table.keyboardDismissMode = .onDrag
+        
+        //TODO: Maybe make this a function
+       /* noAlbumsLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        noAlbumsLabel.center = self.view.center
+        noAlbumsLabel.center.x = self.view.center.x
+        noAlbumsLabel.center.y = self.view.center.y
+        
+        noAlbumsLabel.textAlignment = .center
+        
+        noAlbumsLabel.text = "No Albums"
+        noAlbumsLabel.textColor = .systemGray
+        noAlbumsLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        self.view.addSubview(noAlbumsLabel)*/
+        firstSetup()
+        
+        //checkForNoAlbums()
     }
     
+    //Create UI features for when there are no albums
+    func firstSetup(){
+        
+        //Label creation
+        noAlbumsLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
+        noAlbumsLabel.textAlignment = .center
+        noAlbumsLabel.text = "No Albums"
+        noAlbumsLabel.textColor = .systemGray
+        noAlbumsLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        //Button creation
+        createButton = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
+        createButton.setTitle("Add", for: .normal)
+        createButton.setTitleColor(.systemYellow, for: .normal)
+        createButton.backgroundColor = .clear
+       // createButton.titleLabel?.textColor = .systemYellow
+        createButton.addTarget(self, action: #selector(addButton(_:)), for: .touchUpInside)
+
+        
+        //Stack view creation
+        let stackView = UIStackView(arrangedSubviews: [noAlbumsLabel, createButton])
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false //use auto layout
+        self.view.addSubview(stackView)
+        //Add constraint
+        stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        
+        checkForNoAlbums()
+    }
     
     //MARK: Search controller
     func updateSearchResults(for searchController: UISearchController) {
@@ -357,8 +410,9 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         }
         
-        //reload table data so its filtered
+        //Reload table data so its filtered
         self.table.reloadData()
+
     }
     
     ///The view is going to appear
@@ -372,6 +426,27 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
             //reset value of authenticated
             authenticated = false
         }
+        
+    }
+    
+    ///Function checks if there are no albums and alters label based on this
+    func checkForNoAlbums(){
+        
+       
+        if filteredAlbums.isEmpty
+        {
+            print("empty")
+            noAlbumsLabel.isHidden = false
+            createButton.isHidden = false
+        }
+        else {
+            print("not empty")
+            noAlbumsLabel.isHidden = true
+            createButton.isHidden = true
+        }
+        
+        //Reload table data
+        table.reloadData()
         
     }
     

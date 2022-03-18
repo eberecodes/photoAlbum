@@ -9,10 +9,10 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
 
-    
-    
+   
+    //Attach a image vie w for lock status in cell
     @IBOutlet weak var imagePreview: UIImageView!
     
- 
+    
 
 }

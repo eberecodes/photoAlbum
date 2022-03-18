@@ -297,7 +297,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         
         label.textAlignment = .center
         
-        label.text = "no photos"
+        label.text = "No Photos"
         label.textColor = .systemGray
         label.font = UIFont.boldSystemFont(ofSize: 20)
         self.view.addSubview(label)
@@ -375,11 +375,10 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             self.present(changeAlert, animated: true, completion: nil)
         })
         
-        //MARK: FILTER FACE COMPONENT
-        let facesAction = UIAction(title: "Filter Faces", handler: { (action: UIAction)
+        //MARK: Filter album for faces
+        let facesAction = UIAction(title: "Find Faces", handler: { (action: UIAction)
             -> Void in
             
-            //TODO: figure out what should go in here
             self.filteredPhotosList = [] //empty list //MARK: ADDED
             for photo in self.photosList{
                 let faces = self.detectFace(image: photo)
@@ -400,17 +399,18 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     }
     
     //MARK: Detect face request
-    //Making it lazy var reduces the processing time, because used just-in-time
-    lazy var faceRequest = VNDetectFaceRectanglesRequest(completionHandler: self.faceDetected) //request face detection
-  
     ///Try to detect a face in an image and returns a boolean
     func detectFace(image: UIImage) -> Bool {
+        
+        //Make Vision request for face detection
+        let faceRequest = VNDetectFaceRectanglesRequest(completionHandler: faceDetected)
+        
         let handler = VNImageRequestHandler(
           cgImage: image.cgImage!,
           options: [:])
         
         do {
-            try handler.perform([self.faceRequest])
+            try handler.perform([faceRequest])
         } catch {
             print(error)
         }
@@ -461,7 +461,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         
     }
     
-    //Checks if there are no photos and alters labels based on this
+    ///Function checks if there are no photos and alters labels based on this
     func checkForNoPhotos(){
         
         //let photoCount = photosList.count
