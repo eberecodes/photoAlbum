@@ -2,8 +2,6 @@
 //  HelpViewController.swift
 //  photoAlbum
 //
-//  Created by Ebere Anukem on 16/03/2022.
-//
 
 import UIKit
 
