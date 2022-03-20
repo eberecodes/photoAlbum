@@ -2,8 +2,6 @@
 //  CountdownViewController.swift
 //  testVision
 //
-//  Created by Ebere Anukem on 28/01/2022.
-//
 
 import UIKit
 
@@ -18,11 +16,8 @@ class CountdownViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Countdown start from 5
-        //currSeconds = 5
-        
-        //startCountdown()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -66,13 +61,5 @@ class CountdownViewController: UIViewController {
         }
     }
    
-    //This is for testing purposes, the password would really be stored securely
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "toPasswordPerform"){
-            //let settingsDetail = segue.destination as? CameraViewController
-            //settingsDetail!.password = password
-            
-        }
-    }*/
 
 }
