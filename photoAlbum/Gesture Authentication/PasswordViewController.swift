@@ -2,8 +2,6 @@
 //  PasswordViewController.swift
 //  photoAlbum
 //
-//  Created by Ebere Anukem on 24/01/2022.
-//
 
 import UIKit
 import CoreData
@@ -12,12 +10,12 @@ import CoreData
 //TODO: Create general requirements for password
 class PasswordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
    
-    
+    //Persistent storage
     let userDefaults = UserDefaults.standard
-    
+    //current selected album
     var selectedAlbum: Album? = nil
     
-    
+    //UI table view outlet
     @IBOutlet weak var table: UITableView!
     
 
