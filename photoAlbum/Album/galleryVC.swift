@@ -1,13 +1,10 @@
 //
 //  galleryVC.swift
 //  photoAlbum
-//
-//  Created by Ebere Anukem on 08/12/2021.
-//
+
 
 import UIKit
 import CoreData
-
 import Vision
 
 class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {

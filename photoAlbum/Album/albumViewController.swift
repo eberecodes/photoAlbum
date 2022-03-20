@@ -173,7 +173,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
         //UI - hiding the first separator line
         tableView.tableHeaderView = UIView()
         
-        let albumCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TableViewCell
+        let albumCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AlbumTableViewCell
         
         let thisAlbum: Album!
         

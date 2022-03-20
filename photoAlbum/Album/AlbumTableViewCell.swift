@@ -1,5 +1,5 @@
 //
-//  TableViewCell.swift
+//  AlbumTableViewCell.swift
 //  photoAlbum
 //
 //  Created by Ebere Anukem on 17/01/2022.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-class TableViewCell: UITableViewCell {
+class AlbumTableViewCell: UITableViewCell {
 
    
-    //Attach a image vie w for lock status in cell
+    //Attach a image view for lock status in cell
     @IBOutlet weak var imagePreview: UIImageView!
     
     
