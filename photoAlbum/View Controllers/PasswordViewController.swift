@@ -6,8 +6,7 @@
 import UIKit
 import CoreData
 
-//TODO: will need to ensure something is always put into password fields
-//TODO: Create general requirements for password
+
 class PasswordViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
    
     //Persistent storage

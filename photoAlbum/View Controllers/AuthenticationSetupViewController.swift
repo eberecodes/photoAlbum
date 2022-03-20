@@ -5,7 +5,7 @@
 
 import UIKit
 
-//TODO: You can't use the same gesture in a row
+
 class AuthenticationSetupViewController: UIViewController {
  
     //Variables storing the password that was entered
@@ -13,13 +13,12 @@ class AuthenticationSetupViewController: UIViewController {
     private var passwordEntered2:String!
     private var enteredCount:Int!
     
-    
+    //UI IBOutlets
     @IBOutlet weak var setupDescription: UITextView!
-    
     @IBOutlet weak var requirementsTextview: UITextView!
     
     
-//MARK: IBActions for gesture selections
+    //MARK: IBActions for gesture selections
     @IBAction func thumbButton(_ sender: Any) {
        passwordEntered = passwordEntered+"👍"
     }
@@ -157,7 +156,6 @@ class AuthenticationSetupViewController: UIViewController {
    
         return consecutive
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

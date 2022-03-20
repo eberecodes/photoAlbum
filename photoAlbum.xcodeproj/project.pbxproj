@@ -114,7 +114,6 @@
 				91DC6735275FBF3700C44DDF /* AppDelegate.swift */,
 				91DC6737275FBF3700C44DDF /* SceneDelegate.swift */,
 				91DC6741275FBF3900C44DDF /* Assets.xcassets */,
-				91DC6746275FBF3900C44DDF /* Info.plist */,
 				91DC673E275FBF3700C44DDF /* photoAlbum.xcdatamodeld */,
 			);
 			path = "Support Files";
@@ -173,6 +172,7 @@
 		91DC6734275FBF3700C44DDF /* photoAlbum */ = {
 			isa = PBXGroup;
 			children = (
+				91DC6746275FBF3900C44DDF /* Info.plist */,
 				9103060027E74F79000047F6 /* Support Files */,
 				9103060127E75020000047F6 /* Storyboards */,
 				910305FC27E74DDF000047F6 /* Models */,

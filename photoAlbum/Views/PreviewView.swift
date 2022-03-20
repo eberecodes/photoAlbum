@@ -89,7 +89,7 @@ class PreviewView: UIView {
             pointsPath.move(to: points[15])
             pointsPath.addLine(to: points.last!)
             
-            // Draw littleFinger bones
+            // Draw pinkieFinger bones
             pointsPath.move(to: points[16])
             pointsPath.addLine(to: points[17])
             pointsPath.move(to: points[17])

@@ -5,11 +5,13 @@
 //  Created by Ebere Anukem on 25/01/2022.
 //
 
+//Imports
 import UIKit
 import Vision
 import AVFoundation
 import CoreML
 
+//All the hand gestures as cases
 enum poses:String{
     case background = ""
     case raisedFist = "✊"
@@ -24,34 +26,29 @@ enum poses:String{
 }
 
 
-//TODO: Complete machine learning model
-//TODO: Improve performance of ml model in app
-
-//replace password with gesture saved
-
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    //Persistent storage
     let userDefaults = UserDefaults.standard
     
+    //IBOutlet for back button
     @IBOutlet weak var backButton: UINavigationItem!
-    
-    var authenticated = false
     
     //Keeps track of which gesture was entered
     private var previous: String = ""
+    var authenticated = false
     
-    let bufferSize = 3
+    //Stores recent poses
     private var poseBuffer = [poses]()
-    
     //A computed property
-    var currentPose:poses = .background{
+    var currentPose:poses = .background{ //initialise to background
         didSet {  //every time currentPose changes
             poseBuffer.append(currentPose)
-            if (poseBuffer.count == bufferSize){
-                if (poseBuffer.filter({$0 == currentPose}).count == bufferSize){
+            if (poseBuffer.count == 3){ //Checks the number of recent poses is 3
+                if (poseBuffer.filter({$0 == currentPose}).count == 3){ //Checks if they are all the same pose
                     enterPasswordPose(pose: currentPose)
-                    //maybe update UI too
                 }
-                poseBuffer.removeAll()
+                poseBuffer.removeAll() //Reset buffer when 3 poses have been collecttect
             }
         }
     }
@@ -60,7 +57,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var handRecognised:Bool = false {
         didSet {
             DispatchQueue.main.async {
-                self.convertPoints([], .clear)
+                self.convertPoints([], .clear) //Overlays point for user to see
             }
         }
     }
@@ -156,41 +153,45 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
    
     
     func session(_ pixelBuffer: CMSampleBuffer){
-        //MARK: Variables for overlaying points
+        
+        //MARK: Variables for landmark points
+        //Thumb landmarks
         var thumbTip: CGPoint?
         var thumbIp: CGPoint?
         var thumbMp: CGPoint?
         var thumbCmc: CGPoint?
         
+        //Index landmarks
         var indexTip: CGPoint?
         var indexDip: CGPoint?
         var indexPip: CGPoint?
         var indexMcp: CGPoint?
         
+        //Middle finger landmarks
         var middleTip: CGPoint?
         var middleDip: CGPoint?
         var middlePip: CGPoint?
         var middleMcp: CGPoint?
         
+        //Ring finger landmarks
         var ringTip: CGPoint?
         var ringDip: CGPoint?
         var ringPip: CGPoint?
         var ringMcp: CGPoint?
         
-        var littleTip: CGPoint?
-        var littleDip: CGPoint?
-        var littlePip: CGPoint?
-        var littleMcp: CGPoint?
+        //Pinkie finger landmarks
+        var pinkieTip: CGPoint?
+        var pinkieDip: CGPoint?
+        var pinkiePip: CGPoint?
+        var pinkieMcp: CGPoint?
         
+        //Wrist landmarks
         var wrist: CGPoint?
         
-
-        //MARK: Hand pose ml approach
-        
+        //Request is only for one hand
         poseRequest.maximumHandCount = 1
-       
-        poseRequest.usesCPUOnly = true //checked to see if this helps
 
+        //Create request handler
         let requestHandler = VNImageRequestHandler(cmSampleBuffer: pixelBuffer, orientation: .up, options: [:])
         
         do {
@@ -201,233 +202,177 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             }
             //A hand has been recognised
             handRecognised = true
-      
-        
-            //MARK: POINTS OVERLAY
+            
+            //MARK: Hand land marks points
             let thumbPoints = try observations.recognizedPoints(.thumb)
             let indexFingerPoints = try observations.recognizedPoints(.indexFinger)
             let middleFingerPoints = try observations.recognizedPoints(.middleFinger)
             let ringFingerPoints = try observations.recognizedPoints(.ringFinger)
-            let littleFingerPoints = try observations.recognizedPoints(.littleFinger)
+            let pinkieFingerPoints = try observations.recognizedPoints(.littleFinger)
             let wristPoints = try observations.recognizedPoints(.all)
-            
-            // Look for tip points.
+                
+                
             guard let thumbTipPoint = thumbPoints[.thumbTip],
                   let thumbIpPoint = thumbPoints[.thumbIP],
                   let thumbMpPoint = thumbPoints[.thumbMP],
-                  let thumbCMCPoint = thumbPoints[.thumbCMC] else {
-                return
-            }
-            
+                  let thumbCMCPoint = thumbPoints[.thumbCMC] else { return }
+                
             guard let indexTipPoint = indexFingerPoints[.indexTip],
                   let indexDipPoint = indexFingerPoints[.indexDIP],
                   let indexPipPoint = indexFingerPoints[.indexPIP],
-                  let indexMcpPoint = indexFingerPoints[.indexMCP] else {
-                return
-            }
-            
+                  let indexMcpPoint = indexFingerPoints[.indexMCP] else { return }
+                
             guard let middleTipPoint = middleFingerPoints[.middleTip],
                   let middleDipPoint = middleFingerPoints[.middleDIP],
                   let middlePipPoint = middleFingerPoints[.middlePIP],
-                  let middleMcpPoint = middleFingerPoints[.middleMCP] else {
-                return
-            }
-            
+                  let middleMcpPoint = middleFingerPoints[.middleMCP] else { return }
+                
             guard let ringTipPoint = ringFingerPoints[.ringTip],
                   let ringDipPoint = ringFingerPoints[.ringDIP],
                   let ringPipPoint = ringFingerPoints[.ringPIP],
-                  let ringMcpPoint = ringFingerPoints[.ringMCP] else {
-                return
-            }
-            
-            guard let littleTipPoint = littleFingerPoints[.littleTip],
-                  let littleDipPoint = littleFingerPoints[.littleDIP],
-                  let littlePipPoint = littleFingerPoints[.littlePIP],
-                  let littleMcpPoint = littleFingerPoints[.littleMCP] else {
-                return
-            }
-            
-            guard let wristPoint = wristPoints[.wrist] else {
-                return
-            }
-            
-            let minimumConfidence: Float = 0.3
+                  let ringMcpPoint = ringFingerPoints[.ringMCP] else { return }
+                
+            guard let pinkieTipPoint = pinkieFingerPoints[.littleTip],
+                  let pinkieDipPoint = pinkieFingerPoints[.littleDIP],
+                  let pinkiePipPoint = pinkieFingerPoints[.littlePIP],
+                  let pinkieMcpPoint = pinkieFingerPoints[.littleMCP] else { return }
+                
+            guard let wristPoint = wristPoints[.wrist] else { return }
+                
+            let minConfidence:Float = 0.3
             //Don't include low confidence points
-            guard thumbTipPoint.confidence > minimumConfidence,
-                  thumbIpPoint.confidence > minimumConfidence,
-                  thumbMpPoint.confidence > minimumConfidence,
-                  thumbCMCPoint.confidence > minimumConfidence else {
-                return
-            }
-            
-            guard indexTipPoint.confidence > minimumConfidence,
-                  indexDipPoint.confidence > minimumConfidence,
-                  indexPipPoint.confidence > minimumConfidence,
-                  indexMcpPoint.confidence > minimumConfidence else {
-                return
-            }
-            
-            guard middleTipPoint.confidence > minimumConfidence,
-                  middleDipPoint.confidence > minimumConfidence,
-                  middlePipPoint.confidence > minimumConfidence,
-                  middleMcpPoint.confidence > minimumConfidence else {
-                return
-            }
-            
-            guard ringTipPoint.confidence > minimumConfidence,
-                  ringDipPoint.confidence > minimumConfidence,
-                  ringPipPoint.confidence > minimumConfidence,
-                  ringMcpPoint.confidence > minimumConfidence else {
-                return
-            }
-            
-            guard littleTipPoint.confidence > minimumConfidence,
-                  littleDipPoint.confidence > minimumConfidence,
-                  littlePipPoint.confidence > minimumConfidence,
-                  littleMcpPoint.confidence > minimumConfidence else {
-                return
-            }
-            
-            guard wristPoint.confidence > minimumConfidence else {
-                return
-            }
-            
-            //Converting from Vision coordinates to AVFoundation coordinates.
+            guard thumbTipPoint.confidence > minConfidence,
+                  thumbIpPoint.confidence > minConfidence,
+                  thumbMpPoint.confidence > minConfidence,
+                  thumbCMCPoint.confidence > minConfidence else { return }
+                
+            guard indexTipPoint.confidence > minConfidence,
+                  indexDipPoint.confidence > minConfidence,
+                  indexPipPoint.confidence > minConfidence,
+                  indexMcpPoint.confidence > minConfidence else { return }
+                
+            guard middleTipPoint.confidence > minConfidence,
+                  middleDipPoint.confidence > minConfidence,
+                  middlePipPoint.confidence > minConfidence,
+                  middleMcpPoint.confidence > minConfidence else { return }
+                
+            guard ringTipPoint.confidence > minConfidence,
+                  ringDipPoint.confidence > minConfidence,
+                  ringPipPoint.confidence > minConfidence,
+                  ringMcpPoint.confidence > minConfidence else { return }
+                
+            guard pinkieTipPoint.confidence > minConfidence,
+                  pinkieDipPoint.confidence > minConfidence,
+                  pinkiePipPoint.confidence > minConfidence,
+                  pinkieMcpPoint.confidence > minConfidence else { return }
+                
+            guard wristPoint.confidence > minConfidence else { return }
+                
+            //Conversion from Vision coordinates to AVFoundation coordinates.
             thumbTip = CGPoint(x: thumbTipPoint.location.x, y: 1 - thumbTipPoint.location.y)
             thumbIp = CGPoint(x: thumbIpPoint.location.x, y: 1 - thumbIpPoint.location.y)
             thumbMp = CGPoint(x: thumbMpPoint.location.x, y: 1 - thumbMpPoint.location.y)
             thumbCmc = CGPoint(x: thumbCMCPoint.location.x, y: 1 - thumbCMCPoint.location.y)
-            
+                
             indexTip = CGPoint(x: indexTipPoint.location.x, y: 1 - indexTipPoint.location.y)
             indexDip = CGPoint(x: indexDipPoint.location.x, y: 1 - indexDipPoint.location.y)
             indexPip = CGPoint(x: indexPipPoint.location.x, y: 1 - indexPipPoint.location.y)
             indexMcp = CGPoint(x: indexMcpPoint.location.x, y: 1 - indexMcpPoint.location.y)
-            
+                
             middleTip = CGPoint(x: middleTipPoint.location.x, y: 1 - middleTipPoint.location.y)
             middleDip = CGPoint(x: middleDipPoint.location.x, y: 1 - middleDipPoint.location.y)
             middlePip = CGPoint(x: middlePipPoint.location.x, y: 1 - middlePipPoint.location.y)
             middleMcp = CGPoint(x: middleMcpPoint.location.x, y: 1 - middleMcpPoint.location.y)
-            
+                
             ringTip = CGPoint(x: ringTipPoint.location.x, y: 1 - ringTipPoint.location.y)
             ringDip = CGPoint(x: ringDipPoint.location.x, y: 1 - ringDipPoint.location.y)
             ringPip = CGPoint(x: ringPipPoint.location.x, y: 1 - ringPipPoint.location.y)
             ringMcp = CGPoint(x: ringMcpPoint.location.x, y: 1 - ringMcpPoint.location.y)
-            
-            littleTip = CGPoint(x: littleTipPoint.location.x, y: 1 - littleTipPoint.location.y)
-            littleDip = CGPoint(x: littleDipPoint.location.x, y: 1 - littleDipPoint.location.y)
-            littlePip = CGPoint(x: littlePipPoint.location.x, y: 1 - littlePipPoint.location.y)
-            littleMcp = CGPoint(x: littleMcpPoint.location.x, y: 1 - littleMcpPoint.location.y)
-            
+                
+            pinkieTip = CGPoint(x: pinkieTipPoint.location.x, y: 1 - pinkieTipPoint.location.y)
+            pinkieDip = CGPoint(x: pinkieDipPoint.location.x, y: 1 - pinkieDipPoint.location.y)
+            pinkiePip = CGPoint(x: pinkiePipPoint.location.x, y: 1 - pinkiePipPoint.location.y)
+            pinkieMcp = CGPoint(x: pinkieMcpPoint.location.x, y: 1 - pinkieMcpPoint.location.y)
+                
             wrist = CGPoint(x: wristPoint.location.x, y: 1 - wristPoint.location.y)
-            
+                
             //Add these to array
             let handPoint = [thumbTip!, thumbIp!, thumbMp!, thumbCmc!,indexTip!,indexDip!, indexMcp!, indexPip!, middleTip!, middleDip!, middlePip!, middleMcp!, ringTip!,
-                             ringDip!,ringPip!,ringMcp!,littleTip!,littleDip!, littlePip!, littleMcp!, wrist!]
+                                 ringDip!,ringPip!,ringMcp!,pinkieTip!,pinkieDip!, pinkiePip!, pinkieMcp!, wrist!]
 
             DispatchQueue.main.sync {
                 self.convertPoints(handPoint, .systemYellow)
             }
-                
-            //ADDED INITAL ML APPROACH IN HERE
-            //MARK: Initial ML approach
-            guard let keyPointsMultiArray = try? observations.keypointsMultiArray() else {fatalError()}
-                
-            do {
-                let model: poseClassifier = try poseClassifier(configuration: .init())
-                // let model: GestureClassifier = try GestureClassifier(configuration: MLModelConfiguration())
                     
+            //Stores the key points from the observations
+            guard let keyPointsMultiArray = try? observations.keypointsMultiArray() else {fatalError()}
+                    
+            do {
+                //Initialise pose classifier model
+                let model: poseClassifier = try poseClassifier(configuration: .init())
+                  
+                //Stores the computed predictions
                 let posePrediction = try model.prediction(poses: keyPointsMultiArray)
                 let confidence =  posePrediction.labelProbabilities[posePrediction.label]!
-                    
-                print("\(posePrediction.label) : \(confidence)")
-                    
-                if (confidence > 0.7) {
+                        
+                        
+                if (confidence > 0.7) { //I set the minimum confidence to 0.7
                     switchPose(pose: posePrediction.label)
-                    print(confidence)
                 }
-                    
+                        
             } catch {
                 print(error)
             }
-            
-    } catch {
-        print(error)
-    }
-        
+                
+        } catch {
+            print(error)
+        }
         
     }
 
     
-    //MARK: Initial ML approach
     func switchPose(pose: String){
         print(pose)
         switch pose {
         case "background":
             currentPose = .background
-           // print("Background")
         case "raisedFist":
             currentPose = .raisedFist
-
-            //print("Raised Fist")
         case "peaceSign":
             currentPose = .peaceSign
-            
-           // print("Peace sign")
         case "callSign":
             currentPose = .callSign
-
-            //print("Call sign")
         case "thumbUp":
             currentPose = .thumbUp
-
-            //print("Thumb up")
         case "crossedFingers":
             currentPose = .crossedFingers
- 
-            //print("Crossed fingers")
         case "hornsSign":
             currentPose = .hornsSign
-
-           //print("Horns sign")
         case "loveYou":
             currentPose = .loveYou
-
-            //print("Love you")
         case "raisedHand":
             currentPose = .raisedHand
-            
-           // print("Raised hand")
         case "okaySign":
             currentPose = .okaySign
-
-            //print("okaySign")
         default:
             currentPose = .background
-
-            //print("default")
         }
        
     }
     
     func enterPasswordPose(pose: poses){
-   
-
-        print(passwordEntered)
-        //print(password!)
         
-        if (pose.rawValue != previous){ //MARK: ADDED
+        if (pose.rawValue != previous){ //Ignore consecutive repeated gestures
             //Don't add to password entered
             passwordEntered = passwordEntered+pose.rawValue
         }
         
+        //Checks password matches stores password
         if (password == passwordEntered) {
             self.cameraSession.stopRunning()
             print("stop running camera session")
             self.cameraSession.stopRunning()
             closeCameraView()
-            
-            //Save gesture password securely, once user has been able to succesfully perform gesture password
-           
         }
         
         //When the password they entered is double the length of the original password, automatically timeout
@@ -437,7 +382,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             closeCameraView()
         }
         
-        previous = pose.rawValue
+        previous = pose.rawValue //Update previous pose
     }
     
     func closeCameraView(){
@@ -502,15 +447,18 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         beginSession()
     }
     
+    ///Function begins the camera sesion
     func beginSession(){
+        
         do {
-            let cameraDeviceInput = try AVCaptureDeviceInput(device: cameraDevice)
+            let cameraDeviceInput = try AVCaptureDeviceInput(device: cameraDevice) //try to access user device
             cameraSession.addInput(cameraDeviceInput)
         }catch{
             print("Problem creating device input")
             return
         }
         
+        //Sort camera setting
         cameraSession.beginConfiguration()
         cameraSession.sessionPreset = .vga640x480
         
@@ -522,14 +470,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         if cameraSession.canAddOutput(cameraOutput){
             cameraSession.addOutput(cameraOutput)
         }
-        
         cameraSession.commitConfiguration()
         
+        //Display camera view to user
         let cameraQueue = DispatchQueue(label: "camera queue")
         cameraOutput.setSampleBufferDelegate(self, queue: cameraQueue)
         cameraSession.startRunning()
     }
     
+    ///Function sorts device orientation
     public func exifOrientationFromDeviceOrientation() -> CGImagePropertyOrientation {
             let curDeviceOrientation = UIDevice.current.orientation
             let exifOrientation: CGImagePropertyOrientation
@@ -556,7 +505,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
       
     }
 
-    //MARK: Prepare for segue
+    //prepare for segue to next screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let status = authenticated
         authenticated = status
