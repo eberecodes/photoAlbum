@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		910305FB27E531CA000047F6 /* poseClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 910305FA27E531C9000047F6 /* poseClassifier.mlmodel */; };
 		916D038F27C40E9C0076F585 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */; };
 		91AE16B527DBF1F70049F2D9 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */; };
 		91D6987927DE67F7000E219A /* AuthenticationSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		910305FA27E531C9000047F6 /* poseClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = poseClassifier.mlmodel; sourceTree = "<group>"; };
 		916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
 		91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationSetupViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */,
 				91D6987A27DE6825000E219A /* CountdownViewController.swift */,
 				91D6987C27DE6847000E219A /* CameraViewController.swift */,
+				910305FA27E531C9000047F6 /* poseClassifier.mlmodel */,
 			);
 			path = "Gesture Authentication";
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				91D6987927DE67F7000E219A /* AuthenticationSetupViewController.swift in Sources */,
 				91D6988527DE7908000E219A /* gestureSwitchTableViewCell.swift in Sources */,
 				91D6987D27DE6847000E219A /* CameraViewController.swift in Sources */,
+				910305FB27E531CA000047F6 /* poseClassifier.mlmodel in Sources */,
 				91DA40B8279F325E00C5428E /* KeychainItemAccessibility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

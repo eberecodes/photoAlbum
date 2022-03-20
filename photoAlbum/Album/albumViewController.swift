@@ -336,18 +336,7 @@ class albumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
         self.table.keyboardDismissMode = .onDrag
         
-        //TODO: Maybe make this a function
-       /* noAlbumsLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 21))
-        noAlbumsLabel.center = self.view.center
-        noAlbumsLabel.center.x = self.view.center.x
-        noAlbumsLabel.center.y = self.view.center.y
         
-        noAlbumsLabel.textAlignment = .center
-        
-        noAlbumsLabel.text = "No Albums"
-        noAlbumsLabel.textColor = .systemGray
-        noAlbumsLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        self.view.addSubview(noAlbumsLabel)*/
         firstSetup()
         
         //checkForNoAlbums()

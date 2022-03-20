@@ -247,8 +247,8 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
             title = selectedAlbum?.title
             
         }
-        
-        if (firstLoad){
+        //TODO: Try and take the image data from selected album
+        /*if (firstLoad){
             firstLoad = false
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
@@ -270,6 +270,30 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
               }
             }  catch{
                 print("failed to fetch")
+            }
+            //var imageArray = [Data]()
+            
+            for imageData in photosData {
+                var dataArray = [Data]()
+                do {
+                  dataArray = try NSKeyedUnarchiver.unarchivedObject(ofClass: NSArray.self, from: imageData) as! [Data]
+                    imageArray.append(contentsOf: dataArray)
+                    
+                } catch {
+                  print("could not unarchive array: \(error)")
+                }
+            }
+            photosList = convertDataToPhotos(imageDataArray: imageArray)
+            
+            //copy contents of photo list to filtered photo list
+            filteredPhotosList = photosList
+        }*/
+        
+        if (firstLoad){
+            firstLoad = false
+            
+            if selectedAlbum?.photoGallery != nil{
+                photosData.append((selectedAlbum?.photoGallery)!)
             }
             //var imageArray = [Data]()
             

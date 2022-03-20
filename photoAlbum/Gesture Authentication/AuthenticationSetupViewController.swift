@@ -7,6 +7,7 @@
 
 import UIKit
 
+//TODO: You can't use the same gesture in a row
 class AuthenticationSetupViewController: UIViewController {
  
     //Variables storing the password that was entered
@@ -14,10 +15,13 @@ class AuthenticationSetupViewController: UIViewController {
     private var passwordEntered2:String!
     private var enteredCount:Int!
     
-
+    //Keeps track of individual gesture that has been selected
+    //private var entered: String = ""
+    
     @IBOutlet weak var setupDescription: UITextView!
     
-
+    @IBOutlet weak var requirementsTextview: UITextView!
+    
     
     
     @IBAction func thumbButton(_ sender: Any) {
@@ -69,7 +73,7 @@ class AuthenticationSetupViewController: UIViewController {
         print(passwordEntered!)
         enteredCount+=1
         
-        if (enteredCount == 1) && (passwordEntered != ""){
+        if (enteredCount == 1) && (passwordEntered != "") && (passwordEntered.count >= 3){
             //New alert created to prompted re-entry of password
             let confirmAlert = UIAlertController(title: "Confirm Gesture Password", message: "Re-enter gesture selection", preferredStyle: .alert)
             
@@ -85,6 +89,18 @@ class AuthenticationSetupViewController: UIViewController {
             //Reset passwordEntered variable
             passwordEntered = ""
         }
+        else if (passwordEntered.count < 3){ //OR consecutive chars
+            let lengthAlert = UIAlertController(title: "Weak Gesture Password", message: "Gesture password does not meet requirements, make a new gesture selection.", preferredStyle: .alert)
+            lengthAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                print("Alert closed")
+            }))
+            self.present(lengthAlert, animated: true, completion: nil)
+            //Reset password entered variable
+            passwordEntered = ""
+            
+            //Reset enteredCount variable
+            enteredCount = 0
+        }
         else if (passwordEntered == ""){
             //Alert created for when no password has been entered.
             let passwordAlert = UIAlertController(title: "No Password Entered", message: "You must make a gesture selection", preferredStyle: .alert)
@@ -94,6 +110,7 @@ class AuthenticationSetupViewController: UIViewController {
             }))
             
             self.present(passwordAlert, animated: true, completion: nil)
+            
             
             //Reset enteredCount variable
             enteredCount = 0

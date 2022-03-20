@@ -37,6 +37,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     var authenticated = false
     
+    //Keeps track of which gesture was entered
+    private var previous: String = ""
+    
     let bufferSize = 3
     private var poseBuffer = [poses]()
     
@@ -329,7 +332,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             guard let keyPointsMultiArray = try? observations.keypointsMultiArray() else {fatalError()}
                 
             do {
-                let model: GestureClassifier = try GestureClassifier(configuration: .init())
+                let model: poseClassifier = try poseClassifier(configuration: .init())
                 // let model: GestureClassifier = try GestureClassifier(configuration: MLModelConfiguration())
                     
                 let posePrediction = try model.prediction(poses: keyPointsMultiArray)
@@ -337,7 +340,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     
                 print("\(posePrediction.label) : \(confidence)")
                     
-                if (confidence > 0.8) {
+                if (confidence > 0.7) {
                     switchPose(pose: posePrediction.label)
                     print(confidence)
                 }
@@ -407,28 +410,33 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func enterPasswordPose(pose: poses){
    
-        passwordEntered = passwordEntered+pose.rawValue
 
         print(passwordEntered)
         //print(password!)
         
+        if (pose.rawValue != previous){ //MARK: ADDED
+            //Don't add to password entered
+            passwordEntered = passwordEntered+pose.rawValue
+        }
         
         if (password == passwordEntered) {
             self.cameraSession.stopRunning()
             print("stop running camera session")
-         
+            self.cameraSession.stopRunning()
             closeCameraView()
             
             //Save gesture password securely, once user has been able to succesfully perform gesture password
            
         }
-        //When the password they entered is triple the length of the original password, automatically timeout
-        if ((passwordEntered.count) == (password!.count)*3){
+        
+        //When the password they entered is double the length of the original password, automatically timeout
+        if ((passwordEntered.count) == (password!.count)*2){
             incorrectLimit = true
             self.cameraSession.stopRunning()
             closeCameraView()
         }
         
+        previous = pose.rawValue
     }
     
     func closeCameraView(){
