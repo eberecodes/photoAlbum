@@ -1,5 +1,5 @@
 //
-//  galleryVC.swift
+//  GalleryViewController.swift
 //  photoAlbum
 
 
@@ -7,7 +7,7 @@ import UIKit
 import CoreData
 import Vision
 
-class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
+class GalleryViewController: UIViewController, UIImagePickerControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UINavigationControllerDelegate {
     
     //Stores the status of the button (select or cancel mode)
     private var buttonStatus = "Select"
@@ -28,7 +28,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
     private var photosData = [Data]()
     private var imageArray = [Data]()
     
-    //The current album which has been selected from albumViewController
+    //The current album which has been selected from AlbumViewController
     var selectedAlbum: Album? = nil
     
     //no photos labeL for UI
@@ -471,7 +471,7 @@ class galleryVC: UIViewController, UIImagePickerControllerDelegate, UICollection
         
         //Checks which segue is about to be used
         if(segue.identifier == "toSettings"){
-            let galleryDetail = segue.destination as? settingsViewController
+            let galleryDetail = segue.destination as? SettingsViewController
             galleryDetail!.selectedAlbum = selectedAlbum //updates which album is selected
             
         }

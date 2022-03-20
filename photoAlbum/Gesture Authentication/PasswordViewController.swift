@@ -147,7 +147,7 @@ class PasswordViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let selectionCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell", for: indexPath) as! gestureSwitchTableViewCell
+        let selectionCell = tableView.dequeueReusableCell(withIdentifier: "selectionCell", for: indexPath) as! GestureSwitchTableViewCell
         
         selectionCell.textLabel?.text = "Use Gesture Authentication"
         selectionCell.layer.cornerRadius = 7

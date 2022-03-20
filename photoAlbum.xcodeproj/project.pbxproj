@@ -13,24 +13,24 @@
 		91D6987927DE67F7000E219A /* AuthenticationSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */; };
 		91D6987B27DE6825000E219A /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987A27DE6825000E219A /* CountdownViewController.swift */; };
 		91D6987D27DE6847000E219A /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987C27DE6847000E219A /* CameraViewController.swift */; };
-		91D6987F27DE68B2000E219A /* previewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987E27DE68B2000E219A /* previewView.swift */; };
-		91D6988527DE7908000E219A /* gestureSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6988427DE7907000E219A /* gestureSwitchTableViewCell.swift */; };
+		91D6987F27DE68B2000E219A /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987E27DE68B2000E219A /* PreviewView.swift */; };
+		91D6988527DE7908000E219A /* GestureSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6988427DE7907000E219A /* GestureSwitchTableViewCell.swift */; };
 		91D6988827DF539E000E219A /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6988727DF539E000E219A /* FeedbackViewController.swift */; };
 		91D6988A27E23244000E219A /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6988927E23244000E219A /* HelpViewController.swift */; };
-		91DA405427636BE000C5428E /* settingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA405327636BE000C5428E /* settingsViewController.swift */; };
+		91DA405427636BE000C5428E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA405327636BE000C5428E /* SettingsViewController.swift */; };
 		91DA405A2764C79E00C5428E /* Album.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40592764C79E00C5428E /* Album.swift */; };
-		91DA4085279564C000C5428E /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA4084279564C000C5428E /* TableViewCell.swift */; };
+		91DA4085279564C000C5428E /* AlbumTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA4084279564C000C5428E /* AlbumTableViewCell.swift */; };
 		91DA40B4279F090500C5428E /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40B3279F090500C5428E /* PasswordViewController.swift */; };
 		91DA40B6279F313500C5428E /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40B5279F313400C5428E /* KeychainWrapper.swift */; };
 		91DA40B8279F325E00C5428E /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DA40B7279F325E00C5428E /* KeychainItemAccessibility.swift */; };
 		91DC6736275FBF3700C44DDF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC6735275FBF3700C44DDF /* AppDelegate.swift */; };
 		91DC6738275FBF3700C44DDF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC6737275FBF3700C44DDF /* SceneDelegate.swift */; };
-		91DC673A275FBF3700C44DDF /* albumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC6739275FBF3700C44DDF /* albumViewController.swift */; };
+		91DC673A275FBF3700C44DDF /* AlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC6739275FBF3700C44DDF /* AlbumViewController.swift */; };
 		91DC673D275FBF3700C44DDF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91DC673B275FBF3700C44DDF /* Main.storyboard */; };
 		91DC6740275FBF3700C44DDF /* photoAlbum.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 91DC673E275FBF3700C44DDF /* photoAlbum.xcdatamodeld */; };
 		91DC6742275FBF3900C44DDF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91DC6741275FBF3900C44DDF /* Assets.xcassets */; };
 		91DC6745275FBF3900C44DDF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91DC6743275FBF3900C44DDF /* LaunchScreen.storyboard */; };
-		91DC674F2760B75100C44DDF /* galleryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC674E2760B75100C44DDF /* galleryVC.swift */; };
+		91DC674F2760B75100C44DDF /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DC674E2760B75100C44DDF /* GalleryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,26 +40,26 @@
 		91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationSetupViewController.swift; sourceTree = "<group>"; };
 		91D6987A27DE6825000E219A /* CountdownViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
 		91D6987C27DE6847000E219A /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		91D6987E27DE68B2000E219A /* previewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = previewView.swift; sourceTree = "<group>"; };
-		91D6988427DE7907000E219A /* gestureSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gestureSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		91D6987E27DE68B2000E219A /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		91D6988427DE7907000E219A /* GestureSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		91D6988727DF539E000E219A /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		91D6988927E23244000E219A /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
-		91DA405327636BE000C5428E /* settingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsViewController.swift; sourceTree = "<group>"; };
+		91DA405327636BE000C5428E /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		91DA40592764C79E00C5428E /* Album.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Album.swift; sourceTree = "<group>"; };
-		91DA4084279564C000C5428E /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		91DA4084279564C000C5428E /* AlbumTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumTableViewCell.swift; sourceTree = "<group>"; };
 		91DA40B3279F090500C5428E /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		91DA40B5279F313400C5428E /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		91DA40B7279F325E00C5428E /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		91DC6732275FBF3700C44DDF /* photoAlbum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoAlbum.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		91DC6735275FBF3700C44DDF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91DC6737275FBF3700C44DDF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		91DC6739275FBF3700C44DDF /* albumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = albumViewController.swift; sourceTree = "<group>"; };
+		91DC6739275FBF3700C44DDF /* AlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewController.swift; sourceTree = "<group>"; };
 		91DC673C275FBF3700C44DDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		91DC673F275FBF3700C44DDF /* photoAlbum.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = photoAlbum.xcdatamodel; sourceTree = "<group>"; };
 		91DC6741275FBF3900C44DDF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91DC6744275FBF3900C44DDF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		91DC6746275FBF3900C44DDF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		91DC674E2760B75100C44DDF /* galleryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = galleryVC.swift; sourceTree = "<group>"; };
+		91DC674E2760B75100C44DDF /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,8 +77,8 @@
 			isa = PBXGroup;
 			children = (
 				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
-				91D6988427DE7907000E219A /* gestureSwitchTableViewCell.swift */,
-				91D6987E27DE68B2000E219A /* previewView.swift */,
+				91D6988427DE7907000E219A /* GestureSwitchTableViewCell.swift */,
+				91D6987E27DE68B2000E219A /* PreviewView.swift */,
 				91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */,
 				91D6987A27DE6825000E219A /* CountdownViewController.swift */,
 				91D6987C27DE6847000E219A /* CameraViewController.swift */,
@@ -99,12 +99,12 @@
 		91D6988627DEB73D000E219A /* Album */ = {
 			isa = PBXGroup;
 			children = (
-				91DC6739275FBF3700C44DDF /* albumViewController.swift */,
-				91DC674E2760B75100C44DDF /* galleryVC.swift */,
+				91DC6739275FBF3700C44DDF /* AlbumViewController.swift */,
+				91DC674E2760B75100C44DDF /* GalleryViewController.swift */,
 				91DA40592764C79E00C5428E /* Album.swift */,
-				91DA4084279564C000C5428E /* TableViewCell.swift */,
+				91DA4084279564C000C5428E /* AlbumTableViewCell.swift */,
 				916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */,
-				91DA405327636BE000C5428E /* settingsViewController.swift */,
+				91DA405327636BE000C5428E /* SettingsViewController.swift */,
 				91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */,
 				91D6988727DF539E000E219A /* FeedbackViewController.swift */,
 				91D6988927E23244000E219A /* HelpViewController.swift */,
@@ -216,11 +216,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91DC673A275FBF3700C44DDF /* albumViewController.swift in Sources */,
-				91DA4085279564C000C5428E /* TableViewCell.swift in Sources */,
-				91D6987F27DE68B2000E219A /* previewView.swift in Sources */,
+				91DC673A275FBF3700C44DDF /* AlbumViewController.swift in Sources */,
+				91DA4085279564C000C5428E /* AlbumTableViewCell.swift in Sources */,
+				91D6987F27DE68B2000E219A /* PreviewView.swift in Sources */,
 				91D6988827DF539E000E219A /* FeedbackViewController.swift in Sources */,
-				91DC674F2760B75100C44DDF /* galleryVC.swift in Sources */,
+				91DC674F2760B75100C44DDF /* GalleryViewController.swift in Sources */,
 				91DC6736275FBF3700C44DDF /* AppDelegate.swift in Sources */,
 				91DC6740275FBF3700C44DDF /* photoAlbum.xcdatamodeld in Sources */,
 				91D6988A27E23244000E219A /* HelpViewController.swift in Sources */,
@@ -228,12 +228,12 @@
 				91D6987B27DE6825000E219A /* CountdownViewController.swift in Sources */,
 				91DA405A2764C79E00C5428E /* Album.swift in Sources */,
 				91DC6738275FBF3700C44DDF /* SceneDelegate.swift in Sources */,
-				91DA405427636BE000C5428E /* settingsViewController.swift in Sources */,
+				91DA405427636BE000C5428E /* SettingsViewController.swift in Sources */,
 				916D038F27C40E9C0076F585 /* GalleryCollectionViewCell.swift in Sources */,
 				91DA40B4279F090500C5428E /* PasswordViewController.swift in Sources */,
 				91DA40B6279F313500C5428E /* KeychainWrapper.swift in Sources */,
 				91D6987927DE67F7000E219A /* AuthenticationSetupViewController.swift in Sources */,
-				91D6988527DE7908000E219A /* gestureSwitchTableViewCell.swift in Sources */,
+				91D6988527DE7908000E219A /* GestureSwitchTableViewCell.swift in Sources */,
 				91D6987D27DE6847000E219A /* CameraViewController.swift in Sources */,
 				910305FB27E531CA000047F6 /* poseClassifier.mlmodel in Sources */,
 				91DA40B8279F325E00C5428E /* KeychainItemAccessibility.swift in Sources */,
