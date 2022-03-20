@@ -2,8 +2,7 @@
 //  SettingsViewController.swift
 //  photoAlbum
 //
-//  Created by Ebere Anukem on 10/12/2021.
-//
+
 
 import UIKit
 import CoreData

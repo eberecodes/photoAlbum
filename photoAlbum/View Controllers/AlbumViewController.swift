@@ -231,7 +231,6 @@ class AlbumViewController: UIViewController, UITableViewDataSource, UITableViewD
                         
                         if (album == albumList[indexPath.row]){
                             
-                            album.deletedDate = Date() //don't actually need deleted date
                             context.delete(album)
                             try context.save()
                             

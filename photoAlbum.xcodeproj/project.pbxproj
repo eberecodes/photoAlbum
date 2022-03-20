@@ -73,18 +73,60 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		91D6988227DE72E1000E219A /* Gesture Authentication */ = {
+		910305FC27E74DDF000047F6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
+				91DA40592764C79E00C5428E /* Album.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		910305FD27E74E10000047F6 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				91DA4084279564C000C5428E /* AlbumTableViewCell.swift */,
+				916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */,
+				91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */,
 				91D6988427DE7907000E219A /* GestureSwitchTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		910305FE27E74E3D000047F6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
 				91D6987E27DE68B2000E219A /* PreviewView.swift */,
-				91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */,
-				91D6987A27DE6825000E219A /* CountdownViewController.swift */,
-				91D6987C27DE6847000E219A /* CameraViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		910305FF27E74E5C000047F6 /* ML Model */ = {
+			isa = PBXGroup;
+			children = (
 				910305FA27E531C9000047F6 /* poseClassifier.mlmodel */,
 			);
-			path = "Gesture Authentication";
+			path = "ML Model";
+			sourceTree = "<group>";
+		};
+		9103060027E74F79000047F6 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				91DC6735275FBF3700C44DDF /* AppDelegate.swift */,
+				91DC6737275FBF3700C44DDF /* SceneDelegate.swift */,
+				91DC6741275FBF3900C44DDF /* Assets.xcassets */,
+				91DC6746275FBF3900C44DDF /* Info.plist */,
+				91DC673E275FBF3700C44DDF /* photoAlbum.xcdatamodeld */,
+			);
+			path = "Support Files";
+			sourceTree = "<group>";
+		};
+		9103060127E75020000047F6 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				91DC673B275FBF3700C44DDF /* Main.storyboard */,
+				91DC6743275FBF3900C44DDF /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		91D6988327DE7315000E219A /* Keychain */ = {
@@ -96,20 +138,20 @@
 			path = Keychain;
 			sourceTree = "<group>";
 		};
-		91D6988627DEB73D000E219A /* Album */ = {
+		91D6988627DEB73D000E219A /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				91DC6739275FBF3700C44DDF /* AlbumViewController.swift */,
 				91DC674E2760B75100C44DDF /* GalleryViewController.swift */,
-				91DA40592764C79E00C5428E /* Album.swift */,
-				91DA4084279564C000C5428E /* AlbumTableViewCell.swift */,
-				916D038E27C40E9C0076F585 /* GalleryCollectionViewCell.swift */,
 				91DA405327636BE000C5428E /* SettingsViewController.swift */,
-				91AE16B427DBF1F70049F2D9 /* SettingsTableViewCell.swift */,
 				91D6988727DF539E000E219A /* FeedbackViewController.swift */,
 				91D6988927E23244000E219A /* HelpViewController.swift */,
+				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
+				91D6987827DE67F7000E219A /* AuthenticationSetupViewController.swift */,
+				91D6987A27DE6825000E219A /* CountdownViewController.swift */,
+				91D6987C27DE6847000E219A /* CameraViewController.swift */,
 			);
-			path = Album;
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		91DC6729275FBF3700C44DDF = {
@@ -131,16 +173,14 @@
 		91DC6734275FBF3700C44DDF /* photoAlbum */ = {
 			isa = PBXGroup;
 			children = (
-				91DC6735275FBF3700C44DDF /* AppDelegate.swift */,
+				9103060027E74F79000047F6 /* Support Files */,
+				9103060127E75020000047F6 /* Storyboards */,
+				910305FC27E74DDF000047F6 /* Models */,
+				91D6988627DEB73D000E219A /* View Controllers */,
+				910305FD27E74E10000047F6 /* Cells */,
+				910305FE27E74E3D000047F6 /* Views */,
 				91D6988327DE7315000E219A /* Keychain */,
-				91DC6737275FBF3700C44DDF /* SceneDelegate.swift */,
-				91DC673B275FBF3700C44DDF /* Main.storyboard */,
-				91DC6741275FBF3900C44DDF /* Assets.xcassets */,
-				91DC6743275FBF3900C44DDF /* LaunchScreen.storyboard */,
-				91DC6746275FBF3900C44DDF /* Info.plist */,
-				91DC673E275FBF3700C44DDF /* photoAlbum.xcdatamodeld */,
-				91D6988627DEB73D000E219A /* Album */,
-				91D6988227DE72E1000E219A /* Gesture Authentication */,
+				910305FF27E74E5C000047F6 /* ML Model */,
 			);
 			path = photoAlbum;
 			sourceTree = "<group>";

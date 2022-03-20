@@ -2,8 +2,6 @@
 //  SceneDelegate.swift
 //  photoAlbum
 //
-//  Created by Ebere Anukem on 07/12/2021.
-//
 
 import UIKit
 
