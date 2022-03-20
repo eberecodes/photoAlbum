@@ -2,8 +2,7 @@
 //  SettingsTableViewCell.swift
 //  photoAlbum
 //
-//  Created by Ebere Anukem on 11/03/2022.
-//
+
 
 import UIKit
 
