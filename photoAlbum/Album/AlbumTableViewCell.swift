@@ -2,8 +2,7 @@
 //  AlbumTableViewCell.swift
 //  photoAlbum
 //
-//  Created by Ebere Anukem on 17/01/2022.
-//
+
 
 import UIKit
 
