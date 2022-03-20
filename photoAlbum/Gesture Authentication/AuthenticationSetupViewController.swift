@@ -2,8 +2,6 @@
 //  AuthenticationSetupViewController.swift
 //  testVision
 //
-//  Created by Ebere Anukem on 28/01/2022.
-//
 
 import UIKit
 
@@ -167,17 +165,7 @@ class AuthenticationSetupViewController: UIViewController {
         passwordEntered2 = ""
         enteredCount = 0
     }
-    
-    //This is for testing purposes, the password would really be stored securely
-    /*override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "toCountdown"){
-            /*let settingsDetail = segue.destination as? CountdownViewController
-            //settingsDetail!.password = entryField.text!
-            //settingsDetail!.password = passwordEntered*/
-            
-        }
-    }*/
-    
+        
 
 
 }
