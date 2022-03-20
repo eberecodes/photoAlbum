@@ -13,29 +13,24 @@ class AuthenticationSetupViewController: UIViewController {
     private var passwordEntered2:String!
     private var enteredCount:Int!
     
-    //Keeps track of individual gesture that has been selected
-    //private var entered: String = ""
     
     @IBOutlet weak var setupDescription: UITextView!
     
     @IBOutlet weak var requirementsTextview: UITextView!
     
     
-    
+//MARK: IBActions for gesture selections
     @IBAction func thumbButton(_ sender: Any) {
        passwordEntered = passwordEntered+"👍"
     }
-    
     
     @IBAction func hornsButton(_ sender: Any) {
         passwordEntered = passwordEntered+"🤘"
     }
     
-    
     @IBAction func fistButton(_ sender: Any) {
         passwordEntered = passwordEntered+"✊"
     }
-    
     
     @IBAction func peaceButton(_ sender: Any) {
         passwordEntered = passwordEntered+"✌️"
@@ -50,28 +45,25 @@ class AuthenticationSetupViewController: UIViewController {
         passwordEntered = passwordEntered+"👌"
     }
     
-    
     @IBAction func loveButton(_ sender: Any) {
         passwordEntered = passwordEntered+"🤟"
     }
     
-    
     @IBAction func crossedButton(_ sender: Any) {
         passwordEntered = passwordEntered+"🤞"
     }
-    
     
     @IBAction func callButton(_ sender: Any) {
         passwordEntered = passwordEntered+"🤙"
     }
     
     
-    
+    //MARK: IBAction for confirm button
     @IBAction func confirmButton(_ sender: Any) {
         print(passwordEntered!)
         enteredCount+=1
         
-        if (enteredCount == 1) && (passwordEntered != "") && (passwordEntered.count >= 3){
+        if (enteredCount == 1) && (passwordEntered != "") && (passwordEntered.count >= 3) && (!consecutiveCheck()){
             //New alert created to prompted re-entry of password
             let confirmAlert = UIAlertController(title: "Confirm Gesture Password", message: "Re-enter gesture selection", preferredStyle: .alert)
             
@@ -83,19 +75,18 @@ class AuthenticationSetupViewController: UIViewController {
             
             //Store the password first entered in passwordEntered 2 variable
             passwordEntered2 = passwordEntered
-            
             //Reset passwordEntered variable
             passwordEntered = ""
         }
-        else if (passwordEntered.count < 3){ //OR consecutive chars
-            let lengthAlert = UIAlertController(title: "Weak Gesture Password", message: "Gesture password does not meet requirements, make a new gesture selection.", preferredStyle: .alert)
-            lengthAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+        else if (passwordEntered.count < 3) || (consecutiveCheck()){ //Checks if it meets requirements
+            let weakAlert = UIAlertController(title: "Weak Gesture Password", message: "Gesture password does not meet requirements, make a new gesture selection.", preferredStyle: .alert)
+            weakAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
                 print("Alert closed")
             }))
-            self.present(lengthAlert, animated: true, completion: nil)
+            self.present(weakAlert, animated: true, completion: nil)
+            
             //Reset password entered variable
             passwordEntered = ""
-            
             //Reset enteredCount variable
             enteredCount = 0
         }
@@ -148,6 +139,25 @@ class AuthenticationSetupViewController: UIViewController {
         }
     }
     
+    ///Function checks for the consecutive gestures - which doesn't meet requirements
+    func consecutiveCheck() -> Bool {
+        //Stores whether or not gesture password contains repeated consecutive gestures
+        var consecutive = false
+        
+        //Initialise to something it can't be
+        var prev:Character = "-"
+        //Iterate over password
+        for gesture in passwordEntered{
+            if (gesture == prev){ //compares against previous gesture entered
+                consecutive = true
+                break
+            }
+            prev = gesture //update prev
+        }
+   
+        return consecutive
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,6 +176,5 @@ class AuthenticationSetupViewController: UIViewController {
         enteredCount = 0
     }
         
-
 
 }
