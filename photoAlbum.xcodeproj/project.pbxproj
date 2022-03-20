@@ -179,8 +179,8 @@
 				91D6988627DEB73D000E219A /* View Controllers */,
 				910305FD27E74E10000047F6 /* Cells */,
 				910305FE27E74E3D000047F6 /* Views */,
-				91D6988327DE7315000E219A /* Keychain */,
 				910305FF27E74E5C000047F6 /* ML Model */,
+				91D6988327DE7315000E219A /* Keychain */,
 			);
 			path = photoAlbum;
 			sourceTree = "<group>";

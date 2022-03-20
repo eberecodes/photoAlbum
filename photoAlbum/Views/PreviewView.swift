@@ -12,10 +12,12 @@ class PreviewView: UIView {
     private var pointsPath = UIBezierPath()
     private var overlayLayer = CAShapeLayer()
     
+    
     override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.self
     }
     
+    //Create video preview layer
     var videoPreviewLayer: AVCaptureVideoPreviewLayer {
         return layer as! AVCaptureVideoPreviewLayer
     }
@@ -36,20 +38,22 @@ class PreviewView: UIView {
             overlayLayer.frame = layer.bounds
         }
     }
-
+    
+    //Adds overlaying layer
     private func setupOverlay() {
         videoPreviewLayer.addSublayer(overlayLayer)
     }
     
-    func showPoints(_ points: [CGPoint], color: UIColor) {
-        pointsPath.removeAllPoints()
+    ///Takes the array of point and shows it on view
+    func showPoints(points: [CGPoint], color: UIColor) {
+        pointsPath.removeAllPoints() //always start by removing point so it adjusts to new points given
         for point in points {
             pointsPath.move(to: point)
             pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         }
         
         if points.count > 1 {
-            // Draw thumb bones
+            //draws the thumb connections
             pointsPath.move(to: points[0])
             pointsPath.addLine(to: points[1])
             pointsPath.move(to: points[1])
@@ -59,7 +63,7 @@ class PreviewView: UIView {
             pointsPath.move(to: points[3])
             pointsPath.addLine(to: points.last!)
             
-            // Draw indexFinger bones
+            //draws the index finger connections
             pointsPath.move(to: points[4])
             pointsPath.addLine(to: points[5])
             pointsPath.move(to: points[5])
@@ -69,7 +73,7 @@ class PreviewView: UIView {
             pointsPath.move(to: points[7])
             pointsPath.addLine(to: points.last!)
             
-            // Draw middleFinger bones
+            //draws the middle finger connections
             pointsPath.move(to: points[8])
             pointsPath.addLine(to: points[9])
             pointsPath.move(to: points[9])
@@ -79,7 +83,7 @@ class PreviewView: UIView {
             pointsPath.move(to: points[11])
             pointsPath.addLine(to: points.last!)
             
-            // Draw ringFinger bones
+            //draws the ring finger bgonnections
             pointsPath.move(to: points[12])
             pointsPath.addLine(to: points[13])
             pointsPath.move(to: points[13])
@@ -100,10 +104,13 @@ class PreviewView: UIView {
             pointsPath.addLine(to: points.last!)
         }
         
+        //Set the colour and line settings
         overlayLayer.fillColor = color.cgColor
         overlayLayer.strokeColor = color.cgColor
-        overlayLayer.lineWidth = 5.0
+        overlayLayer.lineWidth = 3.0
         overlayLayer.lineCap = .round
+        
+        
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         overlayLayer.path = pointsPath.cgPath

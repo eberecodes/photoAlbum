@@ -2,13 +2,11 @@
 //  CameraViewController.swift
 //  testVision
 //
-//  Created by Ebere Anukem on 25/01/2022.
-//
 
 //Imports
 import UIKit
-import Vision
 import AVFoundation
+import Vision
 import CoreML
 
 //All the hand gestures as cases
@@ -38,6 +36,40 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var previous: String = ""
     var authenticated = false
     
+    //MARK: Landmark points
+    //Thumb landmarks
+    private var thumbTip: CGPoint?
+    private var thumbIp: CGPoint?
+    private var thumbMp: CGPoint?
+    private var thumbCmc: CGPoint?
+    
+    //Index landmarks
+    private var indexTip: CGPoint?
+    private var indexDip: CGPoint?
+    private var indexPip: CGPoint?
+    private var indexMcp: CGPoint?
+    
+    //Middle finger landmarks
+    private var middleTip: CGPoint?
+    private var middleDip: CGPoint?
+    private var middlePip: CGPoint?
+    private var middleMcp: CGPoint?
+    
+    //Ring finger landmarks
+    private var ringTip: CGPoint?
+    private var ringDip: CGPoint?
+    private var ringPip: CGPoint?
+    private var ringMcp: CGPoint?
+    
+    //Pinkie finger landmarks
+    private var pinkieTip: CGPoint?
+    private var pinkieDip: CGPoint?
+    private var pinkiePip: CGPoint?
+    private var pinkieMcp: CGPoint?
+    
+    //Wrist landmarks
+    private var wrist: CGPoint?
+    
     //Stores recent poses
     private var poseBuffer = [poses]()
     //A computed property
@@ -54,21 +86,24 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     //Another computer property, listens for when this is changed
-    var handRecognised:Bool = false {
+    private var handRecognised:Bool = false {
         didSet {
-            DispatchQueue.main.async {
-                self.convertPoints([], .clear) //Overlays point for user to see
+            if (!handRecognised){
+                DispatchQueue.main.async {
+                    self.convertPoints([], .clear) //no longer see overlay points
+                }
             }
         }
     }
     
+    //MARK: Vision Request
     //Vision hand pose request
     private var poseRequest = VNDetectHumanHandPoseRequest()
     
     //Store whether or not password must be incorrect based on input
     private var incorrectLimit = false
     
-
+    //Stores password
     private var password: String? = nil
     
     //Password that has been eneterd so far
@@ -80,9 +115,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var devicePosition:AVCaptureDevice.Position = .front
     
     //Variable for camera preview
-    private var previewView: PreviewView { view as! PreviewView} //new
+    private var previewView: PreviewView { view as! PreviewView } 
     
-    //private var PreviewView: previewView { view as! previewView} //new
     
     ///Function for when user wants to restart their password entry
     @IBAction func restartButton(_ sender: Any) {
@@ -106,29 +140,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let retrievedGestures: String? = KeychainWrapper.standard.string(forKey: "gesturePassword")
         
         password = retrievedGestures
-        //set value of password so it can be compared, to that is stored 
-        
+        //set value of password so it can be compared, to that is stored
        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        prepareCamera()
-        
-        //UI - Get navigation bar to blend with current background
-        let navAppearance = UINavigationBarAppearance()
-        navAppearance.backgroundColor = .black
-        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        //UI - return navigation bar to standard appearance
-        let navAppearance = UINavigationBarAppearance()
-        navAppearance.backgroundColor = .systemYellow
-        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -137,56 +150,16 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
   
     }
     
-    //MARK: Trying to overlay points
-    func pointsOverlay(_ observation: VNHumanHandPoseObservation){
-
-    }
-    
+    ///Function converts the cgpoints so they can be displayed on the screen
     func convertPoints(_ fingers: [CGPoint],_ colour: UIColor) {
         let convertedPoints = fingers.map {
             previewView.videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: $0)
         }
-
-        previewView.showPoints(convertedPoints, color: colour)
-    
+        previewView.showPoints(points: convertedPoints, color: colour)
     }
    
     
     func session(_ pixelBuffer: CMSampleBuffer){
-        
-        //MARK: Variables for landmark points
-        //Thumb landmarks
-        var thumbTip: CGPoint?
-        var thumbIp: CGPoint?
-        var thumbMp: CGPoint?
-        var thumbCmc: CGPoint?
-        
-        //Index landmarks
-        var indexTip: CGPoint?
-        var indexDip: CGPoint?
-        var indexPip: CGPoint?
-        var indexMcp: CGPoint?
-        
-        //Middle finger landmarks
-        var middleTip: CGPoint?
-        var middleDip: CGPoint?
-        var middlePip: CGPoint?
-        var middleMcp: CGPoint?
-        
-        //Ring finger landmarks
-        var ringTip: CGPoint?
-        var ringDip: CGPoint?
-        var ringPip: CGPoint?
-        var ringMcp: CGPoint?
-        
-        //Pinkie finger landmarks
-        var pinkieTip: CGPoint?
-        var pinkieDip: CGPoint?
-        var pinkiePip: CGPoint?
-        var pinkieMcp: CGPoint?
-        
-        //Wrist landmarks
-        var wrist: CGPoint?
         
         //Request is only for one hand
         poseRequest.maximumHandCount = 1
@@ -195,6 +168,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         let requestHandler = VNImageRequestHandler(cmSampleBuffer: pixelBuffer, orientation: .up, options: [:])
         
         do {
+            //MARK: Perform Request
             try requestHandler.perform([poseRequest])
             guard let observations = poseRequest.results?.first, !poseRequest.results!.isEmpty else {
                 handRecognised = false
@@ -203,7 +177,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             //A hand has been recognised
             handRecognised = true
             
-            //MARK: Hand land marks points
+            //Checks if observation was made for each finger and wrist
             let thumbPoints = try observations.recognizedPoints(.thumb)
             let indexFingerPoints = try observations.recognizedPoints(.indexFinger)
             let middleFingerPoints = try observations.recognizedPoints(.middleFinger)
@@ -306,7 +280,8 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                     
             //Stores the key points from the observations
             guard let keyPointsMultiArray = try? observations.keypointsMultiArray() else {fatalError()}
-                    
+             
+            //MARK: Pose Classifier Model
             do {
                 //Initialise pose classifier model
                 let model: poseClassifier = try poseClassifier(configuration: .init())
@@ -314,7 +289,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 //Stores the computed predictions
                 let posePrediction = try model.prediction(poses: keyPointsMultiArray)
                 let confidence =  posePrediction.labelProbabilities[posePrediction.label]!
-                        
                         
                 if (confidence > 0.7) { //I set the minimum confidence to 0.7
                     switchPose(pose: posePrediction.label)
@@ -360,6 +334,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
        
     }
     
+    //MARK: Enter Password
     func enterPasswordPose(pose: poses){
         
         if (pose.rawValue != previous){ //Ignore consecutive repeated gestures
@@ -383,6 +358,27 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
         
         previous = pose.rawValue //Update previous pose
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        prepareCamera()
+        
+        //UI - Get navigation bar to blend with current background
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.backgroundColor = .black
+        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        //UI - return navigation bar to standard appearance
+        let navAppearance = UINavigationBarAppearance()
+        navAppearance.backgroundColor = .systemYellow
+        navigationController?.navigationBar.scrollEdgeAppearance = navAppearance
+        
     }
     
     func closeCameraView(){
@@ -440,7 +436,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-    //MARK: Camera set up
+    //MARK: Camera Setup
     func prepareCamera(){
         let devicesAvailable = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera], mediaType: .video, position: .back).devices
         cameraDevice = devicesAvailable.first
