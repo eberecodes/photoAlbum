@@ -21,7 +21,6 @@ enum poses:String{
     case loveYou = "🤟"
     case raisedHand = "✋"
     case okaySign = "👌"
-    
 }
 
 
@@ -84,7 +83,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var devicePosition:AVCaptureDevice.Position = .front
     
     //Variable for camera preview
-    private var PreviewView: previewView { view as! previewView} //new
+    private var previewView: PreviewView { view as! PreviewView} //new
+    
+    //private var PreviewView: previewView { view as! previewView} //new
     
     ///Function for when user wants to restart their password entry
     @IBAction func restartButton(_ sender: Any) {
@@ -94,7 +95,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     ///Function for loading the preview of the camera
     override func loadView() {
-        view = previewView()
+        view = PreviewView()
          
     }
      
@@ -135,7 +136,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     override func viewDidAppear(_ animated: Bool) {
       super.viewDidAppear(animated)
-      self.PreviewView.videoPreviewLayer.session = self.cameraSession
+      self.previewView.videoPreviewLayer.session = self.cameraSession
   
     }
     
@@ -146,10 +147,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func convertPoints(_ fingers: [CGPoint],_ colour: UIColor) {
         let convertedPoints = fingers.map {
-            PreviewView.videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: $0)
+            previewView.videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: $0)
         }
 
-        PreviewView.showPoints(convertedPoints, color: colour)
+        previewView.showPoints(convertedPoints, color: colour)
     
     }
    
@@ -442,7 +443,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     func closeCameraView(){
         DispatchQueue.main.async {
             //self.PreviewView.videoPreviewLayer.removeFromSuperlayer()
-            self.PreviewView.layer.sublayers = nil
+            self.previewView.layer.sublayers = nil
             
             //MARK: Authenticated
             if (!self.incorrectLimit) {
