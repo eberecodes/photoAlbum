@@ -14,7 +14,6 @@
 		91D6987B27DE6825000E219A /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987A27DE6825000E219A /* CountdownViewController.swift */; };
 		91D6987D27DE6847000E219A /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987C27DE6847000E219A /* CameraViewController.swift */; };
 		91D6987F27DE68B2000E219A /* previewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6987E27DE68B2000E219A /* previewView.swift */; };
-		91D6988127DE6985000E219A /* GestureClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 91D6988027DE6985000E219A /* GestureClassifier.mlmodel */; };
 		91D6988527DE7908000E219A /* gestureSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6988427DE7907000E219A /* gestureSwitchTableViewCell.swift */; };
 		91D6988827DF539E000E219A /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6988727DF539E000E219A /* FeedbackViewController.swift */; };
 		91D6988A27E23244000E219A /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D6988927E23244000E219A /* HelpViewController.swift */; };
@@ -42,7 +41,6 @@
 		91D6987A27DE6825000E219A /* CountdownViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
 		91D6987C27DE6847000E219A /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		91D6987E27DE68B2000E219A /* previewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = previewView.swift; sourceTree = "<group>"; };
-		91D6988027DE6985000E219A /* GestureClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = GestureClassifier.mlmodel; sourceTree = "<group>"; };
 		91D6988427DE7907000E219A /* gestureSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gestureSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		91D6988727DF539E000E219A /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		91D6988927E23244000E219A /* HelpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
@@ -78,7 +76,6 @@
 		91D6988227DE72E1000E219A /* Gesture Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				91D6988027DE6985000E219A /* GestureClassifier.mlmodel */,
 				91DA40B3279F090500C5428E /* PasswordViewController.swift */,
 				91D6988427DE7907000E219A /* gestureSwitchTableViewCell.swift */,
 				91D6987E27DE68B2000E219A /* previewView.swift */,
@@ -234,7 +231,6 @@
 				91DA405427636BE000C5428E /* settingsViewController.swift in Sources */,
 				916D038F27C40E9C0076F585 /* GalleryCollectionViewCell.swift in Sources */,
 				91DA40B4279F090500C5428E /* PasswordViewController.swift in Sources */,
-				91D6988127DE6985000E219A /* GestureClassifier.mlmodel in Sources */,
 				91DA40B6279F313500C5428E /* KeychainWrapper.swift in Sources */,
 				91D6987927DE67F7000E219A /* AuthenticationSetupViewController.swift in Sources */,
 				91D6988527DE7908000E219A /* gestureSwitchTableViewCell.swift in Sources */,
