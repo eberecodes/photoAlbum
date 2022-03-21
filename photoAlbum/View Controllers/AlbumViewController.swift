@@ -2,13 +2,8 @@
 //  ViewController.swift
 //  photoAlbum
 //
-//  Created by Ebere Anukem on 07/12/2021.
-//
-//TODO: slight issue with search bar, you can't delete an album when in search mode
-//TODO: Implement change password functionality
 
 import UIKit
-
 import CoreData
 
 var albumList = [Album]()
@@ -55,46 +50,61 @@ class AlbumViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         //Create the alert controller for new album creation
         let alert = UIAlertController(title: "New Album", message: "Enter album name", preferredStyle: .alert)
-
+        
+        //Text field allowing them to to enter the album name
         alert.addTextField { (textField) in
             textField.placeholder = "Album name"
             textField.text = ""
             textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged) //monitor changes to text field
         }
         
+        //Close button action
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            #if DEBUG
             print("Close alert")
+            #endif
         }))
     
-        
+        //Save button action, so the album gets saved to Core Data
         saveAction = UIAlertAction(title: "Save", style: .default, handler: { [weak alert] (_) in
+            
+            //This text field should be the name of the album
             let textField = alert!.textFields![0]
             
+            //Fetching
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            
+            //Get a reference to it's persistent container
             let context: NSManagedObjectContext = appDelegate.persistentContainer.viewContext
+            
+            //Create an entity for Album
             let entity = NSEntityDescription.entity(forEntityName: "Album", in: context)
+            
+            //Set the values for the new album
             let newAlbum = Album(entity: entity!, insertInto: context)
             newAlbum.id = albumList.count as NSNumber
             newAlbum.title = textField.text
             newAlbum.lockStatus = "Unlocked"
                 
-            do{
+            do {
                 try context.save()
-                albumList.append(newAlbum)
-                self.filteredAlbums = albumList
-                self.table.reloadData()
-                self.checkForNoAlbums()
-                   
+                albumList.append(newAlbum) //update album list
+                self.filteredAlbums = albumList //update filtered list
+                self.table.reloadData() //reload table so that new album appears
+                self.checkForNoAlbums() //updates labels
             }
             catch{
-                print("Error saving context")
+                #if DEBUG
+                print("Error saving new album")
+                #endif
             }
             
         })
         //Disable save action whilst there is nothing entered
         saveAction.isEnabled = false
         alert.addAction(saveAction)
-
+        
+        //Present alert
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -170,32 +180,24 @@ class AlbumViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //UI - hiding the first separator line
-        tableView.tableHeaderView = UIView()
-        
         let albumCell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AlbumTableViewCell
-        
         let thisAlbum: Album!
         
-        //thisAlbum = albumList[indexPath.row]
         thisAlbum = filteredAlbums[indexPath.row]
+        
         
         //Customising the text in the cell
         albumCell.textLabel?.text = "   "+thisAlbum.title
-
         albumCell.textLabel?.textColor = UIColor.darkGray
- 
-
+        
+        //UI
         albumCell.backgroundColor = UIColor.clear
         albumCell.accessoryType = .disclosureIndicator
-     
-        
         tableView.backgroundColor = UIColor.clear
         tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
                 
         
-        
-        //MARK: Displays album lock status
+        //MARK: Album lock status
         if (thisAlbum.lockStatus == "Unlocked"){
             //albumCell.imagePreview.image = UIImage(named: "Unlock")
             albumCell.imagePreview.image = UIImage(systemName: "lock.open")
@@ -206,7 +208,6 @@ class AlbumViewController: UIViewController, UITableViewDataSource, UITableViewD
             albumCell.imagePreview.image = UIImage(systemName: "lock")
             albumCell.imagePreview.tintColor = .systemYellow
         }
-        
         
         return albumCell
     }

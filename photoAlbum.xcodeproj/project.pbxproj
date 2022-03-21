@@ -73,12 +73,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		910305FC27E74DDF000047F6 /* Models */ = {
+		910305FC27E74DDF000047F6 /* Model Object */ = {
 			isa = PBXGroup;
 			children = (
 				91DA40592764C79E00C5428E /* Album.swift */,
 			);
-			path = Models;
+			path = "Model Object";
 			sourceTree = "<group>";
 		};
 		910305FD27E74E10000047F6 /* Cells */ = {
@@ -175,7 +175,7 @@
 				91DC6746275FBF3900C44DDF /* Info.plist */,
 				9103060027E74F79000047F6 /* Support Files */,
 				9103060127E75020000047F6 /* Storyboards */,
-				910305FC27E74DDF000047F6 /* Models */,
+				910305FC27E74DDF000047F6 /* Model Object */,
 				91D6988627DEB73D000E219A /* View Controllers */,
 				910305FD27E74E10000047F6 /* Cells */,
 				910305FE27E74E3D000047F6 /* Views */,

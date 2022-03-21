@@ -10,7 +10,7 @@ import Vision
 import CoreML
 
 //All the hand gestures as cases
-enum poses:String{
+enum Poses:String{
     case background = ""
     case raisedFist = "✊"
     case peaceSign = "✌️"
@@ -71,16 +71,16 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var wrist: CGPoint?
     
     //Stores recent poses
-    private var poseBuffer = [poses]()
+    private var poseBuffer = [Poses]()
     //A computed property
-    var currentPose:poses = .background{ //initialise to background
+    var currentPose:Poses = .background{ //initialise to background
         didSet {  //every time currentPose changes
             poseBuffer.append(currentPose)
             if (poseBuffer.count == 3){ //Checks the number of recent poses is 3
                 if (poseBuffer.filter({$0 == currentPose}).count == 3){ //Checks if they are all the same pose
                     enterPasswordPose(pose: currentPose)
                 }
-                poseBuffer.removeAll() //Reset buffer when 3 poses have been collecttect
+                poseBuffer.removeAll() //Reset buffer when 3 poses have been collected
             }
         }
     }
@@ -185,36 +185,29 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let pinkieFingerPoints = try observations.recognizedPoints(.littleFinger)
             let wristPoints = try observations.recognizedPoints(.all)
                 
-                
             guard let thumbTipPoint = thumbPoints[.thumbTip],
                   let thumbIpPoint = thumbPoints[.thumbIP],
                   let thumbMpPoint = thumbPoints[.thumbMP],
                   let thumbCMCPoint = thumbPoints[.thumbCMC] else { return }
-                
             guard let indexTipPoint = indexFingerPoints[.indexTip],
                   let indexDipPoint = indexFingerPoints[.indexDIP],
                   let indexPipPoint = indexFingerPoints[.indexPIP],
                   let indexMcpPoint = indexFingerPoints[.indexMCP] else { return }
-                
             guard let middleTipPoint = middleFingerPoints[.middleTip],
                   let middleDipPoint = middleFingerPoints[.middleDIP],
                   let middlePipPoint = middleFingerPoints[.middlePIP],
                   let middleMcpPoint = middleFingerPoints[.middleMCP] else { return }
-                
             guard let ringTipPoint = ringFingerPoints[.ringTip],
                   let ringDipPoint = ringFingerPoints[.ringDIP],
                   let ringPipPoint = ringFingerPoints[.ringPIP],
                   let ringMcpPoint = ringFingerPoints[.ringMCP] else { return }
-                
             guard let pinkieTipPoint = pinkieFingerPoints[.littleTip],
                   let pinkieDipPoint = pinkieFingerPoints[.littleDIP],
                   let pinkiePipPoint = pinkieFingerPoints[.littlePIP],
                   let pinkieMcpPoint = pinkieFingerPoints[.littleMCP] else { return }
-                
             guard let wristPoint = wristPoints[.wrist] else { return }
                 
-            let minConfidence:Float = 0.3
-            //Don't include low confidence points
+            let minConfidence:Float = 0.3 //Don't include low confidence points
             guard thumbTipPoint.confidence > minConfidence,
                   thumbIpPoint.confidence > minConfidence,
                   thumbMpPoint.confidence > minConfidence,
@@ -295,11 +288,15 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 }
                         
             } catch {
+                #if DEBUG
                 print(error)
+                #endif
             }
                 
         } catch {
+            #if DEBUG
             print(error)
+            #endif
         }
         
     }
@@ -335,7 +332,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     }
     
     //MARK: Enter Password
-    func enterPasswordPose(pose: poses){
+    func enterPasswordPose(pose: Poses){
         
         if (pose.rawValue != previous){ //Ignore consecutive repeated gestures
             //Don't add to password entered
