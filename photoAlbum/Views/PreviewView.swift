@@ -8,10 +8,11 @@ import UIKit
 import AVFoundation
 
 class PreviewView: UIView {
-
-    private var pointsPath = UIBezierPath()
-    private var overlayLayer = CAShapeLayer()
     
+    //allows me to draw the path between points
+    private var path = UIBezierPath()
+    //allows for drawing of fingers shape
+    private var fingersLayer = CAShapeLayer()
     
     override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.self
@@ -24,97 +25,103 @@ class PreviewView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupOverlay()
     }
     
+    ///required function
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupOverlay()
     }
     
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         if layer == videoPreviewLayer {
-            overlayLayer.frame = layer.bounds
+            fingersLayer.frame = layer.bounds
         }
     }
     
     //Adds overlaying layer
-    private func setupOverlay() {
-        videoPreviewLayer.addSublayer(overlayLayer)
-    }
+   /* private func setupOverlay() {
+        videoPreviewLayer.addSublayer(fingersLayer)
+    }*/
     
     ///Takes the array of point and shows it on view
     func showPoints(points: [CGPoint], color: UIColor) {
-        pointsPath.removeAllPoints() //always start by removing point so it adjusts to new points given
+        path.removeAllPoints() //always start by removing point so it adjusts to new points given
         for point in points {
-            pointsPath.move(to: point)
-            pointsPath.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
+            path.move(to: point)
+            //Add an arch for the finhger points
+            path.addArc(withCenter: point, radius: 5, startAngle: 0, endAngle: 2 * .pi, clockwise: true)
         }
         
         if points.count > 1 {
             //draws the thumb connections
-            pointsPath.move(to: points[0])
-            pointsPath.addLine(to: points[1])
-            pointsPath.move(to: points[1])
-            pointsPath.addLine(to: points[2])
-            pointsPath.move(to: points[2])
-            pointsPath.addLine(to: points[3])
-            pointsPath.move(to: points[3])
-            pointsPath.addLine(to: points.last!)
+            path.move(to: points[0]) //the start point for the first thumb point
+            path.addLine(to: points[1])
+            path.move(to: points[1]) //the start point for next thumb point
+            path.addLine(to: points[2])
+            path.move(to: points[2])
+            path.addLine(to: points[3])
+            path.move(to: points[3])
+            path.addLine(to: points.last!)
             
-            //draws the index finger connections
-            pointsPath.move(to: points[4])
-            pointsPath.addLine(to: points[5])
-            pointsPath.move(to: points[5])
-            pointsPath.addLine(to: points[6])
-            pointsPath.move(to: points[6])
-            pointsPath.addLine(to: points[7])
-            pointsPath.move(to: points[7])
-            pointsPath.addLine(to: points.last!)
+            //Draws the index finger connections
+            path.move(to: points[4]) //the start point for the first index point
+            path.addLine(to: points[5])
+            path.move(to: points[5]) //the start point for next index point
+            path.addLine(to: points[6])
+            path.move(to: points[6])
+            path.addLine(to: points[7])
+            path.move(to: points[7])
+            path.addLine(to: points.last!)
             
-            //draws the middle finger connections
-            pointsPath.move(to: points[8])
-            pointsPath.addLine(to: points[9])
-            pointsPath.move(to: points[9])
-            pointsPath.addLine(to: points[10])
-            pointsPath.move(to: points[10])
-            pointsPath.addLine(to: points[11])
-            pointsPath.move(to: points[11])
-            pointsPath.addLine(to: points.last!)
+            //Draws the middle finger connections
+            path.move(to: points[8])
+            path.addLine(to: points[9])
+            path.move(to: points[9])
+            path.addLine(to: points[10])
+            path.move(to: points[10])
+            path.addLine(to: points[11])
+            path.move(to: points[11])
+            path.addLine(to: points.last!)
             
-            //draws the ring finger bgonnections
-            pointsPath.move(to: points[12])
-            pointsPath.addLine(to: points[13])
-            pointsPath.move(to: points[13])
-            pointsPath.addLine(to: points[14])
-            pointsPath.move(to: points[14])
-            pointsPath.addLine(to: points[15])
-            pointsPath.move(to: points[15])
-            pointsPath.addLine(to: points.last!)
+            //draws the ring finger gonnections
+            path.move(to: points[12])
+            path.addLine(to: points[13])
+            path.move(to: points[13])
+            path.addLine(to: points[14])
+            path.move(to: points[14])
+            path.addLine(to: points[15])
+            path.move(to: points[15])
+            path.addLine(to: points.last!)
             
             // Draw pinkieFinger bones
-            pointsPath.move(to: points[16])
-            pointsPath.addLine(to: points[17])
-            pointsPath.move(to: points[17])
-            pointsPath.addLine(to: points[18])
-            pointsPath.move(to: points[18])
-            pointsPath.addLine(to: points[19])
-            pointsPath.move(to: points[19])
-            pointsPath.addLine(to: points.last!)
+            path.move(to: points[16])
+            path.addLine(to: points[17])
+            path.move(to: points[17])
+            path.addLine(to: points[18])
+            path.move(to: points[18])
+            path.addLine(to: points[19])
+            path.move(to: points[19])
+            path.addLine(to: points.last!)
         }
         
         //Set the colour and line settings
-        overlayLayer.fillColor = color.cgColor
-        overlayLayer.strokeColor = color.cgColor
-        overlayLayer.lineWidth = 3.0
-        overlayLayer.lineCap = .round
+        fingersLayer.fillColor = color.cgColor
+        fingersLayer.strokeColor = color.cgColor
+        fingersLayer.lineWidth = 3.0
+        fingersLayer.lineCap = .square
         
-        
+        //begin new transaction for current thread
         CATransaction.begin()
+        //disable CA layer property animations
         CATransaction.setDisableActions(true)
-        overlayLayer.path = pointsPath.cgPath
+       
+        //set the path
+        fingersLayer.path = path.cgPath
         CATransaction.commit()
+        
+        //Adds fingers layer
+        videoPreviewLayer.addSublayer(fingersLayer)
     }
 
 }

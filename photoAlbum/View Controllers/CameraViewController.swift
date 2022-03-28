@@ -72,6 +72,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     //Stores recent poses
     private var poseBuffer = [Poses]()
+    
     //A computed property
     var currentPose:Poses = .background{ //initialise to background
         didSet {  //every time currentPose changes
@@ -89,7 +90,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     private var handRecognised:Bool = false {
         didSet {
             if (!handRecognised){
-                DispatchQueue.main.async {
+                DispatchQueue.main.sync {
                     self.convertPoints([], .clear) //no longer see overlay points
                 }
             }
@@ -115,8 +116,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     var devicePosition:AVCaptureDevice.Position = .front
     
     //Variable for camera preview
-    private var previewView: PreviewView { view as! PreviewView } 
-    
+    private var previewView: PreviewView { view as! PreviewView }
     
     ///Function for when user wants to restart their password entry
     @IBAction func restartButton(_ sender: Any) {
@@ -137,24 +137,30 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //Hide original back button so we can customise it
         backButton.hidesBackButton = true
         
+        //get the gesture password that was stored securely in keychain
         let retrievedGestures: String? = KeychainWrapper.standard.string(forKey: "gesturePassword")
         
+        //assign retrived gestures to the password variable
         password = retrievedGestures
-        //set value of password so it can be compared, to that is stored
        
     }
     
     override func viewDidAppear(_ animated: Bool) {
       super.viewDidAppear(animated)
+      
+      //assign the video preview layer to the camera session
       self.previewView.videoPreviewLayer.session = self.cameraSession
   
     }
     
     ///Function converts the cgpoints so they can be displayed on the screen
     func convertPoints(_ fingers: [CGPoint],_ colour: UIColor) {
+        //Convert each of the points to a point on the layer object
         let convertedPoints = fingers.map {
             previewView.videoPreviewLayer.layerPointConverted(fromCaptureDevicePoint: $0)
         }
+        
+        //Display the points on the screen
         previewView.showPoints(points: convertedPoints, color: colour)
     }
    
@@ -171,103 +177,78 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             //MARK: Perform Request
             try requestHandler.perform([poseRequest])
             guard let observations = poseRequest.results?.first, !poseRequest.results!.isEmpty else {
-                handRecognised = false
+                    handRecognised = false
                 return
             }
             //A hand has been recognised
             handRecognised = true
             
-            //Checks if observation was made for each finger and wrist
-            let thumbPoints = try observations.recognizedPoints(.thumb)
-            let indexFingerPoints = try observations.recognizedPoints(.indexFinger)
-            let middleFingerPoints = try observations.recognizedPoints(.middleFinger)
-            let ringFingerPoints = try observations.recognizedPoints(.ringFinger)
-            let pinkieFingerPoints = try observations.recognizedPoints(.littleFinger)
+            //if observation was made for each finger and wrist assign the recognised points
+            let thumb = try observations.recognizedPoints(.thumb)
+            let indexFinger = try observations.recognizedPoints(.indexFinger)
+            let middleFinger = try observations.recognizedPoints(.middleFinger)
+            let ringFinger = try observations.recognizedPoints(.ringFinger)
+            let pinkieFinger = try observations.recognizedPoints(.littleFinger)
             let wristPoints = try observations.recognizedPoints(.all)
-                
-            guard let thumbTipPoint = thumbPoints[.thumbTip],
-                  let thumbIpPoint = thumbPoints[.thumbIP],
-                  let thumbMpPoint = thumbPoints[.thumbMP],
-                  let thumbCMCPoint = thumbPoints[.thumbCMC] else { return }
-            guard let indexTipPoint = indexFingerPoints[.indexTip],
-                  let indexDipPoint = indexFingerPoints[.indexDIP],
-                  let indexPipPoint = indexFingerPoints[.indexPIP],
-                  let indexMcpPoint = indexFingerPoints[.indexMCP] else { return }
-            guard let middleTipPoint = middleFingerPoints[.middleTip],
-                  let middleDipPoint = middleFingerPoints[.middleDIP],
-                  let middlePipPoint = middleFingerPoints[.middlePIP],
-                  let middleMcpPoint = middleFingerPoints[.middleMCP] else { return }
-            guard let ringTipPoint = ringFingerPoints[.ringTip],
-                  let ringDipPoint = ringFingerPoints[.ringDIP],
-                  let ringPipPoint = ringFingerPoints[.ringPIP],
-                  let ringMcpPoint = ringFingerPoints[.ringMCP] else { return }
-            guard let pinkieTipPoint = pinkieFingerPoints[.littleTip],
-                  let pinkieDipPoint = pinkieFingerPoints[.littleDIP],
-                  let pinkiePipPoint = pinkieFingerPoints[.littlePIP],
-                  let pinkieMcpPoint = pinkieFingerPoints[.littleMCP] else { return }
+            
+            //Get the individual landmarks for each finger
+            guard let thumbTipPoint = thumb[.thumbTip], let thumbIpPoint = thumb[.thumbIP], let thumbMpPoint = thumb[.thumbMP], let thumbCMCPoint = thumb[.thumbCMC] else { return }
+            guard let indexTipPoint = indexFinger[.indexTip], let indexDipPoint = indexFinger[.indexDIP], let indexPipPoint = indexFinger[.indexPIP], let indexMcpPoint = indexFinger[.indexMCP] else { return }
+            guard let middleTipPoint = middleFinger[.middleTip], let middleDipPoint = middleFinger[.middleDIP], let middlePipPoint = middleFinger[.middlePIP], let middleMcpPoint = middleFinger[.middleMCP] else { return }
+            guard let ringTipPoint = ringFinger[.ringTip], let ringDipPoint = ringFinger[.ringDIP], let ringPipPoint = ringFinger[.ringPIP], let ringMcpPoint = ringFinger[.ringMCP] else { return }
+            guard let pinkieTipPoint = pinkieFinger[.littleTip], let pinkieDipPoint = pinkieFinger[.littleDIP], let pinkiePipPoint = pinkieFinger[.littlePIP], let pinkieMcpPoint = pinkieFinger[.littleMCP] else { return }
             guard let wristPoint = wristPoints[.wrist] else { return }
                 
-            let minConfidence:Float = 0.3 //Don't include low confidence points
-            guard thumbTipPoint.confidence > minConfidence,
-                  thumbIpPoint.confidence > minConfidence,
-                  thumbMpPoint.confidence > minConfidence,
-                  thumbCMCPoint.confidence > minConfidence else { return }
-                
-            guard indexTipPoint.confidence > minConfidence,
-                  indexDipPoint.confidence > minConfidence,
-                  indexPipPoint.confidence > minConfidence,
-                  indexMcpPoint.confidence > minConfidence else { return }
-                
-            guard middleTipPoint.confidence > minConfidence,
-                  middleDipPoint.confidence > minConfidence,
-                  middlePipPoint.confidence > minConfidence,
-                  middleMcpPoint.confidence > minConfidence else { return }
-                
-            guard ringTipPoint.confidence > minConfidence,
-                  ringDipPoint.confidence > minConfidence,
-                  ringPipPoint.confidence > minConfidence,
-                  ringMcpPoint.confidence > minConfidence else { return }
-                
-            guard pinkieTipPoint.confidence > minConfidence,
-                  pinkieDipPoint.confidence > minConfidence,
-                  pinkiePipPoint.confidence > minConfidence,
-                  pinkieMcpPoint.confidence > minConfidence else { return }
-                
+            let minConfidence:Float = 0.4
+            
+            //Return if the confidence of the recognise points aren't at mininum 0.4
+            guard thumbTipPoint.confidence > minConfidence, thumbIpPoint.confidence > minConfidence, thumbMpPoint.confidence > minConfidence, thumbCMCPoint.confidence > minConfidence else { return }
+            guard indexTipPoint.confidence > minConfidence, indexDipPoint.confidence > minConfidence, indexPipPoint.confidence > minConfidence, indexMcpPoint.confidence > minConfidence else { return }
+            guard middleTipPoint.confidence > minConfidence, middleDipPoint.confidence > minConfidence, middlePipPoint.confidence > minConfidence, middleMcpPoint.confidence > minConfidence else { return }
+            guard ringTipPoint.confidence > minConfidence, ringDipPoint.confidence > minConfidence, ringPipPoint.confidence > minConfidence, ringMcpPoint.confidence > minConfidence else { return }
+            guard pinkieTipPoint.confidence > minConfidence, pinkieDipPoint.confidence > minConfidence, pinkiePipPoint.confidence > minConfidence, pinkieMcpPoint.confidence > minConfidence else { return }
             guard wristPoint.confidence > minConfidence else { return }
                 
-            //Conversion from Vision coordinates to AVFoundation coordinates.
+            //Converting thumb points from Vision to AVFoundation coordinates.
             thumbTip = CGPoint(x: thumbTipPoint.location.x, y: 1 - thumbTipPoint.location.y)
             thumbIp = CGPoint(x: thumbIpPoint.location.x, y: 1 - thumbIpPoint.location.y)
             thumbMp = CGPoint(x: thumbMpPoint.location.x, y: 1 - thumbMpPoint.location.y)
             thumbCmc = CGPoint(x: thumbCMCPoint.location.x, y: 1 - thumbCMCPoint.location.y)
-                
+            
+            //Converting index finger points from Vision to AVFoundation coordinates
             indexTip = CGPoint(x: indexTipPoint.location.x, y: 1 - indexTipPoint.location.y)
             indexDip = CGPoint(x: indexDipPoint.location.x, y: 1 - indexDipPoint.location.y)
             indexPip = CGPoint(x: indexPipPoint.location.x, y: 1 - indexPipPoint.location.y)
             indexMcp = CGPoint(x: indexMcpPoint.location.x, y: 1 - indexMcpPoint.location.y)
-                
+            
+            //Converting middle finger points from Vision to AVFoundation coordinates
             middleTip = CGPoint(x: middleTipPoint.location.x, y: 1 - middleTipPoint.location.y)
             middleDip = CGPoint(x: middleDipPoint.location.x, y: 1 - middleDipPoint.location.y)
             middlePip = CGPoint(x: middlePipPoint.location.x, y: 1 - middlePipPoint.location.y)
             middleMcp = CGPoint(x: middleMcpPoint.location.x, y: 1 - middleMcpPoint.location.y)
-                
+            
+            //Converting ring finger finger points from Vision to AVFoundation coordinates
             ringTip = CGPoint(x: ringTipPoint.location.x, y: 1 - ringTipPoint.location.y)
             ringDip = CGPoint(x: ringDipPoint.location.x, y: 1 - ringDipPoint.location.y)
             ringPip = CGPoint(x: ringPipPoint.location.x, y: 1 - ringPipPoint.location.y)
             ringMcp = CGPoint(x: ringMcpPoint.location.x, y: 1 - ringMcpPoint.location.y)
-                
+            
+            //Converting pinkie finger points from Vision to AVFoundation coordinates
             pinkieTip = CGPoint(x: pinkieTipPoint.location.x, y: 1 - pinkieTipPoint.location.y)
             pinkieDip = CGPoint(x: pinkieDipPoint.location.x, y: 1 - pinkieDipPoint.location.y)
             pinkiePip = CGPoint(x: pinkiePipPoint.location.x, y: 1 - pinkiePipPoint.location.y)
             pinkieMcp = CGPoint(x: pinkieMcpPoint.location.x, y: 1 - pinkieMcpPoint.location.y)
-                
+            
+            //Converting wrist point from Vision to AVFoundation coordinates
             wrist = CGPoint(x: wristPoint.location.x, y: 1 - wristPoint.location.y)
                 
             //Add these to array
             let handPoint = [thumbTip!, thumbIp!, thumbMp!, thumbCmc!,indexTip!,indexDip!, indexMcp!, indexPip!, middleTip!, middleDip!, middlePip!, middleMcp!, ringTip!,
                                  ringDip!,ringPip!,ringMcp!,pinkieTip!,pinkieDip!, pinkiePip!, pinkieMcp!, wrist!]
-
+            
+            //Blocks the main thread until this task is finished
             DispatchQueue.main.sync {
+                //Dispay points on the screen
                 self.convertPoints(handPoint, .systemYellow)
             }
                     
@@ -282,8 +263,9 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 //Stores the computed predictions
                 let posePrediction = try model.prediction(poses: keyPointsMultiArray)
                 let confidence =  posePrediction.labelProbabilities[posePrediction.label]!
-                        
-                if (confidence > 0.7) { //I set the minimum confidence to 0.7
+                
+                //Only enter the pose into the password entry if confidence is minimum of 0.7
+                if (confidence > 0.7) {
                     switchPose(pose: posePrediction.label)
                 }
                         
@@ -298,12 +280,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             print(error)
             #endif
         }
-        
     }
 
     
     func switchPose(pose: String){
-        print(pose)
+        //Updates current pose based on what is recognised
         switch pose {
         case "background":
             currentPose = .background
@@ -334,15 +315,14 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     //MARK: Enter Password
     func enterPasswordPose(pose: Poses){
         
-        if (pose.rawValue != previous){ //Ignore consecutive repeated gestures
-            //Don't add to password entered
+        //Ignore consecutive repeated gestures
+        if (pose.rawValue != previous){
             passwordEntered = passwordEntered+pose.rawValue
         }
         
-        //Checks password matches stores password
+        //Checks password matches retrieved password
         if (password == passwordEntered) {
-            self.cameraSession.stopRunning()
-            print("stop running camera session")
+            //Stop the camera and close the view from the camera
             self.cameraSession.stopRunning()
             closeCameraView()
         }
@@ -350,6 +330,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         //When the password they entered is double the length of the original password, automatically timeout
         if ((passwordEntered.count) == (password!.count)*2){
             incorrectLimit = true
+            //Stop the camera and close the view from the camera
             self.cameraSession.stopRunning()
             closeCameraView()
         }
@@ -380,27 +361,31 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     func closeCameraView(){
         DispatchQueue.main.async {
-            //self.PreviewView.videoPreviewLayer.removeFromSuperlayer()
+            //Set the layer to nothing
             self.previewView.layer.sublayers = nil
             
             //MARK: Authenticated
             if (!self.incorrectLimit) {
                 let authenticatedAlert = UIAlertController(title: "AUTHENTICATED", message: nil, preferredStyle: .alert)
-                let imageView = UIImageView(frame: CGRect(x: 10, y: 50, width: 250, height: 230))
+                let imageView = UIImageView(frame: CGRect(x: 10, y: 50, width: 200, height: 210))
                 
-                //Unlock image added to alert
+                //Unlocked image added to alert image view
                 imageView.image = UIImage(systemName: "lock.open")
                 imageView.tintColor = .systemYellow
                 authenticatedAlert.view.addSubview(imageView)
                 
+                //determ ine and height and width constraints from size of alert
                 let height = NSLayoutConstraint(item: authenticatedAlert.view!, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 320)
                 let width = NSLayoutConstraint(item: authenticatedAlert.view!, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 250)
                 authenticatedAlert.view.addConstraint(height)
                 authenticatedAlert.view.addConstraint(width)
                 
+                //OK action
                 authenticatedAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    #if DEBUG
                     print("Ok clicked")
-                   
+                    #endif
+                    
                     self.authenticated = true
                     self.performSegue(withIdentifier: "gestureUnwind", sender: self)
                     //what if i pop to root view and then to specific gallery screen
@@ -412,16 +397,17 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
                 self.userDefaults.set(true, forKey: "gestureSetup")
             }
             
+            //When the entry has timed-out, the gesture password hasn't been recognise
             else {
                 let tryAgainAlert = UIAlertController(title: "Gestures Not Recognised", message: "Try Again", preferredStyle: .alert)
                 
                 tryAgainAlert.addAction(UIAlertAction(title: "Try Gestures Again", style: .default, handler: { action in
-                    print("Try again clicked")
                     
                     //Return to countdown screen
                     self.navigationController?.popViewController(animated: true)
                 }))
                 
+                //Cancel action
                 tryAgainAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { action in
                     print("Cancel clicked")
                     
@@ -447,7 +433,10 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             let cameraDeviceInput = try AVCaptureDeviceInput(device: cameraDevice) //try to access user device
             cameraSession.addInput(cameraDeviceInput)
         }catch{
+            #if DEBUG
             print("Problem creating device input")
+            #endif
+            
             return
         }
         
@@ -493,12 +482,12 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
     
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
- 
+        //call session which will make the Vision request
         session(sampleBuffer)
       
     }
 
-    //prepare for segue to next screen
+    ///Prepare for segue to next screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let status = authenticated
         authenticated = status
