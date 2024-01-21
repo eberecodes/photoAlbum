@@ -1,0 +1,1 @@
+Investigated the use of Apple's Vision framework for novel authentication approaches, by creating an iOS photo album application, which allows you to unlock your albums using a physical password - a series of gestures.
